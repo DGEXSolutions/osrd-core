@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="https://www.railml.org/schemas/3.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rail3="https://www.railml.org/schemas/3.1" xmlns:dc="http://purl.org/dc/elements/1.1/" elementFormDefault="qualified" version="3.1">
+	<xs:annotation>
+		<xs:documentation>Copyright (c) railML.org e.V. Dresden/Germany; All Rights Reserved.
+This work is licensed under the restricted CreativeCommons Attribution-NonCommercial-NoDerivatives 4.0 International License with additional license conditions of railML.org.
+For further information see: https://www.railml.org/licence
+Content of this file: XML Schema for railML(R) 3.1 Definition of elements for common sub schema (CO).</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd"/>
+	<xs:include schemaLocation="rtm4railml3.xsd"/>
+	<xs:complexType name="External">
+		<xs:sequence/>
+		<xs:attribute name="id" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>an external identifier of the element</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ref" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>a reference to an external element</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="description" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>description of the external identifier or reference, providing basic information about external system</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="PositioningSystems">
+		<xs:annotation>
+			<xs:documentation>This is the top level element for railML3 positioning and coordinate systems model.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="geometricPositioningSystems" type="rail3:GeometricPositioningSystems" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>container element for all geometric positioning systems</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="linearPositioningSystems" type="rail3:LinearPositioningSystems" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>container element for all linear positioning systems</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="screenPositioningSystems" type="rail3:ScreenPositioningSystems" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>container element for all screen coordinate systems</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="tOtherEnumerationValue">
+		<xs:annotation>
+			<xs:documentation>an arbitrary string starting with 'other:' followed by at minimum two characters, white space not allowed for extending railML enumeration lists</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="other:\w{2,}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tUUID">
+		<xs:annotation>
+			<xs:documentation>syntax taken from http://msdn.microsoft.com/de-de/library/office/fp123689%28v=office.1501401%29.aspx</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(urn:uuid:)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attributeGroup name="anyAttribute">
+		<xs:annotation>
+			<xs:documentation>provide an extension point for non-railML 'any attribute' in a foreign namespace</xs:documentation>
+		</xs:annotation>
+		<xs:anyAttribute namespace="##other" processContents="strict"/>
+	</xs:attributeGroup>
+	<xs:complexType name="ScreenPositioningSystem">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_PositioningSystem">
+				<xs:sequence/>
+				<xs:attribute name="pxX" use="required" type="xs:positiveInteger"/>
+				<xs:attribute name="pxY" use="required" type="xs:positiveInteger"/>
+				<xs:attribute name="pxZ" use="optional" type="xs:positiveInteger"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="tElementWithIDref">
+		<xs:annotation>
+			<xs:documentation>generic base type, used for inheritance of types deploying references</xs:documentation>
+		</xs:annotation>
+		<xs:sequence/>
+		<xs:attribute name="ref" use="required" type="rail3:tRef">
+			<xs:annotation>
+				<xs:documentation>reference is required because it's the purpose of the element</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="tLength">
+		<xs:annotation>
+			<xs:documentation>applies as basic type for inheritance, should not be used directly because of missing unit of measure</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tLengthMM">
+		<xs:annotation>
+			<xs:documentation>generic type for length values measured in millimetres</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tLength"/>
+	</xs:simpleType>
+	<xs:simpleType name="tMeterload">
+		<xs:annotation>
+			<xs:documentation>applies as basic type for inheritance, should not be used directly because of missing unit of measure</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tMeterloadTonsPerMeter">
+		<xs:annotation>
+			<xs:documentation>generic type for load per meter values measured in tonnes per metre</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tMeterload"/>
+	</xs:simpleType>
+	<xs:simpleType name="tWeight">
+		<xs:annotation>
+			<xs:documentation>applies as basic type for inheritance, should not be used directly because of missing unit of measure</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tWeightTons">
+		<xs:annotation>
+			<xs:documentation>generic type for weight/load values measured in tonnes</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tWeight"/>
+	</xs:simpleType>
+	<xs:simpleType name="tWeightKG">
+		<xs:annotation>
+			<xs:documentation>generic type for weight/load values measured in kilogrammes</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tWeight"/>
+	</xs:simpleType>
+	<xs:simpleType name="tSpeed">
+		<xs:annotation>
+			<xs:documentation>applies as basic type for inheritance, should not be used directly because of missing unit of measure</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tSpeedKmPerHour">
+		<xs:annotation>
+			<xs:documentation>generic type for speed/velocity values measured in kilometres per hour</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tSpeed"/>
+	</xs:simpleType>
+	<xs:simpleType name="tAngleDeg">
+		<xs:annotation>
+			<xs:documentation>applies as basic type for inheritance, should not be used directly because of missing unit of measure</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tAngleDegQuadrant">
+		<xs:annotation>
+			<xs:documentation>generic type for angle values measured in degree, allowing 0 ... +90</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tAngleDeg"/>
+	</xs:simpleType>
+	<xs:simpleType name="tSpeedDegreesPerSecond">
+		<xs:annotation>
+			<xs:documentation>generic type for angular speed/velocity values measured in degrees per second</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tSpeedMPerSeconds">
+		<xs:annotation>
+			<xs:documentation>generic type for speed/velocity values measured in metres per second</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tSpeed"/>
+	</xs:simpleType>
+	<xs:simpleType name="tAcceleration">
+		<xs:annotation>
+			<xs:documentation>applies as basic type for inheritance, should not be used directly because of missing unit of measure</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tAccelerationMeterPerSquareSec">
+		<xs:annotation>
+			<xs:documentation>generic type for acceleration values measured in metres per square second</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tAcceleration"/>
+	</xs:simpleType>
+	<xs:simpleType name="tLengthM">
+		<xs:annotation>
+			<xs:documentation>generic type for length values measured in metres</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tLength"/>
+	</xs:simpleType>
+	<xs:simpleType name="tGenericID">
+		<xs:annotation>
+			<xs:documentation>an XML-side constrained bi-unique identity; unique across an XML file including its outsourced components (xi:include mechanism); white spaces not allowed</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:ID"/>
+	</xs:simpleType>
+	<xs:simpleType name="tGenericRef">
+		<xs:annotation>
+			<xs:documentation>an XML-side constrained reference to one xs:ID value, acts across an XML file including its outsourced components (xi:include mechanism)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:IDREF"/>
+	</xs:simpleType>
+	<xs:simpleType name="tRef">
+		<xs:annotation>
+			<xs:documentation>reference an object using its UUID or GenericID (xs:ID)</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="rail3:tUUID rail3:tGenericRef"/>
+	</xs:simpleType>
+	<xs:simpleType name="tID">
+		<xs:annotation>
+			<xs:documentation>use UUID if your system supports this functionality, otherwise use GenericID (xs:ID)</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="rail3:tUUID rail3:tGenericID"/>
+	</xs:simpleType>
+	<xs:simpleType name="tLengthKM">
+		<xs:annotation>
+			<xs:documentation>generic type for length values measured in kilometres</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tLength"/>
+	</xs:simpleType>
+	<xs:simpleType name="tArea">
+		<xs:annotation>
+			<xs:documentation>applies as basic type for inheritance, should not be used directly because of missing unit of measure</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tAreaSquareMM">
+		<xs:annotation>
+			<xs:documentation>generic type for area values measured in square millimetres</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tArea"/>
+	</xs:simpleType>
+	<xs:simpleType name="tAreaSquareM">
+		<xs:annotation>
+			<xs:documentation>generic type for area values measured in square metres</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tArea"/>
+	</xs:simpleType>
+	<xs:complexType name="DateWithBitmask">
+		<xs:sequence/>
+		<xs:attribute name="date" use="optional" type="xs:date"/>
+		<xs:attribute name="bitmask" use="optional" type="rail3:tBitmaskAny"/>
+	</xs:complexType>
+	<xs:complexType name="GeometricPositioningSystems">
+		<xs:sequence>
+			<xs:element name="geometricPositioningSystem" type="rail3:RTM_GeometricPositioningSystem" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="tElementWithID" abstract="true">
+		<xs:sequence/>
+		<xs:attribute name="id" use="optional" type="rail3:tID">
+			<xs:annotation>
+				<xs:documentation>unique identifier</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="tFrequency">
+		<xs:annotation>
+			<xs:documentation>applies as basic type for inheritance, should not be used directly because of missing unit of measure</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="3"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tFrequencyHertz">
+		<xs:annotation>
+			<xs:documentation>generic type for frequency values measured in hertz</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tFrequency"/>
+	</xs:simpleType>
+	<xs:simpleType name="tVoltage">
+		<xs:annotation>
+			<xs:documentation>applies as basic type for inheritance, should not be used directly because of missing unit of measure</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tVoltageVolt">
+		<xs:annotation>
+			<xs:documentation>generic type for voltage values measured in volts</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="rail3:tVoltage"/>
+	</xs:simpleType>
+	<xs:complexType name="Designator">
+		<xs:sequence/>
+		<xs:attribute name="register" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>name of a register where the designator entry can be found</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="entry" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>the designator of the element in the specified register</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="CalendarTimePeriod">
+		<xs:complexContent>
+			<xs:extension base="rail3:TimePeriod">
+				<xs:sequence/>
+				<xs:attribute name="from" use="optional" type="xs:dateTime"/>
+				<xs:attribute name="to" use="optional" type="xs:dateTime"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Metadata">
+		<xs:annotation>
+			<xs:documentation>This is the top level element for file metadata information.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dc:elementContainer">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OrganizationalUnits">
+		<xs:annotation>
+			<xs:documentation>This is the top level element for various company definitions regarding the railway services referred to in this file</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="infrastructureManager" type="rail3:InfrastructureManager" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="vehicleManufacturer" type="rail3:VehicleManufacturer" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="vehicleOperator" type="rail3:VehicleOperator" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="customer" type="rail3:Customer" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="railwayUndertaking" type="rail3:RailwayUndertaking" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="operationalUndertaking" type="rail3:OperationalUndertaking" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="concessionaire" type="rail3:Concessionaire" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="contractor" type="rail3:Contractor" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InfrastructureManager">
+		<xs:complexContent>
+			<xs:extension base="rail3:OrganizationalUnit">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="VehicleManufacturer">
+		<xs:complexContent>
+			<xs:extension base="rail3:OrganizationalUnit">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="VehicleOperator">
+		<xs:complexContent>
+			<xs:extension base="rail3:OrganizationalUnit">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Customer">
+		<xs:complexContent>
+			<xs:extension base="rail3:OrganizationalUnit">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RailwayUndertaking">
+		<xs:complexContent>
+			<xs:extension base="rail3:OrganizationalUnit">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OperationalUndertaking">
+		<xs:complexContent>
+			<xs:extension base="rail3:OrganizationalUnit">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Concessionaire">
+		<xs:complexContent>
+			<xs:extension base="rail3:OrganizationalUnit">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Contractor">
+		<xs:complexContent>
+			<xs:extension base="rail3:OrganizationalUnit">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Name">
+		<xs:sequence/>
+		<xs:attribute name="name" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>should be interpreted in its elements' context (e.g. signal/name, vehicle/name)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="description" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>should be interpreted in its elements' context, substantiates the name</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="language" use="required" type="xs:language">
+			<xs:annotation>
+				<xs:documentation>natural language identification according to http://www.w3.org/TR/xml/#sec-lang-tag; should always be given</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="SpeedProfiles">
+		<xs:sequence>
+			<xs:element name="speedProfile" type="rail3:SpeedProfile" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SpeedProfile">
+		<xs:complexContent>
+			<xs:extension base="rail3:tElementWithIDandName">
+				<xs:sequence>
+					<xs:element name="tilting" type="rail3:SpeedProfileTilting" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="load" type="rail3:SpeedProfileLoad" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="braking" type="rail3:SpeedProfileBraking" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="trainType" type="rail3:SpeedProfileTrainType" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+				<xs:attributeGroup ref="rail3:aSpeedProfile"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SpeedProfileBraking">
+		<xs:sequence/>
+		<xs:attribute name="brakeType" use="optional" type="rail3:tBrakeTypeExt">
+			<xs:annotation>
+				<xs:documentation>vacuum or compressed air brake, hand brake, parking brake, cable brake</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="airBrakeApplicationPosition" use="optional" type="rail3:tAirBrakeApplicationDirection">
+			<xs:annotation>
+				<xs:documentation>base brake switch: one of G, P or R</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="minBrakePercentage" use="optional" type="rail3:tBrakePercentage">
+			<xs:annotation>
+				<xs:documentation>minimum brake percentage of the train</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="tBrakeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="compressedAirBrake">
+				<xs:annotation>
+					<xs:documentation>de: Druckluftbremse</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="vacuumAirBrake">
+				<xs:annotation>
+					<xs:documentation>de: Saugluftbremse</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="cableBrake">
+				<xs:annotation>
+					<xs:documentation>de: Seilzugbremse</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="parkingBrake"/>
+			<xs:enumeration value="handBrake"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tBrakeTypeExt">
+		<xs:union memberTypes="rail3:tOtherEnumerationValue rail3:tBrakeType"/>
+	</xs:simpleType>
+	<xs:simpleType name="tAirBrakeApplicationDirection">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="R">
+				<xs:annotation>
+					<xs:documentation>Rapid</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="P">
+				<xs:annotation>
+					<xs:documentation>Passenger</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="N/A"/>
+			<xs:enumeration value="G">
+				<xs:annotation>
+					<xs:documentation>Goods</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tGradientPerMille">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:complexType name="LinearPositioningSystems">
+		<xs:sequence>
+			<xs:element name="linearPositioningSystem" type="rail3:RTM_LinearPositioningSystem" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ScreenPositioningSystems">
+		<xs:sequence>
+			<xs:element name="screenPositioningSystem" type="rail3:ScreenPositioningSystem" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrganizationalUnit" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="rail3:tElementWithIDandName">
+				<xs:sequence/>
+				<xs:attribute name="code" use="optional" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>insert here the matching code from the relevant codelist</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tBrakePercentage">
+		<xs:annotation>
+			<xs:documentation>Brake percentage as value of braking performance in relation to vehicle weight</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:maxInclusive value="225"/>
+			<xs:minInclusive value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SpeedProfileTrainType">
+		<xs:sequence/>
+		<xs:attribute name="etcsTrainCategoryNumber" use="optional" type="rail3:tEtcsTrainCategoryNumber"/>
+		<xs:attribute name="type" use="optional" type="rail3:tTrainType"/>
+		<xs:attribute name="cantDeficiency" use="optional" type="rail3:tCantDeficiency"/>
+	</xs:complexType>
+	<xs:complexType name="Common">
+		<xs:annotation>
+			<xs:documentation>This is the top level element for the common model.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:tElementWithID">
+				<xs:sequence>
+					<xs:element name="electrificationSystems" type="rail3:ElectrificationSystems" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>container element for all electrificationSystem elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="organizationalUnits" type="rail3:OrganizationalUnits" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>container element for all organizationalUnit elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="speedProfiles" type="rail3:SpeedProfiles" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>container element for all speedProfile elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="positioning" type="rail3:PositioningSystems" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tTemperature">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tTemperatureCentigrade">
+		<xs:restriction base="rail3:tTemperature"/>
+	</xs:simpleType>
+	<xs:simpleType name="tPressure">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tPressurePa">
+		<xs:restriction base="rail3:tPressure"/>
+	</xs:simpleType>
+	<xs:simpleType name="tCurrent">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tCurrentAmpere">
+		<xs:restriction base="rail3:tCurrent"/>
+	</xs:simpleType>
+	<xs:simpleType name="tPower">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tPowerWatt">
+		<xs:restriction base="rail3:tPower"/>
+	</xs:simpleType>
+	<xs:complexType name="TimeStamp">
+		<xs:sequence/>
+		<xs:attribute name="at" use="optional" type="xs:dateTime"/>
+	</xs:complexType>
+	<xs:complexType name="tElementTimeStamp">
+		<xs:sequence/>
+		<xs:attribute name="timestamp" use="optional" type="xs:dateTime"/>
+	</xs:complexType>
+	<xs:simpleType name="tBitmaskWeek">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-1]{7}"/>
+			<xs:length value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tBitmaskAny">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-1]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="tElementBitmaskAny">
+		<xs:sequence/>
+		<xs:attribute name="bitmask" use="optional" type="rail3:tBitmaskAny"/>
+	</xs:complexType>
+	<xs:complexType name="tElementBitmaskWeek">
+		<xs:sequence/>
+		<xs:attribute name="bitmask" use="optional" type="rail3:tBitmaskWeek"/>
+	</xs:complexType>
+	<xs:complexType name="TimePeriod" abstract="true">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:complexType name="GenericTimePeriod">
+		<xs:complexContent>
+			<xs:extension base="rail3:TimePeriod">
+				<xs:sequence>
+					<xs:element name="containedSituation" type="rail3:TimePeriodRuleSituation" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CalendarTimePeriodWithBitmask">
+		<xs:complexContent>
+			<xs:extension base="rail3:TimePeriod">
+				<xs:sequence>
+					<xs:element name="periodRule" type="rail3:PeriodRule" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="fromDate" use="optional" type="xs:date"/>
+				<xs:attribute name="bitmask" use="optional" type="rail3:tBitmaskAny"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Period">
+		<xs:sequence>
+			<xs:choice minOccurs="1" maxOccurs="1">
+				<xs:element name="period" type="rail3:CalendarTimePeriod" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="periodBitmask" type="rail3:CalendarTimePeriodWithBitmask" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="periodGeneric" type="rail3:GenericTimePeriod" minOccurs="0" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TimePeriodRuleSituation">
+		<xs:sequence>
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="periodRule" type="rail3:PeriodRule" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="publicHolidayPeriodRule" type="rail3:PublicHolidayPeriodRule" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="elementBasedPeriodRule" type="rail3:ElemBasedPeriodRule" minOccurs="0" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="fromDate" use="optional" type="xs:date"/>
+	</xs:complexType>
+	<xs:complexType name="TimePeriodRule" abstract="true">
+		<xs:sequence/>
+		<xs:attribute name="isNegated" use="optional" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="PeriodRule">
+		<xs:complexContent>
+			<xs:extension base="rail3:TimePeriodRule">
+				<xs:sequence>
+					<xs:element name="period" type="rail3:ClockTimePeriod" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ShiftablePeriodRule">
+		<xs:complexContent>
+			<xs:extension base="rail3:TimePeriodRule">
+				<xs:sequence/>
+				<xs:attribute name="shift" use="optional" type="xs:integer"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PublicHolidayPeriodRule">
+		<xs:complexContent>
+			<xs:extension base="rail3:ShiftablePeriodRule">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ElemBasedPeriodRule">
+		<xs:complexContent>
+			<xs:extension base="rail3:ShiftablePeriodRule">
+				<xs:sequence>
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<xs:element name="operatingDay" type="rail3:OperatingDay" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="genericOperatingPeriod" type="rail3:GenericOperatingPeriodDescription" minOccurs="0" maxOccurs="1"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PeriodRuleElement" abstract="true">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:complexType name="OperatingDay">
+		<xs:complexContent>
+			<xs:extension base="rail3:PeriodRuleElement">
+				<xs:sequence/>
+				<xs:attribute name="bitmask" use="optional" type="rail3:tBitmaskWeek"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GenericOperatingPeriodDescription">
+		<xs:complexContent>
+			<xs:extension base="rail3:PeriodRuleElement">
+				<xs:sequence>
+					<xs:element name="dateSet" type="rail3:DateWithBitmask" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="name" use="optional" type="xs:string"/>
+				<xs:attribute name="isPublicHoliday" use="optional" type="xs:boolean"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ClockTimePeriod">
+		<xs:complexContent>
+			<xs:extension base="rail3:TimePeriod">
+				<xs:sequence/>
+				<xs:attribute name="from" use="optional" type="xs:time"/>
+				<xs:attribute name="to" use="optional" type="xs:time"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tEtcsTrainCategoryNumber">
+		<xs:restriction base="xs:integer">
+			<xs:maxInclusive value="15"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SpeedProfileTilting">
+		<xs:sequence/>
+		<xs:attribute name="actuation" use="optional" type="rail3:tTiltingActuationType"/>
+		<xs:attribute name="maxTiltingAngle" use="optional" type="rail3:tAngleDegQuadrant"/>
+	</xs:complexType>
+	<xs:complexType name="SpeedProfileLoad">
+		<xs:sequence/>
+		<xs:attribute name="maxAxleLoad" use="optional" type="rail3:tWeightTons"/>
+		<xs:attribute name="maxMeterLoad" use="optional" type="rail3:tMeterloadTonsPerMeter"/>
+	</xs:complexType>
+	<xs:attributeGroup name="aSpeedProfile">
+		<xs:attribute name="influence" use="optional" type="rail3:tSpeedProfileInfluence"/>
+	</xs:attributeGroup>
+	<xs:simpleType name="tSpeedProfileInfluence">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="increasing"/>
+			<xs:enumeration value="decreasing"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tTiltingActuationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="rollCompensation"/>
+			<xs:enumeration value="passive"/>
+			<xs:enumeration value="active"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tTrainType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="freight"/>
+			<xs:enumeration value="tiltingPassenger"/>
+			<xs:enumeration value="passenger"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tCantDeficiency">
+		<xs:restriction base="xs:integer">
+			<xs:maxInclusive value="300"/>
+			<xs:minInclusive value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ElectrificationSystem">
+		<xs:complexContent>
+			<xs:extension base="rail3:tElementWithID">
+				<xs:sequence/>
+				<xs:attribute name="voltage" use="optional" type="rail3:tVoltageVolt">
+					<xs:annotation>
+						<xs:documentation>electrification system voltage, in [V]</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="frequency" use="optional" type="rail3:tFrequencyHertz">
+					<xs:annotation>
+						<xs:documentation>electrification system frequency, in [Hz]; for DC the frequency shall be set to zero</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ElectrificationSystems">
+		<xs:sequence>
+			<xs:element name="electrificationSystem" type="rail3:ElectrificationSystem" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="tForce">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="tForceN">
+		<xs:restriction base="rail3:tForce"/>
+	</xs:simpleType>
+	<xs:complexType name="tElementWithIDandCode">
+		<xs:complexContent>
+			<xs:extension base="rail3:tElementWithID">
+				<xs:sequence/>
+				<xs:attribute name="code" use="optional" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="tElementWithIDandName" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="rail3:tElementWithID">
+				<xs:sequence>
+					<xs:element name="name" type="rail3:Name" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

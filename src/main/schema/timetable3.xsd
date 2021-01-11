@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="https://www.railml.org/schemas/3.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rail3="https://www.railml.org/schemas/3.1" elementFormDefault="qualified" version="3.1">
+	<xs:annotation>
+		<xs:documentation>Copyright (c) railML.org e.V. Dresden/Germany; All Rights Reserved.
+This work is licensed under the restricted CreativeCommons Attribution-NonCommercial-NoDerivs 3.0 Unported License with additional license conditions of railML.org.
+For further information see: https://www.railml.org/licence
+Content of this file: XML Schema for railML(R) 3.1 Definition of elements for timetable sub schema (TT).</xs:documentation>
+	</xs:annotation>
+	<xs:element name="Timetable" type="rail3:Timetable"/>
+	<xs:complexType name="Timetable">
+		<xs:annotation>
+			<xs:documentation>This is the top level element for the timetable model.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1"/>
+	</xs:complexType>
+</xs:schema>

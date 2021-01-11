@@ -4,6 +4,7 @@ import fr.sncf.osrd.infra.Infra;
 import fr.sncf.osrd.infra.InvalidInfraException;
 import fr.sncf.osrd.infra.OperationalPoint;
 import fr.sncf.osrd.infra.parsing.railml.NetRelation.Position;
+import fr.sncf.osrd.infra.parsing.railmlfancy.FancyRailMLParser;
 import fr.sncf.osrd.infra.topological.NoOpNode;
 import fr.sncf.osrd.infra.topological.StopBlock;
 import fr.sncf.osrd.infra.topological.Switch;
@@ -40,6 +41,11 @@ public class RailMLParser {
      * @return the parsed infrastructure
      */
     public Infra parse() throws InvalidInfraException {
+        var fancyStartTime = System.nanoTime();
+        var doc = FancyRailMLParser.parse(inputPath);
+        logger.info("fancy took {}", (double)(System.nanoTime() - fancyStartTime) / 1000000000);
+
+        var startTime = System.nanoTime();
         Document document;
         try {
             document = new SAXReader().read(inputPath);
@@ -52,6 +58,8 @@ public class RailMLParser {
         parseNetworks(document);
         // parse all net relations in the document
         parseNetRelations(document);
+        logger.info("regular took {}", (double)(System.nanoTime() - startTime) / 1000000000);
+
         // deduce the nodes from net relations
         detectNodes();
 

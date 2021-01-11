@@ -1,0 +1,3263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="https://www.railml.org/schemas/3.1" xmlns:rail3="https://www.railml.org/schemas/3.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="3.1">
+	<xs:annotation>
+		<xs:documentation>Copyright (c) railML.org e.V. Dresden/Germany; All Rights Reserved.
+This work is licensed under the restricted CreativeCommons Attribution-NonCommercial-NoDerivatives 4.0 International License with additional license conditions of railML.org.
+For further information see: https://www.railml.org/licence
+Content of this file: XML Schema for railML(R) 3.1 Definition of elements for interlocking sub schema (IL).</xs:documentation>
+	</xs:annotation>
+	<xs:include schemaLocation="common3.xsd"/>
+	<xs:complexType name="AssetsForIL">
+		<xs:annotation>
+			<xs:documentation>Container for assets used for operation of interlockings and controllers. They represent a more functional/logical view onto the railway network but depending on the hardware as defined in infrastructure domain.
+Assets in the container are owned by the railway network rather than by individual interlocking systems.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="tvdSections" type="rail3:TvdSections" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all tvdSection elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="switchesIL" type="rail3:SwitchesIL" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all MovableElements of type SwitchIL</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="derailersIL" type="rail3:DerailersIL" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all MovableElements of type DerailerIL</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="movableCrossings" type="rail3:MovableCrossings" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all MovableElements of type MovableCrossing</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="levelCrossingsIL" type="rail3:LevelCrossingsIL" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all levelCrossingIL elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="keys" type="rail3:Keys" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all key elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="keyLocksIL" type="rail3:KeyLocksIL" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all keyLockIL elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="genericDetectors" type="rail3:GenericDetectors" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all genericDetector elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="signalsIL" type="rail3:SignalsIL" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all signalIL elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="atpDevices" type="rail3:ATPdevices" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all atpDevice elements (not with railML3.1)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="interfaces" type="rail3:Interfaces" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all interface elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="workZones" type="rail3:WorkZones" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all workZone elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="localOperationAreas" type="rail3:LocalOperationAreas" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all localOperationArea elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shuntingZones" type="rail3:ShuntingZones" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all shuntingZone elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="permissionZones" type="rail3:PermissionZones" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all permissionZone elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeReleaseGroupsAhead" type="rail3:RouteReleaseGroupsAhead" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all routeReleaseGroupAhead elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeReleaseGroupsRear" type="rail3:RouteReleaseGroupsRear" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all routeReleaseGroupRear elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routes" type="rail3:Routes" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all route elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="conflictingRoutes" type="rail3:ConflictingRoutes" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all conflictingRoute elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeRelations" type="rail3:RouteRelations" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all routeRelation elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="combinedRoutes" type="rail3:CombinedRoutes" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all combinedRoute elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="overlaps" type="rail3:Overlaps" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all overlap elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="dangerPoints" type="rail3:DangerPoints" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all dangerPoints elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="destinationPoints" type="rail3:DestinationPoints" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all destinationPoint elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="powerSuppliesIL" type="rail3:PowerSuppliesIL" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>contains all powerSupplyIL elements</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EntityILref">
+		<xs:annotation>
+			<xs:documentation>base type for referring elements in other parts of the schema providing just attribute @ref plus the possibility to add an anyAttribute</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:tElementWithIDref">
+				<xs:sequence/>
+				<xs:attributeGroup ref="rail3:anyAttribute"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MovableElement" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Abstract element defining the attributes common to movable elements. The movable element refers to TrackAsset, thus creating a link to the IS namespace.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:TrackAsset">
+				<xs:sequence>
+					<xs:element name="refersTo" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the physical movable element in the infrastructure.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasGaugeClearanceMarker" type="rail3:EntityILref" minOccurs="0" maxOccurs="2">
+						<xs:annotation>
+							<xs:documentation>the reference to any gauge clearance marker in infrastructure</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasTvdSection" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the underlying TVD section of the movable element</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="connectedToPowerSupply" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>relation to power supply for controlling the number of simultaneously switched switch actuators</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="relatedMovableElement" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>reference to other movable element in case of single/double slip switch or coupled switch</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="maxThrowTime" use="required" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Maximum time in milliseconds during which the IL can drive the element. If it has not reached end-position before this timer expires, the interlocking stops throwing as to prevent damage.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="typicalThrowTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>typical throw time is the average time it takes between the moment the IL receives the call and the element reaches the new position. Switch throwing adds a delay to route setting that is of great interest to the use case simulation. For this purpose, we add an attribute typicalThrowTime that allows capacity planners to estimate the influence of slow throwing switches on train traffic. Note that this excludes controller (OCS) processing time and communication between controller (OCS) and interlocking.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="returnsToPreferredPosition" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The automatic normalisation attribute is closely related to the preferred position. Whether or not the IL returns the element to its preferred position depends on this parameter. E.g. a derailer that is modelled as ... preferredPosition=engaged autoNormalisation=true ... will return to its engaged position when released. A switch modelled as preferredPosition=right autoNormalisation=false... will not automatically return to the right position when released. This combination of attributes is useful for geographical interlockings that automatically determine the preferred routes given the preferred position of intervening switches.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="isKeyLocked" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>One of boolean true or false. True means that the switch is clamped either mechanically or by any electric or electronic means. The interlocking shall never attempt to throw a clamped switch.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="numberOfBladeSwitchActuators" use="optional" type="xs:nonNegativeInteger">
+					<xs:annotation>
+						<xs:documentation>number of switch actuators controlled from interlocking to throw the switch blades, 0 means no direct operation from the interlocking</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="numberOfFrogSwitchActuators" use="optional" type="xs:nonNegativeInteger">
+					<xs:annotation>
+						<xs:documentation>number of switch actuators controlled from interlocking to throw the frog nose(s), 0 means no movable frog</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RouteRelation">
+		<xs:annotation>
+			<xs:documentation>A route relation states the conditions that must be fulfilled for a given signal to be open. Note that these relations may well be captured in a control table. Therefore, the use is optional.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="requiredSwitchPosition" type="rail3:SwitchAndGivenPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to a particular switch and its required position to fulfil the route relation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="requiredDerailerPosition" type="rail3:DerailerAndGivenPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to a particular derailer and its required position to fulfil the route relation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="requiredCrossingPosition" type="rail3:CrossingAndGivenPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to a particular movable crossing and its required position to fulfil the route relation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="requiredDetectorState" type="rail3:DetectorAndGivenState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to a particular detector and its required state to fulfil the route relation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="requiredSignalAspect" type="rail3:SignalAndGivenAspect" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to a particular signal and its required aspect to fulfil the route relation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="requiredSectionState" type="rail3:SectionAndGivenVacancy" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to a particular TVD section and its required state to fulfil the route relation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="requiredKeyLockState" type="rail3:LockAndGivenState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to a particular key lock and its required state to fulfil the route relation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="requiredLevelCrossingState" type="rail3:LevelCrossingAndGivenState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to a particular level crossing and its required state to fulfil the route relation</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PartialRoute" abstract="true">
+		<xs:annotation>
+			<xs:documentation>A partial route is a subset of TVD sections within the route. This subset can be used, e.g. for release if the conditions prescribed by the IM rules are fulfilled.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="hasTvdSection" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Referral to the TVD sections in this part of the route.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="delay" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Duration after which the IL releases the partial route. Starts counting from the moment that all the conditions for release are fulfilled. This delay is engineered in static data. If not defined, the IL releases the group without delay.
+If the route has only one route release group then the set of TVD sections in the route is released en bloc with the delay given here.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="typicalDelay" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Duration after which the partial route is typically released. Use this delay for simulation purposes. Starts counting from the moment that the interlocking has received all conditions for the release. E.g. TVD sections in the group have been vacated, timers expired.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GenericDetector">
+		<xs:annotation>
+			<xs:documentation>Detectors are devices detecting the exceeding of a particular characteristic and providing an output to the interlocking. Depending on the function it may influence the route signalling.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:LogicalDevice">
+				<xs:sequence>
+					<xs:element name="detectorType" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the particular detector type.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="affectsRouteSignalling" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>indication whether the signalling of a related route is affected by the detector status</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="allowsSingleOverride" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The detector output may be overridden once by special command.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="allowsPermanentOverride" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The detector output may be permanently overridden by special command.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="hasTriggeredSelfTest" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The detector may have a self-test which is to be triggered from the interlocking.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="selfTestToleranceTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The time period for which the detector output shall be tolerated due to running self-test.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="selfTestInterval" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The interval at which the self-test is running, i.e. automatically initiated or triggered from interlocking.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RestrictedArea" abstract="true">
+		<xs:annotation>
+			<xs:documentation>The Restricted Area (RA) is an area of the yard that the interlocking can set aside from normal operation. Railway personnel typically take local control of a RA and the interlocking detects switches and signal such that regular trains cannot enter the RA. Typical Restricted Areas are local shunting areas, working area or possession areas. Local workers take over control of the RA from the interlocking. The type of RA defines the extent of control, i.e. what the interlocking allows local workers to do. E.g. regulations may allow local route setting in a shunting area but not in a working zone. Track workers may be allowed to operate individual switches in a working zone but they cannot set routes. Therefore, the interlocking must be aware of the RA type. This type datatype is abstract so the user is forced to specialize it.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:TrackAsset">
+				<xs:sequence>
+					<xs:element name="isLimitedBy" type="rail3:EntityILref" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Reference to any asset in network forming the restricted area limits</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LevelCrossingIL">
+		<xs:annotation>
+			<xs:documentation>A level crossing (LX) is activated, i.e. requested to close for road traffic, upon train approach. This happens when the train crosses a detection point, i.e. an insulated track joint, axle counter or treadle. These approach detectors are commonly referred to as Approach Starting (AS).</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:TrackAsset">
+				<xs:sequence>
+					<xs:element name="hasInterface" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to physical description of level crossing interface with list of commands to the field and notifications from the field</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="isLevelCrossingType" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the basic type of level crossing. It refers to a basic configuration of a level crossing for this IM.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="refersTo" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the physical level crossing in infrastructure.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="deactivatedBy" type="rail3:LevelCrossingDeactivator" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The description of deactivation conditions for this level crossing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="activationCondition" type="rail3:ActivationCondition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Description of the possible activation conditions of this level crossing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasTvdSection" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to the TVD section(s) directly at the level crossing</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="preferredPosition" use="optional" type="rail3:tLevelCrossingState">
+					<xs:annotation>
+						<xs:documentation>This is the state of level crossing under normal conditions, i.e. when not in use. For most level crossings this would be the open state.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="unprotectedSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>Speed in km/h at which the level crossing can be passed when it is not protected (V_LX)</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="typicalTimeToClose" use="required" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Average time between the time a train detector notes an approaching train and the moment the level crossing is closed to road traffic, i.e. the moment that the interlocking can lock a route across the level crossing. This equates to the time it takes to close the barrier (if present). Should be set to 0 if no barrier is configured. Useful for simulation.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="constantWarningTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>A level crossing must cause as little as possible hindering to train as well as road traffic. Therefore, the level crossing must close as late as safely possible. The optimal delay, known as constant warning time, between activation and closing is possible when the train speed and position are known.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="minimumOpenTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>This is the time the level crossing has to be open before it is allowed to close again. This is to ensure a certain capacity for the crossing road traffic.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="maximumClosedTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>This is the time span after a message to the operator is triggered because a level crossing being closed for too long time can be considered as unsafe. In such cases the road drivers and pedestrians might try to cross the railway line illegally.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="requiresStopBeforeUnprotectedLevelCrossing" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>Flag to define whether any train needs to stop in front of the level crossing in case it is unprotected. Only afterwards it can proceed according the value in speedRestriction.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SignalIL">
+		<xs:annotation>
+			<xs:documentation>A signal has an identity attribute, a reference to a signal or sign defined in the RTM scheme. A sign (or ETCS markerboard) indicating a speed change may well be modelled as a signal because the interlocking is likely to issue a different speed code at that sign</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:TrackAsset">
+				<xs:sequence>
+					<xs:element name="refersTo" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the physical trackside signal.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="protectsBlockExit" type="rail3:EntityILref" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+				<xs:attribute name="releaseSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>Release speed in km/h from controlled braking curve.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="malfunctionSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>This constant indicates the maximum speed in km/h with which a train may travel past a failed signal. The malfunctioning signal cannot be opened.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="approachSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>The maximum speed in km/h with which a train can approach the signal. This matches the Ka of the previous (=upstream) signal or speed sign. This is suitable for defining the line speed profile.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="passingSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>Maximum speed in km/h beyond the signal. This is suitable for defining the line speed profile.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="releaseDelay" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Time to elapse between receiving the revocation command and before route release.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="function" use="optional" type="rail3:tSignalFunctionListExt">
+					<xs:annotation>
+						<xs:documentation>Function of the signal for usage by the interlocking. This is in addition to signalType in infrastructure.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="isVirtual" use="required" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>Often, users label signals virtual. A virtual signal can be a dummy-signal that is a software object in the interlocking but has no physical trackside presence. Such virtual signals can be useful for modelling speed steps; there need not be a physical signal but the interlocking enforces a different speed at the position of the virtual signal. The other way round, stand-alone boards that are not wired to the interlocking can be labelled virtual. Such stand-alone signals are of interest to simulations because when they affect driver behaviour thus influence train runs.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="callOnAspectTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>time for duration to show call-on aspect on this signal</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="sightDistance" use="optional" type="rail3:tLengthM">
+					<xs:annotation>
+						<xs:documentation>The distance in metres the signal is visible in advance by the train driver. This might influence reaction times on changing aspects for simulation.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Route">
+		<xs:annotation>
+			<xs:documentation>We define a route as an entry- and exit plus the positions of intermediate switches. If there are no switches in the route, no switch positions can be defined. If one or more switches are encountered en route, either facing or trailing, the positions of these switches must be given. There can be multiple routes from entry to exit depending on the positions of the intermediate switches. The user is free to create different routes with the same entry,exit and same switch positions that differ only by the classifier. This allows one to distinguish for example a traction-route from no-traction-route</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:TrackAsset">
+				<xs:sequence>
+					<xs:element name="handlesRouteType" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to the IM specific route type. This implies particular characteristics of the route dependent on the IM operational rules.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeActivationSection" type="rail3:RouteActivationSection" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Description of the route activation, i.e. automatic setting or locking when the route entry is approached.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="facingSwitchInPosition" type="rail3:SwitchAndPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The tuple for each facing switch in the running path to unambiguously define the route containing the reference to the switch and its position.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasTvdSection" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to TVD section(s) within the running path of the route.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeEntry" type="rail3:RouteEntry" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Description of the start point of the route. This is normally a signal.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasReleaseGroup" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The references to any partial routes which are to be released together within a group.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="switchPositionInDepartureTrack" type="rail3:SwitchAndPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The tuple for any switch in the track in rear of the start signal required for this route containing the reference to the switch and its position.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="routeExit" type="rail3:RouteExit" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Description of the route destination point. In most cases the route destination is a signal or a buffer stop. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="additionalRelation" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any additional relation needed for signalling of this route</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="locksAutomatically" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>If true, the interlocking locks this route automatically and immediately after it was cleared. The operator has to intervene if he wishes to call another route. Automatikfahrstrasse in German, trace automatique in French. Note that this functionality is often part of the control system in which case this attribute should be omitted.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="processingDelay" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The delay in seconds between the moment the interlocking receives the route call and the moment the route the interlocking reports back that the route is locked, i.e. the processing time for setting that route.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="proceedAspectDelay" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The delay for the signal before it will change from closed to any proceed aspect.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="signalClosureDelay" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The delay for the signal after the conditions for proceed aspect are removed and the physical closure of the signal.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="approachReleaseDelay" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The delay between the request from signalman to release an already approached (definitely locked) route and the real release of associated elements of the route.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ConflictingRoute">
+		<xs:annotation>
+			<xs:documentation>Iness definition:
+The route conflict table identifies the routes that may never be simultaneously allocated, due to utilisation of common track elements.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="refersToRoute" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the affected route.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="conflictsWithRoute" type="rail3:EntityILref" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to the route causing the conflict.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="reasonForConflict" type="rail3:ConflictReason" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Description of the reason for the conflict.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AssetAndState" abstract="true">
+		<xs:annotation>
+			<xs:documentation>The interlocking extensively uses assets with a state for securing routes. The AssetAndState class is a generic tupel of (Asset, State). These tupels can be used by more than one interlocking system and are therefore not a child of the Interlocking class but of the class NetworkAssets. AssetAndState extends BaseObject in order to inherit an identifier. This base class must be extended and contain a reference to a track asset; signal, section, switch, etc. plus the given status of that element. Eg. (id=xy, switch_18A, left) or (id=yz, signal S19, proceed).</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="isNegated" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The exclusion of a particular state, i.e. everything else that this one.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Key">
+		<xs:annotation>
+			<xs:documentation>An abstract key to unlock a device or decode a message.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="isPhysical" type="xs:boolean" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The key can be of physical type, i.e. key for a mechanical lock.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ATPdevice" abstract="true">
+		<xs:annotation>
+			<xs:documentation>a minimal stub that merely creates a link between ATP and signals. The ATP state mostly derives from a signal at the entry of the ATP section. In some cases, the state can be a function of the aspect of both entry- and exit-signal. Note the need to include virtual signals where ATP changes the signalled speed. A changed speed is often accompanied by a passive trackside speed sign in order to synchronise wayside speed signalling with cabin speed signalling.
+Not with railML3.1</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:TrackAsset">
+				<xs:sequence>
+					<xs:element name="atpType" type="rail3:EntityILref" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="device" type="rail3:EntityILref" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="exitSignal" type="rail3:EntityILref" minOccurs="1" maxOccurs="2"/>
+					<xs:element name="entrySignal" type="rail3:EntityILref" minOccurs="1" maxOccurs="2"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="KeyLockIL">
+		<xs:annotation>
+			<xs:documentation>A device, also known as key lock (de: Schlüsselschalter) situated near the track. It is used to request local control of a (group of) track assets from the interlocking. Commonly, staff requests local control from the interlocking via this device. Once granted, the key can be removed upon which the (group of) track asset is no longer under interlocking control. In reverse, the interlocking takes back control when the key is inserted and staff acknowledged relinquishing control. Note that the lock is a track asset defined in infrastructure namespace. The interlocking reads the state of the lock and returns permission to remove the key, i.e. levelOfControl=fullControl. A combined lock has a master lock that controls a set of slave locks. Slave locks may have to be released in a well-defined sequence.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:LogicalDevice">
+				<xs:sequence>
+					<xs:element name="acceptsKey" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the particular key used with this master lock.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasTvdSection" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the TVD section related to this master lock. This is especially used for siding key locks on open line.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasSlaveLock" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to a dependent KeyReleaseInstrument</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="hasAutomaticKeyRelease" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The key of a siding on open line may be released automatically when the related TVD section (trigger) becomes occupied.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="hasAutomaticKeyLock" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The key may be automatically relocked when returned into the lock. Thus the key can be used only once.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="keyRequestTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The time period a request for key release is indicated to the operator.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="keyAuthoriseTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The time period the key release is active after commanded by the operator. Afterwards a not removed key will be automatically relocked again.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LogicalDevice" abstract="true">
+		<xs:annotation>
+			<xs:documentation>The logical device applies any number of Boolean equations. It represents e.g. a complex relay circuit or PLC that converts high/low electric input signals from any source into Boolean true/false outputs. It can exchange binary i/o with the interlocking. The description attribute can contain textual description of the field elements and Boolean relations that produce the Boolean output. Use this for ancillary equipment connected to the interlocking, e.g. bascule bridges, tunnel equipment, detectors such as earthquake and flooding detectors. Finally it provides a state which is considered in interlocking operation.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:TrackAsset">
+				<xs:sequence>
+					<xs:element name="takesControlOf" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to one or more track assets which are controlled by this logical object.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasInterface" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the physical I/O-interface from interlocking to the locking device to control it.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="refersTo" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the physical device in the infrastructure.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="description" use="optional" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Description of the logic.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Controller">
+		<xs:annotation>
+			<xs:documentation>A controller is an individual terminal, commonly a workstation, that can control the interlocking. The controller is normally situated in a control centre. railML provides a logical link between an interlocking and the individual controller. The user can attach useful data to this link, such as addresses that may be granted control over this IL. railML will not define the nature of the addresses, i.e IP-addresses or hexadecimal address of terminals that communicate with the IL via some serial bus. The protocol (IP, UDP, serial, parallel) is irrelevant to railML. Note that a Control Centre (DE: Leitstelle, FR: Poste de controle, NL: VL-post) is likely to control multiple interlockings and vice versa, one interlocking can be controlled from multiple control centres, an n:m relation. This implies that a control centre can have multiple controllers, defined as a terminal from which a signal man controls an interlocking. The IL is unaware of the Control Centre but aware of the controller.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="controlledAssets" type="rail3:ControlledAssets" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The container of references to all signalBox (interlocking) and system assets controlled from this unit.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="itineraries" type="rail3:Itineraries" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The container of all itineraries as a combination of single routes defining the path from A to B independent of involved signalBoxes (interlockings).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GenericIM">
+		<xs:annotation>
+			<xs:documentation>The container for the IM specific type definitions.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="ownsSetsOfAssets" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to the associated lists of assets.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="usesTypes" type="rail3:GenericTypes" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The types defined for this IM.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Configuration">
+		<xs:annotation>
+			<xs:documentation>general attributes of interlocking configuration</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="model" use="optional" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The vendor specific model of the interlocking.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="technologyType" use="required" type="rail3:tIxlTechnologyTypeListExt">
+					<xs:annotation>
+						<xs:documentation>The basic technology type of the interlocking</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SWversion" use="optional" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The software version used by this interlocking.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="signalSystem" use="optional" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The name of the signal system used with this interlocking, e.g. Hl or Ks system of Deutsche Bahn.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GenericTypes">
+		<xs:annotation>
+			<xs:documentation>The list of all possible types being specific for this IM.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="hasAspect" type="rail3:GenericAspect" minOccurs="2" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Classification of signal aspects.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hasTVDresetStrategy" type="rail3:GenericResetStrategy" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Classification of TVD section reset strategies</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hasRouteType" type="rail3:GenericRouteType" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Classification of route types.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hasLevelCrossingType" type="rail3:LevelCrossingTypeList" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Classification of basic level crossing types.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hasElementGroupType" type="rail3:ElementGroupingTypes" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Classification of element groups used for operation from the interlock.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hasDetectorTypes" type="rail3:DetectorTypes" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The list of detector type classification.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="rail3:anyAttribute"/>
+	</xs:complexType>
+	<xs:complexType name="TrackAsset">
+		<xs:annotation>
+			<xs:documentation>A track element (e.g. signal, switch, TVD section), as defined in the IL namespace that is controlled or read by interlocking systems.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RouteActivationSection">
+		<xs:annotation>
+			<xs:documentation>The route is locked, i.e. activated, when this sections turns from vacant to occupied. If the delayForLock timer isn't given (or zero) the lock applies immediately.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="activationSection" type="rail3:EntityILref" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>This is the reference to the TVD section activating the route when this section turns from vacant to occupied.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="delayForLock" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The delay in seconds between the moment the approach section changes from vacant to occupied and the moment the route the interlocking locks the route.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="automaticReleaseDelay" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Delay in seconds between the moment that the route is locked on the ground that the approach section turned occupied, and the release of the route. This delay for automatic release would typically be used when an approach train stops in an approach section but fails to enter the route.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RouteEntry">
+		<xs:annotation>
+			<xs:documentation>The route entry is normally a (virtual) signal.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="refersTo" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the track asset representing the start point of the route. In most cases this is a signal.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="nonReplacement" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to any TVD section in advance to the start signal which sequential occupation will not cause the signal closure.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RouteExit">
+		<xs:annotation>
+			<xs:documentation>The exit signal or any other track asset that acts as route exit</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="refersTo" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the track asset representing the destination point of the route. In most cases this is a signal or buffer stop.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasDangerPoint" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to any danger point related to this route end.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasOverlap" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to any overlap related to this route end.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DangerPoint">
+		<xs:annotation>
+			<xs:documentation>The danger point defines the position beyond the exit signal up to where a train is likely to be safe.
+Designed for ETCS modelling.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="lastSupervisedSectionBeforeDP" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>This is the reference to last TVD section which is completely before the danger point. It is used when the danger point is situated at the end of a TVD section.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="situatedAtTrackAsset" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>This is the reference to the track asset the danger point is located. It is used when the danger point is situated in the middle of a TVD section or beyond any TVD section in case of not supervised tracks.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="distance" use="optional" type="rail3:tLengthM">
+					<xs:annotation>
+						<xs:documentation>Distance in metres from exit signal to danger point. Optional because one may also derive this distance from the track asset where the danger point is situated.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="releaseSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>Release speed in km/h associated with the danger point.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Overlap">
+		<xs:annotation>
+			<xs:documentation>INESS (INtegrated European Signalling System) definition: A defined section of track in advance of a stop signal, or a stopping point in a continuous signalling system, which must be kept clear to avoid the risk of collision should a train inadvertently run past the signal or the stopping point.
+Many IMs require overlap beyond active routes to protect from overshoot. One or more sections beyond the exit signal are locked out from use by other routes. The overlap is delimited by train detectors. Facing switches in the overlap are locked, otherwise, use the swinging overlap. Trailing switches in the overlap may normally not locked. Note that there is no need to explicitly identify the switches in the overlap because they can be derived from the begin and endpoints of the overlap.
+The overlap can be released if the RBC deems that an approaching train is slow enough such that overshoot is unlikely.
+Trains other than the one for which the route-overlap is locked may be attributed a permitted speed in the overlap. If the value is set to 0 it is not possible to set a route through the overlap. Compare this variable with the release speed that applies to the train that is being released beyond the danger point.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="activeForApproachRoute" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to the related route using the overlap.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="relatedToTrackAsset" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Alternatively to a specific route a reference to a track asset the danger point is related to can be given. This can be a destination signal of a route or any other suitable object.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="requiresSwitchInPosition" type="rail3:SwitchAndGivenPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to any switch in the overlap required to be in a particular position and its position.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="requiresLevelCrossingInState" type="rail3:LevelCrossingAndGivenState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to any level crossing in the overlap required to be in a particular state and its state.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasTvdSection" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to any TVD section(s) within the path of the overlap.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="isLimitedBy" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to track assets limiting the overlap. It may be used in conjunction to attribute length.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="overlapRelease" type="rail3:OverlapRelease" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Overlap is set in lockstep with the route. The interlocking releases the overlap when it is safe to presume that an approaching train will not overrun a closed destination signal. When the train occupied the last section (or destination area), an overlap release timer starts running. The timer value is defined by operational rules and the approaching speed. Upon expiry, the interlocking releases the overlap. Overlap is released together with the route or after expiration of the release timer. Overlap is released after a defined time in a timer that starts from a timerTriggerPoint.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="releaseSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>Release speed in km/h associated with the overlap</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="overlapSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>Maximum speed in the overlap in km/h for other trains than the one using the related route.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="overlapValidityTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The overlap validity time is the time that the train assumes the overlap to be locked. This is the ETCS validity time T_OL.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="length" use="optional" type="rail3:tLengthM">
+					<xs:annotation>
+						<xs:documentation>Alternatively to a particular limit the length of the overlap in metres can be given.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tRouteConflictTypes">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="overlappingTVDsection"/>
+			<xs:enumeration value="conflictingSwitchPosition"/>
+			<xs:enumeration value="conflictingStatus"/>
+			<xs:enumeration value="conflictingOverlap"/>
+			<xs:enumeration value="conflictingHeadProtection"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="OverlapRelease">
+		<xs:annotation>
+			<xs:documentation>Overlap is set in lockstep with the route. The interlocking releases the overlap when it is safe to presume that an approaching train will not overrun a closed destination signal. When the train occupied the last section (or destination area), an overlap release timer starts running. The timer value is defined by operational rules and the approaching speed. Upon expiry, the interlocking releases the overlap. Overlap is released together with the route or after expiration of the release timer. Overlap is released after a defined time in a timer that starts from a timerTriggerPoint.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="releaseTriggerSection" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the TVD section triggering the overlap release.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="overlapReleaseTimer" type="rail3:OverlapReleaseTimer" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Description of overlap release timer (duration, start condition)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OverlapReleaseTimer">
+		<xs:annotation>
+			<xs:documentation>Details for timing the overlap release.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence/>
+		<xs:attribute name="timerValue" use="required" type="xs:duration">
+			<xs:annotation>
+				<xs:documentation>The time period which has to be elapsed after the trigger condition and physical release of the overlap.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="overlapReleaseCondition" use="optional" type="rail3:tOverlapReleaseCondition">
+			<xs:annotation>
+				<xs:documentation>The condition to start the release timer.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="rail3:anyAttribute"/>
+	</xs:complexType>
+	<xs:simpleType name="tOverlapReleaseCondition">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="trainInitiatedTrigger"/>
+			<xs:enumeration value="startTimerAfterVacating"/>
+			<xs:enumeration value="startTimerUponOccupation"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SwitchAndPosition">
+		<xs:annotation>
+			<xs:documentation>A tuple (Switch, position). This refers to a switch and its position.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndState">
+				<xs:sequence>
+					<xs:element name="refersToSwitch" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the switch.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="inPosition" use="required" type="rail3:tSwitchPosition">
+					<xs:annotation>
+						<xs:documentation>The position the switch is in.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tSwitchPosition">
+		<xs:annotation>
+			<xs:documentation>typical positions of a point/switch</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="right"/>
+			<xs:enumeration value="left"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TrackAssetConnectedToIL">
+		<xs:annotation>
+			<xs:documentation>List of Track Assets that are connected to a specific IL. This list would typically be kept in one or more separate files. This approach allows the IM to split the assets under control of a specific interlocking into different areas. Each area would be allocated a list of Track Assets Connected to the IL. This supports for instance a scenario in which an interlocking is split into several smaller ones during a resignalling project.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="connectedTrackAsset" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the connected track asset.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="extentOfControl" use="optional" type="rail3:tExtentOfControl">
+					<xs:annotation>
+						<xs:documentation>The level of control of the asset by the interlocking.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tDerailingPosition">
+		<xs:annotation>
+			<xs:documentation>typical positions of a derailing device</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="passablePosition"/>
+			<xs:enumeration value="derailingPosition"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DerailerAndPosition">
+		<xs:annotation>
+			<xs:documentation>A tuple (derailer, position). Refers to a derailer and a position. Used for expressing concepts like: the derailer has to be in the non-derailing/passable position.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndState">
+				<xs:sequence>
+					<xs:element name="refersToDerailer" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the derailer.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="inPosition" use="required" type="rail3:tDerailingPosition">
+					<xs:annotation>
+						<xs:documentation>The position the derailer is in.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SignalAndAspect">
+		<xs:annotation>
+			<xs:documentation>A tuple (signal, aspect). Refers to a signal and an aspect. Used for expressing concepts like signal 1105 shows yellow flashing.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndState">
+				<xs:sequence>
+					<xs:element name="refersToSignal" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the signal.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="showsAspect" type="rail3:EntityILref" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The aspect the signal is showing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tCrossingPosition">
+		<xs:annotation>
+			<xs:documentation>typical positions of crossings</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="upleft-rightdown"/>
+			<xs:enumeration value="downleft-rightup"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CrossingAndPosition">
+		<xs:annotation>
+			<xs:documentation>Tuple of crossing element and its (logical) position.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndState">
+				<xs:sequence>
+					<xs:element name="refersToCrossing" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the crossing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="inPosition" use="required" type="rail3:tCrossingPosition">
+					<xs:annotation>
+						<xs:documentation>The position the crossing is in.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tSectionVacancy">
+		<xs:annotation>
+			<xs:documentation>typical states of TVD sections</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="unknown"/>
+			<xs:enumeration value="vacant"/>
+			<xs:enumeration value="occupied"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tLevelCrossingState">
+		<xs:annotation>
+			<xs:documentation>typical states of level crossings</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="unknown"/>
+			<xs:enumeration value="closing"/>
+			<xs:enumeration value="opening"/>
+			<xs:enumeration value="closed"/>
+			<xs:enumeration value="open"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="LevelCrossingAndState">
+		<xs:annotation>
+			<xs:documentation>A tuple of Level Crossing and its position.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndState">
+				<xs:sequence>
+					<xs:element name="refersToLevelCrossing" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the level crossing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="inState" use="required" type="rail3:tLevelCrossingState">
+					<xs:annotation>
+						<xs:documentation>The state the level crossing has.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SectionAndVacancy">
+		<xs:annotation>
+			<xs:documentation>Tuple of a track vacancy detection section and its state (occupied, vacant)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndState">
+				<xs:sequence>
+					<xs:element name="refersToSection" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the TVD section.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="inState" use="required" type="rail3:tSectionVacancy">
+					<xs:annotation>
+						<xs:documentation>The occupation status of the TVD section.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tGenericAspectList">
+		<xs:annotation>
+			<xs:documentation>list of possible generic signal aspects (generic meaning)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="warning"/>
+			<xs:enumeration value="supplementary"/>
+			<xs:enumeration value="restriction"/>
+			<xs:enumeration value="proceed"/>
+			<xs:enumeration value="limitedProceed"/>
+			<xs:enumeration value="informative"/>
+			<xs:enumeration value="combinedProceed"/>
+			<xs:enumeration value="closed"/>
+			<xs:enumeration value="caution"/>
+			<xs:enumeration value="callOn"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tGenericResetStrategyList">
+		<xs:annotation>
+			<xs:documentation>list of generic strategies for resetting a TVD section</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="unconditionalReset"/>
+			<xs:enumeration value="sweepRunWithoutConfirmation"/>
+			<xs:enumeration value="sweepRunWithConfirmation"/>
+			<xs:enumeration value="procedure"/>
+			<xs:enumeration value="conditionalReset"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tGenericRouteTypeList">
+		<xs:annotation>
+			<xs:documentation>list of possible generic route types</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="tunnel"/>
+			<xs:enumeration value="siding"/>
+			<xs:enumeration value="shunting"/>
+			<xs:enumeration value="occupied"/>
+			<xs:enumeration value="normal"/>
+			<xs:enumeration value="nonElectrified"/>
+			<xs:enumeration value="callOn"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="GenericRouteType">
+		<xs:annotation>
+			<xs:documentation>For train traffic control different types of routes are used. Each particular type has its IM specifics which are defined in the operational rules. Here the generic classification is done.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="genericRouteType" use="required" type="rail3:tGenericRouteTypeExt">
+					<xs:annotation>
+						<xs:documentation>The classification of the route types.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GenericAspect">
+		<xs:annotation>
+			<xs:documentation>A signal aspect according to the IM regulations. Each aspect is given a unique identifier, a name, e.g. Vr-6 and description e.g. warning signal - expect stop (Vorsignal Halt erwarten). This element allows a generic classification of each aspect. The aspect can include speed information.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="genericAspect" use="required" type="rail3:tGenericAspectList">
+					<xs:annotation>
+						<xs:documentation>The classification of the aspect.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GenericResetStrategy">
+		<xs:annotation>
+			<xs:documentation>Used by TVD section reset strategy that the IM regulates. E.g. reset by sweep allowed, manual reset allowed. Note that the IM can apply different reset strategies to sections. Absence of a strategy implies that reset is not possible.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="resetStrategy" use="required" type="rail3:tGenericResetStrategyList">
+					<xs:annotation>
+						<xs:documentation>The classification of the reset strategy.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SignalPlan">
+		<xs:annotation>
+			<xs:documentation>The signalplan describes a set of aspect relations. 
+In speed signalling systems, the aspect relation between signals represents a speed profile that the train must respect.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="aspectRelation" type="rail3:AspectRelation" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AspectRelation">
+		<xs:annotation>
+			<xs:documentation>One aspect relation has a) one master signal showing a given aspect b) one or more slaves showing a given aspect. The slave aspect depends on the master aspect. c) an optional overlap when the master aspect is at danger. The path from slave to master may contain switches. The switch positions are given in order to unequivocally determine the path.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="masterAspect" type="rail3:SignalAndAspect" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The combination of the master signal (at route exit) and the aspect it is showing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="slaveAspect" type="rail3:SignalAndAspect" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The combination of the slave signal (at route entry) and the aspect it is showing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="distantAspect" type="rail3:SignalAndAspect" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The combination of the master's distant signal (within the route or its start) and the aspect it is showing. This includes also any repeaters.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="signalsSpeedProfile" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to a SpeedSection in infrastructure applicable for the signalled section.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="appliesToRoute" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Reference to the related routes using the particular aspect relation.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="passingSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>The speed in km/h signalled by the slave aspect, i.e. the speed that the train must respect when passing the slave signal (at route entry).</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="expectingSpeed" use="optional" type="rail3:tSpeedKmPerHour">
+					<xs:annotation>
+						<xs:documentation>Maximum signalled speed in km/h at master signal (aka target speed).</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="endSectionTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The end-section of a route is the section between the closed route exit signal and the previous slave signal. Commonly, the interlocking revokes (part of) the route when this time period is passed.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tExtentOfControl">
+		<xs:annotation>
+			<xs:documentation>The Extent of Control is one of full control, steering only, notification only or none.
+Full control implies that the IL controls the element AND reads the element feedback to check the execution of the control. 
+Notification only means that the IL only reads the status of the object in terms of switch position left, controlled or boolean 1 or derailer engaged.
+Steering only means that the IL emits the control signal without checking for feedback.
+Note that LoC=none suggests that the IL has no relation at all with the track asset, indicating a modelling error that merits further investigation and/or explanation.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="steeringOnly"/>
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="notificationOnly"/>
+			<xs:enumeration value="fullControl"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TvdSection">
+		<xs:annotation>
+			<xs:documentation>A track vacancy detection (TVD) section reports train occupancy to the interlocking. This is a logical unit characterised by the delimiters of the section. Typically, a section is delimited by two insulated track joints or axle counters at the extremities. Sections with a switch or a crossing can have several such limits.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:TrackAsset">
+				<xs:sequence>
+					<xs:element name="hasDemarcatingBufferstop" type="rail3:EntityILref" minOccurs="0" maxOccurs="2">
+						<xs:annotation>
+							<xs:documentation>Reference to physical track ends, e.g. buffer stop.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasExitSignal" type="rail3:EntityILref" minOccurs="0" maxOccurs="2">
+						<xs:annotation>
+							<xs:documentation>Reference to delimiting signals for leaving the TVD section.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasDemarcatingTraindetector" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Reference to the physical train detection points, e.g. axle counter point, insulated rail joint.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasResetStrategy" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the IM specific reset strategy for this TVD section.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="isBerthingTrack" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>True if this section is part of a berthing track, i.e. track where trains may halt and change direction. Typically, an Interlocking assures that trains progress from section to section in an ordered sequence (aka. two/three phase release). This check would fail when a train changes direction. If this attribute is true, the interlocking doesn't carry out this check for this section.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="residualRouteCancellationDelay" use="required" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The delay after which the interlocking may clear a partial route left by an unusual train run. The timer starts running when the interlocking accepts the signal man request to clear the section (DE: Restfahrstrasse auflösen) or when the interlocking algorithm detects that the train has set back (automatic route release).</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="partialRouteReleaseDelay" use="required" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Delay time after which the section may be released for use in a new route</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="technology" use="optional" type="rail3:tTvdSectionTechnologyTypeExt">
+					<xs:annotation>
+						<xs:documentation>the technical type of the TVD section</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="frequency" use="optional" type="rail3:tFrequencyHertz">
+					<xs:annotation>
+						<xs:documentation>The frequency in Hertz in case of a track circuit. Shall be zero for direct current.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MovableCrossing">
+		<xs:annotation>
+			<xs:documentation>Crossings are a special item for interlockings as a position is required for them even if there is no really movable item trackside.
+Some crossings, especially high speed ones, have a movable frog to close the gap at the crossing (UK: movable nose crossing, DE: Herzstück mit beweglicher Spitze, NL: kruising met beweegbaar puntstuk). Unlike a switch, such a movable frog will not send the train left or right but it does guide the train. Thus the position is essential for avoiding derailment. Do not confound this class with ordinary double or single slip switches. The latter are regarded as two back-to-back switches.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:MovableElement">
+				<xs:sequence>
+					<xs:element name="branchUpLeft" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Referral to the physical track that connects from upper left side to the crossing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="branchUpRight" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Referral to the physical track that connects from upper right side to the crossing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="branchDownLeft" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Referral to the physical track that connects from lower left side to the crossing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="branchDownRight" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Referral to the physical track that connects from lower right side to the crossing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasFoulingTrainDetectors" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>This is the reference to the train detectors delimiting the TVD section of this crossing, which are too close and cannot guarantee a clear gauge of the set track.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="preferredPosition" use="optional" type="rail3:tCrossingPosition">
+					<xs:annotation>
+						<xs:documentation>This is the preferred position of the crossing which it is switched to when not in use.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DerailerIL">
+		<xs:annotation>
+			<xs:documentation>The derailer or trap switch is an infrastructure element that either allows or disallows train passage. A derailer typically operates on one rail only; trap switch (points) have similar effect using both rails to literally derail the train for protection purpose. 
+Derailers that are locally and manually controlled are obviously not within the scope of an interlocking as the dispatcher will typically prevent trains from derailing by blocking signals leading towards such a device</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:MovableElement">
+				<xs:sequence/>
+				<xs:attribute name="preferredPosition" use="optional" type="rail3:tDerailingPosition">
+					<xs:annotation>
+						<xs:documentation>This is the preferred position of the derailer which it is switched to when not in use.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SwitchIL">
+		<xs:annotation>
+			<xs:documentation>Extends the infrastructure::switch for IXL purposes. The graph model from RailTopoModel allows the definition of connections between tracks. Thus, one can include or exclude connections between tracks. The name SwitchIL is chosen to reconcile US nomenclature and to avoid a naming conflict with infrastructure domain.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:MovableElement">
+				<xs:sequence>
+					<xs:element name="hasFoulingTrainDetectors" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>This is the reference to any train detection device in infrastructure which is located to close to the switch, i.e. the gauge of the switch is not clear when the associated neighbouring TVD section is occupied.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="branchLeft" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>This is the reference to the underlying track section in infrastructure of the left branch.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="branchRight" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>This is the reference to the underlying track section in infrastructure of the right branch.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasPositionRestriction" type="rail3:SwitchPositionRestriction" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>It defines the position the switch shall have in dependency of the position of the related element.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="preferredPosition" use="optional" type="rail3:tSwitchPosition">
+					<xs:annotation>
+						<xs:documentation>This is the preferred position of the switch which it is switched to when not in use or in case of both positions required for flank protection.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RouteReleaseGroupAhead">
+		<xs:annotation>
+			<xs:documentation>A route section is a partial route situated ahead of a train. In order to prevent that a stopped train locks down the remaining route, such a partial route can be released. Condition for release are expiry of a timer and/or an operator command as prescribed by the IM rules and regulations. This is especially used for ERTMS MA sections.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:PartialRoute">
+				<xs:sequence/>
+				<xs:attribute name="isAutomatic" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>True if the route is released automatically after expiry of the delay. False otherwise, e.g. operator intervention is required.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RouteReleaseGroupRear">
+		<xs:annotation>
+			<xs:documentation>Ordered set of TVD sections in rear of the train.
+Partial route, i.e. a set of TVD sections in rear of the train that is released as a group if given safety conditions are fulfilled. Partial route release can be delayed to improve safety. Route release groups can be associated with several routes.
+Release can be retarded by a given delay.
+If a route that has one single route release group then the route is released as a whole. In this case, there is no need to explicitly define the TVD sections that are part of this release group.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:PartialRoute">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ActivationCondition">
+		<xs:annotation>
+			<xs:documentation>The container to list all possible conditions for activating the level crossing.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="delayBySwitchPosition" type="rail3:SwitchRelatedDelay" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The activation can be delayed depending on the position of a switch.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="aspectRelatedDelay" type="rail3:AspectRelatedLevelCrossingDelay" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Activation of the level crossing may be delayed, depending on the aspect of the approach signal, thus, the activation delay timer depends on a) the signal and b) the signal aspect.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="signalDelayTime" type="rail3:SignalDelayTime" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>After activation of the level crossing the opening of a signal is delayed.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="activatedBy" type="rail3:ApproachStartingDetector" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The activation of the level crossing is done by a train detection element.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="andOr" use="optional" type="rail3:tAndOr">
+					<xs:annotation>
+						<xs:documentation>The logical combination of all activation conditions.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tAndOr">
+		<xs:annotation>
+			<xs:documentation>List of boolean operators for use in constructing boolean conditions.
+Used for concatenating boolean conditions by means of AND/OR. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="XOR"/>
+			<xs:enumeration value="OR"/>
+			<xs:enumeration value="AND"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SwitchRelatedDelay">
+		<xs:annotation>
+			<xs:documentation>The position of a switch can influence the activation delay.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:SwitchAndPosition">
+				<xs:sequence/>
+				<xs:attribute name="delay" use="required" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The delay for activation to be considered when the switch is in the specified position.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AspectRelatedLevelCrossingDelay">
+		<xs:annotation>
+			<xs:documentation>The activation of the level crossing is delayed by a given duration if a signal shows a given aspect.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:SignalAndAspect">
+				<xs:sequence/>
+				<xs:attribute name="delay" use="required" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Delay between signal aspect detection and level crossing activation. This delay depends on the signalled speed of the approaching train hence on signal aspect.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SignalDelayTime">
+		<xs:annotation>
+			<xs:documentation>Timer that maintains a signal at stop for a given duration after the level crossing was triggered.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="hasDelayedSignal" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the signal.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="delay" use="required" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Time during which the signal remains closed. Starts counting when the level crossing is triggered.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ApproachStartingDetector">
+		<xs:annotation>
+			<xs:documentation>Train detection device, commonly an axle counter, track section, track joint or treadle that activates a level crossing. Also known as Approach Starting. This is the detection point that is the most remote from the level crossing. The approach monitoring zone is situated in between the approach starting detector(s) and the level crossing, i.e. every detector in this zone activates the level crossing. Use the any wildcard to provide a textual description of the approach starting detector is needed.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="refersTo" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the train detection element in infrastructure.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="delay" use="required" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The level crossing is activated only after a given delay. This delay doesn't depend on any aspect. If there's a delay that depends on signalled speed, please use the aspectRelatedLevelCrossingDelay.
+The timer starts running when the first train axle triggers the train detector.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LevelCrossingDeactivator">
+		<xs:annotation>
+			<xs:documentation>The train detector and/or TVD section(s) that deactivates the level crossing. This may be the level crossing tracks, e.g. km 12.809/2, that would appear on signalling plans.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="tvdDetectorRef" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the train detection element in infrastructure or a dedicated TVD section.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="delay" use="required" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>Deactivation can be delayed by this timer. Starts counting when the associated TVD section is vacated.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DestinationPoints">
+		<xs:annotation>
+			<xs:documentation>container element for all DestinationPoint elements
+The definition of destination points which are mainly route exits. This allows definition independent of routes.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="destinationPoint" type="rail3:RouteExit" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>destination point of a secured running path</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AssetAndGivenState" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Interlocking model often requires a generic track asset to be in a given state. This base class must be extended and contain a reference to a track asset; signal, section, switch, etc. plus the given status of that element. Eg. (switch_18A, left) or (signal S19, proceed).
+In addition information about the level of state enforcement can be set.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="mustOrShould" use="optional" type="rail3:tMustOrShould">
+					<xs:annotation>
+						<xs:documentation>level of enforcement</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="proving" use="optional" type="rail3:tProving">
+					<xs:annotation>
+						<xs:documentation>The way the state is proven.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="isNegated" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The exclusion of a particular state, i.e. everything else that this one.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tMustOrShould">
+		<xs:annotation>
+			<xs:documentation>Use this to distinguish hard or soft required states. E.g a called-for switch should be in the given position whilst a flank protection switch must be in the given position.
+The interlocking normally controls an element into a required position. The enforce-policy expresses what the interlocking must do with the element.
+enforce=must means that the condition is fulfilled only when the element acquires the given status, enforce=should means that this given status is the preferred status but no conditio sine qua non, finally enforce=none means that the interlocking is not given a desired status; in other words the IL can ignore the given status.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="should"/>
+			<xs:enumeration value="must"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tProving">
+		<xs:annotation>
+			<xs:documentation>The list of proving ways.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="staffAcknowledged"/>
+			<xs:enumeration value="continuously"/>
+			<xs:enumeration value="oneOff"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="WorkZone">
+		<xs:annotation>
+			<xs:documentation>A set of track assets that track workers or the signalman can set apart from the main line. When taken, it is impossible to call regular routes into this work zone.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:RestrictedArea">
+				<xs:sequence>
+					<xs:element name="activationLock" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any locking device used for activation of the work zone</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="switchInPosition" type="rail3:SwitchInPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any switch and its position inside or outside the work zone required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="derailerInPosition" type="rail3:DerailerInPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any derailer and its position inside or outside the work zone required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="crossingInPosition" type="rail3:CrossingInPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any movable crossing and its position inside or outside the work zone required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="detectorInState" type="rail3:DetectorInState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any detector and its state inside or outside the work zone required for use</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="signalWithAspect" type="rail3:SignalWithAspect" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any signal and its aspect inside or outside the work zone required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="keyLockInState" type="rail3:KeyLockInState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any key log and its state inside or outside the work zone required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="levelCrossingInState" type="rail3:LevelCrossingInState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any level crossing and its state inside the work zone required for use</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="releasedForLocalOperation" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any element, which is released for local operation, when the work zone is active</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LocalOperationArea">
+		<xs:annotation>
+			<xs:documentation>Area used for local shunting movements without routes. Movable elements within the area might be operated from onsite panels. These areas are predefined for parts of a station.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:RestrictedArea">
+				<xs:sequence>
+					<xs:element name="deactivationKey" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any device used for deactivate the local operation area after use</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="switchInPosition" type="rail3:SwitchInPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any switch and its position inside or outside the local operation area required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="derailerInPosition" type="rail3:DerailerInPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any derailer and its position inside or outside the local operation area required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="crossingInPosition" type="rail3:CrossingInPosition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any movable crossing and its position inside or outside the local operation area required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="detectorInState" type="rail3:DetectorInState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any detector and its state inside or outside the local operation area required for use</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="signalWithAspect" type="rail3:SignalWithAspect" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any signal and its aspect inside or outside the local operation area required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="keyLockInState" type="rail3:KeyLockInState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any key lock and its state inside or outside the local operation area required for use and/or protection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="levelCrossingInState" type="rail3:LevelCrossingInState" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any level crossing and its state inside the local operation area required for use</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="releasedForLocalOperation" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any element, which is released for local operation, when the local operation area is active</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ShuntingZone">
+		<xs:annotation>
+			<xs:documentation>Simple zone defined for shunting movements. It can be used to define any shunting zones.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:RestrictedArea">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RouteRelations">
+		<xs:annotation>
+			<xs:documentation>container element for all RouteRelation elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="routeRelation" type="rail3:RouteRelation" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>states the conditions that must be fulfilled for a given signal to be open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GenericDetectors">
+		<xs:annotation>
+			<xs:documentation>contains all GenericDetector elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="genericDetector" type="rail3:GenericDetector" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Device for detecting the exceeding of a particular characteristic.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TvdSections">
+		<xs:annotation>
+			<xs:documentation>container element for all TvdSection elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="tvdSection" type="rail3:TvdSection" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>track vacancy detection (TVD) section reports train occupancy to the interlocking</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LevelCrossingsIL">
+		<xs:annotation>
+			<xs:documentation>container element for all LevelCrossingIL elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="levelCrossingIL" type="rail3:LevelCrossingIL" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The level crossing is a track asset allowing road traffic to cross the railway track in a secure way on the same level. Here the functional aspects for interlocking operation are considered.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Keys">
+		<xs:annotation>
+			<xs:documentation>container element for all Key elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="key" type="rail3:Key" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>An ancillary element used for operation of a specific locking device. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="KeyLocksIL">
+		<xs:annotation>
+			<xs:documentation>container element for all KeyLockIL elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="keyLockIL" type="rail3:KeyLockIL" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A device for locking a key which is released from interlocking or by using a master key.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SignalsIL">
+		<xs:annotation>
+			<xs:documentation>container element for all SignalIL elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="signalIL" type="rail3:SignalIL" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The signal is a track asset used to transmit information to the train driver represented by its optical appearance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ATPdevices">
+		<xs:annotation>
+			<xs:documentation>container element for all ATPdevice elements (not with railML3.1)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="atpDevice" type="rail3:ATPdevice" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>not with railML3.1</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RestrictedAreas">
+		<xs:annotation>
+			<xs:documentation>container element for all instances of RestrictedArea elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="ownsRestrictedArea" type="rail3:RestrictedArea" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PartialRoutes">
+		<xs:annotation>
+			<xs:documentation>container element for all PartialRoute elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="knowsPartialRoute" type="rail3:PartialRoute" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SwitchesIL">
+		<xs:annotation>
+			<xs:documentation>container for all switchIL elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="switchIL" type="rail3:SwitchIL" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The switch is a track asset where a train can change from one track to another. Here the functional aspects for interlocking operation are considered.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Routes">
+		<xs:annotation>
+			<xs:documentation>container element for all Route elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="route" type="rail3:Route" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>path for train movements in railway network secured by interlocking system</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ConflictingRoutes">
+		<xs:annotation>
+			<xs:documentation>container element for all ConflictingRoute elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="conflictingRoute" type="rail3:ConflictingRoute" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>identifies the routes that may never be simultaneously allocated</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PowerSuppliesIL">
+		<xs:annotation>
+			<xs:documentation>container element for all PowerSupplyIL elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="powerSupplyIL" type="rail3:PowerSupplyIL" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>specific features of power supply used for interlocking</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Controllers">
+		<xs:annotation>
+			<xs:documentation>container element for all controller elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="controller" type="rail3:Controller" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Container with reference to connected interlockings and system assets controlled by this operational terminal.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SignalBoxes">
+		<xs:annotation>
+			<xs:documentation>container element for all signalBox elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="signalBox" type="rail3:SignalBox" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Container with the characteristics of an individual interlocking system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GenericIMs">
+		<xs:annotation>
+			<xs:documentation>container element for all specificIM elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="specificIM" type="rail3:GenericIM" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Container with the generic classification of types used by a specific infrastructure manager.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SystemAssetConnectedToIL">
+		<xs:annotation>
+			<xs:documentation>List of System Assets that are connected to a specific IL. These system assets are at least known to the interlocking.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="connectedSystemAsset" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the connected system asset.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="extentOfControl" use="optional" type="rail3:tExtentOfControl">
+					<xs:annotation>
+						<xs:documentation>The level of control of the asset by the interlocking.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ControlledAssets">
+		<xs:annotation>
+			<xs:documentation>container for all references to signalboxes/interlockings and system assets controlled by this controller</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="controlledInterlocking" type="rail3:ControlledSignalBox" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The reference to a signalBox (interlocking) controlled from this unit.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="controlledSystemAsset" type="rail3:SystemAssetConnectedToIL" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The reference to a system asset controlled from this unit. It shall not repeat system assets already controlled from a particular interlocking.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ConflictReason">
+		<xs:annotation>
+			<xs:documentation>The list of applicable conflict reasons for this route pair.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="origin" use="required" type="rail3:tRouteConflictTypesExt">
+					<xs:annotation>
+						<xs:documentation>The type of route conflict.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="refersTo" use="required" type="rail3:tRef">
+					<xs:annotation>
+						<xs:documentation>The reference to the track asset (movable element, TVD section or signal) causing the conflict.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tDetectorTypeList">
+		<xs:annotation>
+			<xs:documentation>The list of possible detector types.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="weighing"/>
+			<xs:enumeration value="loadingGauge"/>
+			<xs:enumeration value="landSlide"/>
+			<xs:enumeration value="intrusion"/>
+			<xs:enumeration value="hotWheelBox"/>
+			<xs:enumeration value="gas"/>
+			<xs:enumeration value="flatWheel"/>
+			<xs:enumeration value="fire"/>
+			<xs:enumeration value="doors"/>
+			<xs:enumeration value="derailment"/>
+			<xs:enumeration value="cranks"/>
+			<xs:enumeration value="avalanche"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Interlocking">
+		<xs:annotation>
+			<xs:documentation>This is the top level element for the interlocking model. It is the home of several elements (classes) containing the particular aspects of the information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element name="assetsForIL" type="rail3:AssetsForIL" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>container for all asset elements needed for interlocking purpose</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="controllers" type="rail3:Controllers" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>container for all Controller elements</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="signalBoxes" type="rail3:SignalBoxes" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>container for all SignalBox elements</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="specificIMs" type="rail3:GenericIMs" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>container for all SpecificIM elements</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LevelCrossingTypeList">
+		<xs:annotation>
+			<xs:documentation>The level crossings have some basic features which can be specified independent of the particular manufacturer. Most important is the control type saying how the control relation between the interlocking and the level crossing is.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="controlType" use="required" type="rail3:tLevelCrossingControlTypes">
+					<xs:annotation>
+						<xs:documentation>The classification of the control type w.r.t. the interlocking operation.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="allowsLocalOperation" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The level crossing may have a control unit which allows local operation from the field.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="hasBarrier" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The level crossing may be equipped with barriers for road traffic.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="hasTrafficWarning" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>The level crossing may be equipped with audible/optical means to allow warning of road traffic.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tLevelCrossingControlTypes">
+		<xs:annotation>
+			<xs:documentation>list of possible types for controlling a level crossing w.r.t. interlocking operation</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="autonomous"/>
+			<xs:enumeration value="fullControlled"/>
+			<xs:enumeration value="halfControlled"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CombinedRoute">
+		<xs:annotation>
+			<xs:documentation>CombinedRoute is a concatenation of single routes providing a continuous path for traffic movement which the interlocking can activate by one action.
+As itinerary it is a list of routes describing the train path trough a network.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="comboEntry" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the entry/start of the combined route</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="comboExit" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to exit/destination of combined route</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="containsRoute" type="rail3:EntityILref" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Reference to a single route contained in the combined route</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CombinedRoutes">
+		<xs:annotation>
+			<xs:documentation>container element for all CombinedRoute elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="combinedRoute" type="rail3:CombinedRoute" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>a concatenation of single routes providing a continuous path for traffic movement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Interface">
+		<xs:annotation>
+			<xs:documentation>Description of a physical interface with definition of the information to be exchanged in which direction.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="command" type="rail3:InputOutput" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The list of the output information, i.e. commanded to the interfaced unit.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="message" type="rail3:InputOutput" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The list of input information, i.e. received from the interfaced unit.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="initStatus" type="rail3:InitStatus" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The initial status of commands and messages on the interface in case of "cold start", i.e. a kind of predefined status to be assumed in absence of real information.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="invalidTolerationTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The time period for which an invalid status of the received messages is tolerated.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="switchoverTolerationTime" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The time period for which the received messages are not considered stable due to switching process.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="InputOutput">
+		<xs:annotation>
+			<xs:documentation>The detailed list of input or output information (closed=1=active, open=0=inactive)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="bitNr" use="optional" type="xs:nonNegativeInteger">
+					<xs:annotation>
+						<xs:documentation>The order number of the information.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="description" use="optional" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The verbal description of the information.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="normalState" use="optional" type="rail3:tContactState">
+					<xs:annotation>
+						<xs:documentation>The power-off state of the input or output.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="pulseDuration" use="optional" type="xs:duration">
+					<xs:annotation>
+						<xs:documentation>The pulse width of the input or output if using pulsed information.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="InitStatus">
+		<xs:annotation>
+			<xs:documentation>This is the description of the interface status in command and message direction which is assumed in start-up cases, i.e. when both sides of the system are just powered up.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence/>
+		<xs:attribute name="comString" use="required" type="rail3:tBitPatternAny">
+			<xs:annotation>
+				<xs:documentation>The status of all outputs as bit string starting with lowest bit. "0"-inactive, "1"-active, "x"-does not matter</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="messString" use="required" type="rail3:tBitPatternAny">
+			<xs:annotation>
+				<xs:documentation>The status of all inputs as bit string starting with lowest bit. "0"-inactive, "1"-active, "x"-does not matter</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="tContactState">
+		<xs:annotation>
+			<xs:documentation>possible states of a contact, bit or command</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="closed"/>
+			<xs:enumeration value="open"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tBitPatternAny">
+		<xs:annotation>
+			<xs:documentation>string made of "0", "1" or "x" to describe a bit pattern</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-1x]*"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tLockState">
+		<xs:annotation>
+			<xs:documentation>typical states of locking instruments (Masterlock, KeyReleaseInstrument)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="released"/>
+			<xs:enumeration value="locked"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="LockAndState">
+		<xs:annotation>
+			<xs:documentation>The tuple of Masterlock/KeyReleaseInstrument and its states</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndState">
+				<xs:sequence>
+					<xs:element name="refersToKeyLock" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the Masterlock or Keylock.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="inState" use="required" type="rail3:tLockState">
+					<xs:annotation>
+						<xs:documentation>The state the key release instrument has.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PermissionZone">
+		<xs:annotation>
+			<xs:documentation>A restricted area inside a station which can be controlled from a different controller as the rest of the station</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:TrackAsset">
+				<xs:sequence>
+					<xs:element name="canBeControlledBy" type="rail3:EntityILref" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>reference to any controller, which can control this permission zone</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="controlledElement" type="rail3:EntityILref" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References to elements which belong to this zone and have the same operating permission</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ControlledSignalBox">
+		<xs:annotation>
+			<xs:documentation>The control relation from the controller to a signalBox (interlocking)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="connectedSignalBox" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the controlled signalBox</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="extentOfControl" use="optional" type="rail3:tExtentOfControl">
+					<xs:annotation>
+						<xs:documentation>The control level</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Overlaps">
+		<xs:annotation>
+			<xs:documentation>container element for all Overlap elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="overlap" type="rail3:Overlap" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>track(s) in advance of a stop signal, or a stopping point in a continuous signalling system, which must be kept clear to avoid the risk of collision should a train inadvertently run past the signal or the stopping point</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DangerPoints">
+		<xs:annotation>
+			<xs:documentation>container element for all DangerPoint elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="dangerPoint" type="rail3:DangerPoint" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>position beyond the exit signal up to where a train is likely to be safe</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SwitchPositionRestriction">
+		<xs:annotation>
+			<xs:documentation>For some relations between movable elements restrictions apply concerning the combination of both elements positions.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="relatedSwitchInPosition" type="rail3:SwitchAndPosition" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>This is the reference and the state/position of the other switch of the relation.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="relatedDerailerInPosition" type="rail3:DerailerAndPosition" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>This is the reference and the state/position of the derailer of the relation.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="restrictedPosition" use="required" type="rail3:tSwitchPosition">
+					<xs:annotation>
+						<xs:documentation>This is the position which is needed when the other element has the named state/position.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Interfaces">
+		<xs:annotation>
+			<xs:documentation>container element for all Interface elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="interface" type="rail3:Interface" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Description of a physical interface with definition of the information to be exchanged in which direction.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ElementGroupingTypes">
+		<xs:annotation>
+			<xs:documentation>list of possible purposes for element grouping</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="elementGroupType" use="required" type="rail3:tGroupingTypesExt">
+					<xs:annotation>
+						<xs:documentation>The classification of the element group.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tGroupingTypes">
+		<xs:annotation>
+			<xs:documentation>list of possible generic element groups</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="catenary"/>
+			<xs:enumeration value="elementBlocking"/>
+			<xs:enumeration value="automaticRouteSetting"/>
+			<xs:enumeration value="automaticTrainRouting"/>
+			<xs:enumeration value="callOn"/>
+			<xs:enumeration value="emergencyStop"/>
+			<xs:enumeration value="pointStaggering"/>
+			<xs:enumeration value="pointHeating"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PowerSupplyIL">
+		<xs:annotation>
+			<xs:documentation>Interlocking specific features of the power supply</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="numberOfSimultaneousSwitchingActuators" use="optional" type="xs:nonNegativeInteger">
+					<xs:annotation>
+						<xs:documentation>maximum number of switch actuators that can be activated simultaneously with this power supply</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="signalVoltageMode" use="optional" type="rail3:tSignalVoltageModes">
+					<xs:annotation>
+						<xs:documentation>mode of switching signal voltage for day and night voltage</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tSignalVoltageModes">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="nightOnly"/>
+			<xs:enumeration value="manual"/>
+			<xs:enumeration value="automatic"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="InterlockingInterface">
+		<xs:annotation>
+			<xs:documentation>The interface between different interlockings is a special object and differs in the amount of information exchanged between the two.
+If the interlockings are of different type or from different vendor the interface is often made of parallel data exchange and might use relays.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="lastOwnTvdSection" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the last TVD section just before the interface.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="firstRemoteTvdSection" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the first TVD section within the other interlocking beyond the interface.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="incomingRoute" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>This is the reference to all routes the interlocking knows that start at the interface location or in rear of it in direction towards the interlocking.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="outgoingRoute" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>This is the reference to all routes the interlocking knows that end at the interface location or in advance of it in direction towards the other interlocking.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasInterface" type="rail3:EntityILref" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>This is the reference to the description of the physical interface with commands and messages transmitted.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="interfaceLocation" use="required" type="rail3:tIxlInterfaceLocationTypeList">
+					<xs:annotation>
+						<xs:documentation>The topology view of interface location determining the extent of information to be exchanged.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="isOnCommandSide" use="optional" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>True means the related interlocking uses the described commands for output towards the partner. With false it is inverted for the related interlocking.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tIxlInterfaceLocationTypeList">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="atStationBorder"/>
+			<xs:enumeration value="onOpenLine"/>
+			<xs:enumeration value="inStation"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tSignalFunctionList">
+		<xs:annotation>
+			<xs:documentation>List of possible signal functions</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="main"/>
+			<xs:enumeration value="repeater"/>
+			<xs:enumeration value="distant"/>
+			<xs:enumeration value="shunting"/>
+			<xs:enumeration value="barrage"/>
+			<xs:enumeration value="block"/>
+			<xs:enumeration value="junction"/>
+			<xs:enumeration value="exit"/>
+			<xs:enumeration value="intermediateStop"/>
+			<xs:enumeration value="intermediate"/>
+			<xs:enumeration value="entry"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SwitchInPosition">
+		<xs:annotation>
+			<xs:documentation>reference to any switch and its position inside or outside the restricted area required for use and/or protection</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="givenPosition" type="rail3:SwitchAndGivenPosition" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the switch and its position plus the level of enforcement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="protectingSide" use="optional" type="rail3:tProtectingSideList">
+					<xs:annotation>
+						<xs:documentation>indication whether the required position is for protection of the area from inside or outside</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tProtectingSideList">
+		<xs:annotation>
+			<xs:documentation>list of protection positions related to the area</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="outside"/>
+			<xs:enumeration value="inside"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="tElementWithIDandDesignator">
+		<xs:complexContent>
+			<xs:extension base="rail3:tElementWithID">
+				<xs:sequence>
+					<xs:element name="designator" type="rail3:Designator" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The designator of the element, which is often a coded identification, e.g. 69W03 for a switch no. 03 in station 69. In case of "private" register use leading underscore.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tIxlTechnologyTypeList">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="digital"/>
+			<xs:enumeration value="electronic"/>
+			<xs:enumeration value="relay"/>
+			<xs:enumeration value="electromechanical"/>
+			<xs:enumeration value="mechanical"/>
+			<xs:enumeration value="manual"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ElementGroup">
+		<xs:annotation>
+			<xs:documentation>For operational purpose of the interlocking some elements are grouped together. This allows e.g. commanding them with only one command.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="groupType" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the IM specific element group type.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="refersToMember" type="rail3:EntityILref" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to the member element within this group.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tTvdSectionTechnologyType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="trackCircuit"/>
+			<xs:enumeration value="axleCounter"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tTvdSectionTechnologyTypeExt">
+		<xs:union memberTypes="rail3:tTvdSectionTechnologyType rail3:tOtherEnumerationValue"/>
+	</xs:simpleType>
+	<xs:simpleType name="tSignalFunctionListExt">
+		<xs:union memberTypes="rail3:tSignalFunctionList rail3:tOtherEnumerationValue"/>
+	</xs:simpleType>
+	<xs:complexType name="DetectorTypes">
+		<xs:annotation>
+			<xs:documentation>The generic classification of detector types.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence/>
+				<xs:attribute name="detectorType" use="required" type="rail3:tDetectorTypeListExt">
+					<xs:annotation>
+						<xs:documentation>The classification of the particular detector type.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DetectorAndState">
+		<xs:annotation>
+			<xs:documentation>The tuple of reference to a detector and its state.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndState">
+				<xs:sequence>
+					<xs:element name="refersToDetector" type="rail3:EntityILref" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The reference to the particular detector.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="inState" use="required" type="rail3:tDetectorStates">
+					<xs:annotation>
+						<xs:documentation>The state of the particular detector.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tDetectorStates">
+		<xs:annotation>
+			<xs:documentation>The list of possible detector states.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="inactive"/>
+			<xs:enumeration value="deactivated"/>
+			<xs:enumeration value="activated"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tDetectorTypeListExt">
+		<xs:annotation>
+			<xs:documentation>The possible list of detector base types with extension point.</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="rail3:tDetectorTypeList rail3:tOtherEnumerationValue"/>
+	</xs:simpleType>
+	<xs:simpleType name="tGroupingTypesExt">
+		<xs:annotation>
+			<xs:documentation>The list of possible element group types with extension point.</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="rail3:tGroupingTypes rail3:tOtherEnumerationValue"/>
+	</xs:simpleType>
+	<xs:simpleType name="tGenericRouteTypeExt">
+		<xs:annotation>
+			<xs:documentation>The list of possible route types with extension point.</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="rail3:tGenericRouteTypeList rail3:tOtherEnumerationValue"/>
+	</xs:simpleType>
+	<xs:simpleType name="tRouteConflictTypesExt">
+		<xs:union memberTypes="rail3:tRouteConflictTypes rail3:tOtherEnumerationValue"/>
+	</xs:simpleType>
+	<xs:simpleType name="tIxlTechnologyTypeListExt">
+		<xs:annotation>
+			<xs:documentation>The list of possible interlocking technologies with extension point.</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="rail3:tIxlTechnologyTypeList rail3:tOtherEnumerationValue"/>
+	</xs:simpleType>
+	<xs:complexType name="DerailersIL">
+		<xs:sequence>
+			<xs:element name="derailerIL" type="rail3:DerailerIL" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The derailer is a track asset that either allows or disallows train passage. Here the functional aspects for interlocking operation are considered.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MovableCrossings">
+		<xs:sequence>
+			<xs:element name="movableCrossing" type="rail3:MovableCrossing" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Crossings are a special item for interlockings as a position is required for them even if there is no really movable item trackside. Here the functional aspects for interlocking operation are considered.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="WorkZones">
+		<xs:sequence>
+			<xs:element name="workZone" type="rail3:WorkZone" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A set of track assets that track workers or the signalman can set apart from the main line.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LocalOperationAreas">
+		<xs:sequence>
+			<xs:element name="localOperationArea" type="rail3:LocalOperationArea" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Area used for local shunting movements without routes. Movable elements within the area might be operated from onsite panels.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ShuntingZones">
+		<xs:sequence>
+			<xs:element name="shuntingZone" type="rail3:ShuntingZone" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Simple zone defined for shunting movements.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PermissionZones">
+		<xs:sequence>
+			<xs:element name="permissionZone" type="rail3:PermissionZone" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A set of track assets inside a station which can have different operating permissions (being controlled from a different controller) as the rest of the station</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RouteReleaseGroupsAhead">
+		<xs:sequence>
+			<xs:element name="routeReleaseGroupAhead" type="rail3:RouteReleaseGroupAhead" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>One or more TVD sections as part of the route which can be released in a group ahead of the train in standstill.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RouteReleaseGroupsRear">
+		<xs:sequence>
+			<xs:element name="routeReleaseGroupRear" type="rail3:RouteReleaseGroupRear" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>One or more TVD sections as part of the route which can be released in a group in rear of passing train.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SwitchAndGivenPosition">
+		<xs:annotation>
+			<xs:documentation>the tuple of references to the switch and its position plus the level of enforcement</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndGivenState">
+				<xs:sequence>
+					<xs:element name="relatedSwitchAndPosition" type="rail3:SwitchAndPosition" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the switch and its position</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DerailerAndGivenPosition">
+		<xs:annotation>
+			<xs:documentation>the tuple of references to the derailer and its position plus the level of enforcement</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndGivenState">
+				<xs:sequence>
+					<xs:element name="relatedDerailerAndPosition" type="rail3:DerailerAndPosition" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the derailer and its position</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CrossingAndGivenPosition">
+		<xs:annotation>
+			<xs:documentation>the tuple of references to the movable crossing and its position plus the level of enforcement</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndGivenState">
+				<xs:sequence>
+					<xs:element name="relatedCrossingAndPosition" type="rail3:CrossingAndPosition" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the movable crossing and its position</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DetectorAndGivenState">
+		<xs:annotation>
+			<xs:documentation>the tuple of references to the detector and its state plus the level of enforcement</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndGivenState">
+				<xs:sequence>
+					<xs:element name="relatedDetectorAndState" type="rail3:DetectorAndState" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the detector and its state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SignalAndGivenAspect">
+		<xs:annotation>
+			<xs:documentation>the tuple of references to the signal and its aspect plus the level of enforcement</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndGivenState">
+				<xs:sequence>
+					<xs:element name="relatedSignalAndAspect" type="rail3:SignalAndAspect" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the signal and its aspect</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SectionAndGivenVacancy">
+		<xs:annotation>
+			<xs:documentation>the tuple of references to the TVD section and its state plus the level of enforcement</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndGivenState">
+				<xs:sequence>
+					<xs:element name="relatedSectionAndVacancy" type="rail3:SectionAndVacancy" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the TVD section and its state plus the level of enforcement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LockAndGivenState">
+		<xs:annotation>
+			<xs:documentation>the tuple of references to the key lock and its state plus the level of enforcement</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndGivenState">
+				<xs:sequence>
+					<xs:element name="relatedLockAndState" type="rail3:LockAndState" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the key lock and its state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LevelCrossingAndGivenState">
+		<xs:annotation>
+			<xs:documentation>the tuple of references to the level crossing and its state plus the level of enforcement</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:AssetAndGivenState">
+				<xs:sequence>
+					<xs:element name="relatedLevelCrossingAndState" type="rail3:LevelCrossingAndState" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the level crossing and its state</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DerailerInPosition">
+		<xs:annotation>
+			<xs:documentation>reference to any derailer and its position inside or outside the restricted area required for use and/or protection</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="givenPosition" type="rail3:DerailerAndGivenPosition" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the derailer and its position plus the level of enforcement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="protectingSide" use="optional" type="rail3:tProtectingSideList">
+					<xs:annotation>
+						<xs:documentation>indication whether the required position is for protection of the area from inside or outside</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CrossingInPosition">
+		<xs:annotation>
+			<xs:documentation>reference to any movable crossing and its position inside or outside the restricted area required for use and/or protection</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="givenPosition" type="rail3:CrossingAndGivenPosition" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the movable crossing and its position plus the level of enforcement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="protectingSide" use="optional" type="rail3:tProtectingSideList">
+					<xs:annotation>
+						<xs:documentation>indication whether the required position is for protection of the area from inside or outside</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DetectorInState">
+		<xs:annotation>
+			<xs:documentation>reference to any detector and its state inside or outside the restricted area required for use</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="givenState" type="rail3:DetectorAndGivenState" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the detector and its state plus the level of enforcement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SignalWithAspect">
+		<xs:annotation>
+			<xs:documentation>reference to any signal and its aspect inside or outside the restricted area required for use and/or protection</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="givenAspect" type="rail3:SignalAndGivenAspect" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the signal and its aspect plus the level of enforcement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="protectingSide" use="optional" type="rail3:tProtectingSideList">
+					<xs:annotation>
+						<xs:documentation>indication whether the required aspect is for protection of the area from inside or outside</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="KeyLockInState">
+		<xs:annotation>
+			<xs:documentation>reference to any key lock and its state inside or outside the restricted area required for use and/or protection</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="givenState" type="rail3:LockAndGivenState" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the key lock and its state plus the level of enforcement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="protectingSide" use="optional" type="rail3:tProtectingSideList">
+					<xs:annotation>
+						<xs:documentation>indication whether the required state is for protection of the area from inside or outside</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LevelCrossingInState">
+		<xs:annotation>
+			<xs:documentation>reference to any level crossing and its state inside the restricted area required for use</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="givenState" type="rail3:LevelCrossingAndGivenState" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>the tuple of references to the level crossing and its state plus the level of enforcement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Itineraries">
+		<xs:annotation>
+			<xs:documentation>container for all itinerary elements describing train paths through the network</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="itinerary" type="rail3:CombinedRoute" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Itinerary is a combination of single routes defining the path from A to B independent of involved signalBoxes (interlockings).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EntityIL">
+		<xs:annotation>
+			<xs:documentation>base type for normal elements in IL providing attributes @id and @name plus the possibility to add an anyAttribute</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:tElementWithIDandDesignator">
+				<xs:sequence>
+					<xs:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>provide an extension point for non-railML elements in foreign namespace</xs:documentation>
+						</xs:annotation>
+					</xs:any>
+				</xs:sequence>
+				<xs:attributeGroup ref="rail3:anyAttribute"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SignalBox">
+		<xs:annotation>
+			<xs:documentation>The SignalBox (single interlocking) is a vital and fail-safe system. It accepts commands from operation control systems and reads the status of field elements. The interlocking controls a set of track assets and system assets to safely guide and control train movement. This logic reflects the railway rules and regulations.
+IL logic may be implemented in terms of mechanically interlocking bars, relay circuitry or computer programs. 
+This is the master class that must be instantiated for a specific interlocking system that controls a specific yard.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="rail3:EntityIL">
+				<xs:sequence>
+					<xs:element name="controlsSystemAsset" type="rail3:SystemAssetConnectedToIL" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The references to the system assets the interlocking controls</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="controlsTrackAsset" type="rail3:TrackAssetConnectedToIL" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The interlocking carries a list of (references to) track assets that this interlocking controls. The controlled object has an attribute indicating the Level of Control which is most often ‘full control’. Track assets that aren't controlled by the interlocking, e.g. field controlled level crossing or open track elements can be tagged with levelOfControl='none'. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="controlsRoute" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to the routes the interlocking controls</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="controlsCombinedRoute" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to the combined routes the interlocking controls</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="controlsInterface" type="rail3:InterlockingInterface" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The references to the interfaces to other interlockings</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="controlledBy" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The references to the controllers which can control this interlocking</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="implementsSignalplan" type="rail3:SignalPlan" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The references to the signal plans the interlocking uses</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="implementsElementGroup" type="rail3:ElementGroup" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The references to the element groups which are configured for this interlocking</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasPermissionZone" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The reference to any permission zone within the area controlled by this interlocking.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasConflictingRoutes" type="rail3:EntityILref" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The references to the conflicting routes the interlocking knows</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="hasConfiguration" type="rail3:Configuration" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Basic information of the interlocking configuration</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

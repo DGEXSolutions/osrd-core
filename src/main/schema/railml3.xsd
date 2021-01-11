@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="https://www.railml.org/schemas/3.1" xmlns:rail3="https://www.railml.org/schemas/3.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="3.1">
+	<xs:annotation>
+		<xs:documentation>Copyright (c) railML.org e.V. Dresden/Germany; All Rights Reserved.
+This work is licensed under the restricted CreativeCommons Attribution-NonCommercial-NoDerivatives 4.0 International License with additional license conditions of railML.org.
+For further information see: https://www.railml.org/licence
+Content of this file: XML Schema for railML(R) 3.1 Definition of root element "railML", refers to elements of all sub schemas from "xs:include" paths</xs:documentation>
+	</xs:annotation>
+	<xs:include schemaLocation="timetable3.xsd"/>
+	<xs:include schemaLocation="rollingstock3.xsd"/>
+	<xs:include schemaLocation="interlocking3.xsd"/>
+	<xs:include schemaLocation="infrastructure3.xsd"/>
+	<xs:include schemaLocation="common3.xsd"/>
+	<xs:element name="railML" type="rail3:railML"/>
+	<xs:complexType name="railML">
+		<xs:annotation>
+			<xs:documentation>This is the root element of any railML file.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="metadata" type="rail3:Metadata" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="common" type="rail3:Common" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>root element for railML3 common model</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="infrastructure" type="rail3:Infrastructure" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>root element for railML3 infrastructure model</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="interlocking" type="rail3:Interlocking" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>root element for railML3 interlocking model</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="rollingstock" type="rail3:Rollingstock" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>root element for railML3 rollingstock model</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="timetable" type="rail3:Timetable" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>root element for railML3 timetable model</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attributeGroup ref="rail3:aRailML"/>
+	</xs:complexType>
+	<xs:attributeGroup name="aRailML">
+		<xs:attribute name="version" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>the supported railML version should be declared for software compatibility reasons, valid for all subschemas, don't mix railML versions between subschemas in one XML file</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+</xs:schema>

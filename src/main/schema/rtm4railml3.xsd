@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="https://www.railml.org/schemas/3.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rail3="https://www.railml.org/schemas/3.1" elementFormDefault="qualified" version="3.1">
+	<xs:annotation>
+		<xs:documentation>Copyright (c) railML.org e.V. Dresden/Germany; All Rights Reserved.
+This work is licensed under the restricted CreativeCommons Attribution-NonCommercial-NoDerivatives 4.0 International License with additional license conditions of railML.org.
+For further information see: https://www.railml.org/licence
+Content of this file: XML Schema for railML(R) 3.1 Definition of RailTopoModel elements for infrastructure sub schema.</xs:documentation>
+	</xs:annotation>
+	<xs:include schemaLocation="common3.xsd"/>
+	<xs:complexType name="RTM_BaseObject" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Base object for railML model entities</xs:documentation>
+		</xs:annotation>
+		<xs:sequence/>
+		<xs:attribute name="id" use="required" type="rail3:tID">
+			<xs:annotation>
+				<xs:documentation>the identifier of the object; this can be either of type xs:ID or UUID</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="tApplicationDirection">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="both"/>
+			<xs:enumeration value="reverse"/>
+			<xs:enumeration value="normal"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tOrientation">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="-1"/>
+			<xs:enumeration value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RTM_NetEntity">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_NetworkResource">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_LocatedNetEntity">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_NetEntity">
+				<xs:sequence>
+					<xs:element name="areaLocation" type="rail3:RTM_AreaLocation" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="linearLocation" type="rail3:RTM_LinearLocation" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="spotLocation" type="rail3:RTM_SpotLocation" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_EntityLocation" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_BaseObject">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_AreaLocation">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_EntityLocation">
+				<xs:sequence>
+					<xs:element name="associatedNetElement" type="rail3:RTM_AssociatedNetElement" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_NetElement">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_NetworkResource">
+				<xs:sequence>
+					<xs:element name="relation" type="rail3:tElementWithIDref" form="qualified" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_Relation">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_NetworkResource">
+				<xs:sequence>
+					<xs:element name="elementA" type="rail3:tElementWithIDref" form="qualified" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="elementB" type="rail3:tElementWithIDref" form="qualified" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+				<xs:attribute name="navigability" use="optional" type="rail3:tNavigability"/>
+				<xs:attribute name="positionOnA" use="optional" type="rail3:tUsage"/>
+				<xs:attribute name="positionOnB" use="optional" type="rail3:tUsage"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_LinearLocation">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_EntityLocation">
+				<xs:sequence>
+					<xs:element name="associatedNetElement" type="rail3:RTM_AssociatedNetElement" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="linearCoordinate" type="rail3:RTM_LinearCoordinate" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="geometricCoordinate" type="rail3:RTM_GeometricCoordinate" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="applicationDirection" use="optional" type="rail3:tApplicationDirection">
+					<xs:annotation>
+						<xs:documentation>direction in which the element is applied, related to the orientation of the &lt;netElement&gt;</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tNavigability">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Both"/>
+			<xs:enumeration value="BA"/>
+			<xs:enumeration value="AB"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tUsage">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RTM_Network" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_NamedResource">
+				<xs:sequence>
+					<xs:element name="level" type="rail3:RTM_LevelNetwork" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="networkResource" type="rail3:RTM_NetworkResource" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_LevelNetwork">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_BaseObject">
+				<xs:sequence>
+					<xs:element name="networkResource" type="rail3:tElementWithIDref" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="descriptionLevel" use="optional" type="rail3:tDescriptionLevel"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_NetworkResource">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_NamedResource">
+				<xs:sequence>
+					<xs:element name="isValid" type="rail3:RTM_Validity" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_CompositionNetElement">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_NetElement">
+				<xs:sequence>
+					<xs:element name="elementCollectionUnordered" type="rail3:RTM_UnorderedCollection" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="elementCollectionOrdered" type="rail3:RTM_OrderedCollection" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_PositioningNetElement">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_CompositionNetElement">
+				<xs:sequence>
+					<xs:element name="associatedPositioningSystem" type="rail3:RTM_AssociatedPositioningSystem" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_LinearNetElement">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_PositioningNetElement">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_NonLinearNetElement">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_PositioningNetElement">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_PositioningSystem">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_NamedResource">
+				<xs:sequence>
+					<xs:element name="isValid" type="rail3:RTM_Validity" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_LinearPositioningSystem">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_PositioningSystem">
+				<xs:sequence>
+					<xs:element name="anchor" type="rail3:RTM_LinearAnchorPoint" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="linearReferencingMethod" use="required" type="rail3:tLrsMethod"/>
+				<xs:attribute name="startMeasure" use="required" type="xs:double"/>
+				<xs:attribute name="endMeasure" use="required" type="xs:double"/>
+				<xs:attribute name="units" use="required" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>use SI units (e.g. metres) whenever possible</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_GeometricPositioningSystem">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_PositioningSystem">
+				<xs:sequence/>
+				<xs:attribute name="crsDefinition" use="optional" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_PositioningSystemCoordinate">
+		<xs:sequence/>
+		<xs:attribute name="positioningSystemRef" use="required" type="rail3:tRef"/>
+	</xs:complexType>
+	<xs:complexType name="RTM_LinearCoordinate">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_PositioningSystemCoordinate">
+				<xs:sequence/>
+				<xs:attribute name="lateralDistance" use="optional" type="xs:double">
+					<xs:annotation>
+						<xs:documentation>absolute value of the lateral offset in unit specified by the referenced positioning system</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="measure" use="required" type="xs:double"/>
+				<xs:attribute name="verticalDistance" use="optional" type="xs:double">
+					<xs:annotation>
+						<xs:documentation>absolute value of the lateral offset in unit specified by the referenced positioning system</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="lateralSide" use="optional" type="rail3:tLateralSide">
+					<xs:annotation>
+						<xs:documentation>lateral side (left or right) in relation to the topology NetElement (as seen in application direction)</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="verticalSide" use="optional" type="rail3:tVerticalSide">
+					<xs:annotation>
+						<xs:documentation>vertical side (above or under) in relation to the topology NetElement</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_GeometricCoordinate">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_PositioningSystemCoordinate">
+				<xs:sequence/>
+				<xs:attribute name="x" use="required" type="xs:double"/>
+				<xs:attribute name="y" use="required" type="xs:double"/>
+				<xs:attribute name="z" use="optional" type="xs:double"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_AssociatedPositioningSystem">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_BaseObject">
+				<xs:sequence>
+					<xs:element name="intrinsicCoordinate" type="rail3:RTM_IntrinsicCoordinate" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="isValid" type="rail3:RTM_Validity" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="positioningSystemRef" use="optional" type="rail3:tRef"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_IntrinsicCoordinate">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_BaseObject">
+				<xs:sequence>
+					<xs:element name="linearCoordinate" type="rail3:RTM_LinearCoordinate" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="geometricCoordinate" type="rail3:RTM_GeometricCoordinate" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="intrinsicCoord" use="required" type="xs:double"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_LinearAnchorPoint">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_BaseObject">
+				<xs:sequence/>
+				<xs:attribute name="anchorName" use="optional" type="xs:string"/>
+				<xs:attribute name="measure" use="optional" type="xs:double"/>
+				<xs:attribute name="measureToNext" use="optional" type="xs:double"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="tLrsMethod">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="interpolation"/>
+			<xs:enumeration value="relative"/>
+			<xs:enumeration value="absolute"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RTM_SpotLocation">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_EntityLocation">
+				<xs:sequence>
+					<xs:element name="linearCoordinate" type="rail3:RTM_LinearCoordinate" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="geometricCoordinate" type="rail3:RTM_GeometricCoordinate" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+				<xs:attribute name="netElementRef" use="required" type="rail3:tRef">
+					<xs:annotation>
+						<xs:documentation>reference to a railway topology &lt;netElement&gt; element</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="intrinsicCoord" use="optional" type="xs:double">
+					<xs:annotation>
+						<xs:documentation>location on the &lt;netElement&gt; in normalized form (value in range 0..1)</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="applicationDirection" use="optional" type="rail3:tApplicationDirection">
+					<xs:annotation>
+						<xs:documentation>direction in which the element is applied, related to the orientation of the &lt;netElement&gt;</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="pos" use="optional" type="rail3:tLengthM"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_ElementPartCollection" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_BaseObject">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_OrderedCollection">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_ElementPartCollection">
+				<xs:sequence>
+					<xs:element name="elementPart" type="rail3:tElementWithIDref" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:attribute name="sequence" use="optional" type="xs:integer"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_UnorderedCollection">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_ElementPartCollection">
+				<xs:sequence>
+					<xs:element name="elementPart" type="rail3:tElementWithIDref" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_NamedResource">
+		<xs:complexContent>
+			<xs:extension base="rail3:RTM_BaseObject">
+				<xs:sequence>
+					<xs:element name="name" type="rail3:Name" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RTM_AssociatedNetElement">
+		<xs:sequence>
+			<xs:element name="geometricCoordinateBegin" type="rail3:RTM_GeometricCoordinate" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="linearCoordinateBegin" type="rail3:RTM_LinearCoordinate" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="geometricCoordinateEnd" type="rail3:RTM_GeometricCoordinate" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="linearCoordinateEnd" type="rail3:RTM_LinearCoordinate" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="netElementRef" use="required" type="rail3:tRef"/>
+		<xs:attribute name="intrinsicCoordBegin" use="optional" type="xs:double"/>
+		<xs:attribute name="intrinsicCoordEnd" use="optional" type="xs:double"/>
+		<xs:attribute name="keepsOrientation" use="required" type="xs:boolean"/>
+		<xs:attribute name="sequence" use="optional" type="xs:int"/>
+		<xs:attribute name="posBegin" use="optional" type="rail3:tLengthM"/>
+		<xs:attribute name="posEnd" use="optional" type="rail3:tLengthM"/>
+	</xs:complexType>
+	<xs:simpleType name="tDescriptionLevel">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Micro"/>
+			<xs:enumeration value="Meso"/>
+			<xs:enumeration value="Macro"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tLateralSide">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="right"/>
+			<xs:enumeration value="left"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tVerticalSide">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="under"/>
+			<xs:enumeration value="above"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RTM_Validity">
+		<xs:sequence/>
+		<xs:attribute name="from" use="optional" type="xs:date"/>
+		<xs:attribute name="to" use="optional" type="xs:date"/>
+	</xs:complexType>
+</xs:schema>

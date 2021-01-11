@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="https://www.railml.org/schemas/3.1/gml" xmlns:gml4rail3="https://www.railml.org/schemas/3.1/gml" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="3.1">
+	<xs:annotation>
+		<xs:documentation>Content of this file: XML Schema for railML(R) 3.1 Definition of GML based elements for infrastructure sub schema.
+
+GML is an OGC Standard.
+Copyright (c) 2007,2010 Open Geospatial Consortium, Inc. All Rights Reserved.
+Source: http://schemas.opengis.net/gml/3.2.1/geometryBasic0d1d.xsd
+To obtain additional rights of use, visit http://www.opengeospatial.org/legal/</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="LineStringType">
+		<xs:annotation>
+			<xs:documentation>A LineString is a special curve that consists of a single segment with linear interpolation. It is defined by two or more coordinate tuples, with linear interpolation between them. The number of direct positions in the list shall be at least two.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml4rail3:AbstractCurveType">
+				<xs:sequence>
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<xs:element name="pos" type="gml4rail3:DirectPositionType" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="posList" type="gml4rail3:DirectPositionListType" minOccurs="0" maxOccurs="1"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AbstractCurveType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>gml:AbstractCurveType is an abstraction of a curve to support the different levels of complexity. The curve may always be viewed as a geometric primitive, i.e. is continuous.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml4rail3:AbstractGeometricPrimitiveType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AbstractGeometricPrimitiveType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>gml:AbstractGeometricPrimitiveType is the abstract root type of the geometric primitives. A geometric primitive is a geometric object that is not decomposed further into other primitives in the system. All primitives are oriented in the direction implied by the sequence of their coordinate tuples.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml4rail3:AbstractGeometryType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AbstractGeometryType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>All geometry elements are derived directly or indirectly from this abstract supertype. A geometry element may have an identifying attribute (gml:id), one or more names (elements identifier and name) and a description (elements description and descriptionReference) . It may be associated with a spatial reference system (attribute group gml:SRSReferenceGroup).</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml4rail3:AbstractGMLType">
+				<xs:sequence/>
+				<xs:attributeGroup ref="gml4rail3:SRSReferenceGroup"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AbstractGMLType" abstract="true">
+		<xs:sequence>
+			<xs:group ref="gml4rail3:StandardObjectProperties" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="id" use="optional" type="xs:ID"/>
+	</xs:complexType>
+	<xs:group name="StandardObjectProperties">
+		<xs:sequence>
+			<xs:element name="description" type="gml4rail3:StringOrRefType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="descriptionReference" type="gml4rail3:ReferenceType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="name" type="gml4rail3:CodeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="identifier" type="gml4rail3:CodeWithAuthorityType" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="PointType">
+		<xs:annotation>
+			<xs:documentation>A Point is defined by a single coordinate tuple. The direct position of a point is specified by the pos element which is of type DirectPositionType.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml4rail3:AbstractGeometricPrimitiveType">
+				<xs:sequence>
+					<xs:element name="pos" type="gml4rail3:DirectPositionType" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StringOrRefType">
+		<xs:annotation>
+			<xs:documentation>deprecated</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attributeGroup ref="gml4rail3:AssociationAttributeGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:attributeGroup name="AssociationAttributeGroup">
+		<xs:annotation>
+			<xs:documentation>XLink components are the standard method to support hypertext referencing in XML. An XML Schema attribute group, gml:AssociationAttributeGroup, is provided to support the use of Xlinks as the method for indicating the value of a property by reference in a uniform manner in GML.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="nilReason" use="optional" type="xs:string"/>
+	</xs:attributeGroup>
+	<xs:complexType name="ReferenceType">
+		<xs:annotation>
+			<xs:documentation>gml:ReferenceType is intended to be used in application schemas directly, if a property element shall use a "by-reference only" encoding.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence/>
+		<xs:attributeGroup ref="gml4rail3:OwnershipAttributeGroup"/>
+		<xs:attributeGroup ref="gml4rail3:AssociationAttributeGroup"/>
+	</xs:complexType>
+	<xs:complexType name="DirectPositionType">
+		<xs:annotation>
+			<xs:documentation>Direct position instances hold the coordinates for a position within some coordinate reference system (CRS). Since direct positions, as data types, will often be included in larger objects (such as geometry elements) that have references to CRS, the srsName attribute will in general be missing, if this particular direct position is included in a larger element with such a reference to a CRS. In this case, the CRS is implicitly assumed to take on the value of the containing object's CRS.
+if no srsName attribute is given, the CRS shall be specified as part of the larger context this geometry element is part of, typically a geometric object like a point, curve, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="gml4rail3:doubleList">
+				<xs:attributeGroup ref="gml4rail3:SRSReferenceGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="DirectPositionListType">
+		<xs:annotation>
+			<xs:documentation>posList instances (and other instances with the content model specified by DirectPositionListType) hold the coordinates for a sequence of direct positions within the same coordinate reference system (CRS).
+if no srsName attribute is given, the CRS shall be specified as part of the larger context this geometry element is part of, typically a geometric object like a point, curve, etc. 
+The optional attribute count specifies the number of direct positions in the list. If the attribute count is present then the attribute srsDimension shall be present, too.
+The number of entries in the list is equal to the product of the dimensionality of the coordinate reference system (i.e. it is a derived value of the coordinate reference system definition) and the number of direct positions.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="gml4rail3:doubleList">
+				<xs:attribute name="count" use="optional" type="xs:positiveInteger"/>
+				<xs:attributeGroup ref="gml4rail3:SRSReferenceGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="doubleList">
+		<xs:annotation>
+			<xs:documentation>A type for a list of values of the respective simple type.</xs:documentation>
+		</xs:annotation>
+		<xs:list itemType="xs:double"/>
+	</xs:simpleType>
+	<xs:attributeGroup name="SRSReferenceGroup">
+		<xs:attribute name="srsDimension" use="optional" type="xs:positiveInteger"/>
+		<xs:attribute name="srsName" use="optional" type="xs:anyURI"/>
+		<xs:attributeGroup ref="gml4rail3:SRSInformationGroup"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="SRSInformationGroup">
+		<xs:attribute name="axisLabels" use="optional" type="xs:string"/>
+		<xs:attribute name="uomLabels" use="optional" type="xs:string"/>
+	</xs:attributeGroup>
+	<xs:simpleType name="NCNameList">
+		<xs:annotation>
+			<xs:documentation>A type for a list of values of the respective simple type.</xs:documentation>
+		</xs:annotation>
+		<xs:list itemType="xs:NCName"/>
+	</xs:simpleType>
+	<xs:attributeGroup name="OwnershipAttributeGroup">
+		<xs:annotation>
+			<xs:documentation>Encoding a GML property inline vs. by-reference shall not imply anything about the "ownership" of the contained or referenced GML Object, i.e. the encoding style shall not imply any "deep-copy" or "deep-delete" semantics. To express ownership over the contained or referenced GML Object, the gml:OwnershipAttributeGroup attribute group may be added to object-valued property elements. If the attribute group is not part of the content model of such a property element, then the value may not be "owned".
+When the value of the owns attribute is "true", the existence of inline or referenced object(s) depends upon the existence of the parent object.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="owns" use="optional" type="xs:boolean"/>
+	</xs:attributeGroup>
+	<xs:complexType name="CodeType">
+		<xs:annotation>
+			<xs:documentation>gml:CodeType is a generalized type to be used for a term, keyword or name.
+It adds a XML attribute codeSpace to a term, where the value of the codeSpace attribute (if present) shall indicate a dictionary, thesaurus, classification scheme, authority, or pattern for the term.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="codeSpace" use="optional" type="xs:anyURI"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="CodeWithAuthorityType">
+		<xs:annotation>
+			<xs:documentation>gml:CodeWithAuthorityType requires that the codeSpace attribute is provided in an instance.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:restriction base="gml4rail3:CodeType">
+				<xs:attribute name="codeSpace" use="required" type="xs:anyURI"/>
+			</xs:restriction>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="NilReasonType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>
