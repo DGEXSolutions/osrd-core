@@ -153,12 +153,12 @@ public class MarginTests {
             throw new RuntimeException();
         try {
             PrintWriter writer = new PrintWriter(path, "UTF-8");
-            writer.println("position,time,speed");
+            writer.println("position;time;speed");
             for (var event : events) {
                 if (event instanceof TrainReachesActionPoint) {
                     var updates = ((TrainReachesActionPoint) event).trainStateChange.positionUpdates;
                     for (var update : updates) {
-                        writer.println(String.format("%f,%f,%f", update.pathPosition, update.time, update.speed));
+                        writer.println(String.format("%f;%f;%f", update.pathPosition, update.time, update.speed));
                     }
                 }
             }

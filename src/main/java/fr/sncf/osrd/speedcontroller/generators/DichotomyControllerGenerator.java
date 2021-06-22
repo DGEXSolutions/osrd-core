@@ -75,13 +75,20 @@ public abstract class DichotomyControllerGenerator extends SpeedControllerGenera
     /** Returns the first higher bound for the dichotomy */
     protected abstract double getFirstHighEstimate();
 
+    /** Returns the first guess for the dichotomy */
+    protected abstract double getFirstGuess();
+
     /** Generates a set of speed controllers given the dichotomy value */
-    protected abstract Set<SpeedController> getSpeedControllers(TrainSchedule schedule, double value, double begin, double end);
+    protected abstract Set<SpeedController> getSpeedControllers(TrainSchedule schedule,
+                                                                double value,
+                                                                double begin,
+                                                                double end);
 
     /** Runs the dichotomy */
     private Set<SpeedController> binarySearch(Simulation sim, TrainSchedule schedule) {
         var lowerBound = getFirstLowEstimate();
         var higherBound = getFirstHighEstimate();
+        var firstGuess = getFirstGuess();
         // marche de base
         // the binary search condition should be on the total time
         var time = evalRunTime(sim, schedule, maxSpeedControllers);
@@ -89,11 +96,10 @@ public abstract class DichotomyControllerGenerator extends SpeedControllerGenera
         var beginLocation = findPhaseInitialLocation(schedule);
         var endLocation = findPhaseEndLocation(schedule);
 
-        double nextValue;
+        double nextValue = firstGuess;
         Set<SpeedController> nextSpeedControllers;
         int i = 0;
         do {
-            nextValue = (lowerBound + higherBound) / 2;
             nextSpeedControllers = getSpeedControllers(schedule, nextValue, beginLocation, endLocation);
             var expectedTimes = getExpectedTimes(sim, schedule,
                     nextSpeedControllers, 1);
@@ -105,6 +111,7 @@ public abstract class DichotomyControllerGenerator extends SpeedControllerGenera
             else
                 higherBound = nextValue;
             // saveGraph(nextSpeedControllers, sim, schedule, "speeds-" + i + ".csv");
+            nextValue = (lowerBound + higherBound) / 2;
             if (i++ > 20)
                 throw new RuntimeException("Did not converge");
         } while( Math.abs(time - targetTime) > precision);
