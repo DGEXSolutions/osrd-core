@@ -84,10 +84,7 @@ public final class InfraState implements DeepComparable<InfraState> {
         for (var tvdSection : infra.tvdSections.values())
             tvdSectionStates[tvdSection.index] = new TVDSectionState(tvdSection);
 
-        var table = new SwitchPost.SuccessionTable[switchCount];
-        for (int switchIndex = 0; switchIndex < switchCount; switchIndex++)
-            table[switchIndex] = new SwitchPost.SuccessionTable();
-        var switchPost = new SwitchPost(0, table);
+        var switchPost = new SwitchPost();
         
         return new InfraState(signalStates, routeStates, switchStates, tvdSectionStates, switchPost);
     }

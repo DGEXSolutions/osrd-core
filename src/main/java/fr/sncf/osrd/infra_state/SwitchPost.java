@@ -1,102 +1,89 @@
 package fr.sncf.osrd.infra_state;
 
-import java.util.ArrayList;
-
-import fr.sncf.osrd.TrainSchedule;
-import fr.sncf.osrd.infra.trackgraph.Switch;
+import fr.sncf.osrd.SuccessionTable;
+import fr.sncf.osrd.train.Train;
 import fr.sncf.osrd.simulation.Simulation;
 import fr.sncf.osrd.simulation.SimulationError;
 
+import java.util.List;
 import java.util.HashMap;
 
 public class SwitchPost {
 
-    private int postId;
-    private SuccessionTable[] table;
+    private HashMap<String, SuccessionTable> tables;
+    private HashMap<String, Integer> currentIndex;
+    private HashMap<String, HashMap<String, Integer>> occurences;
 
-    public SwitchPost(
-        int postId,
-        SuccessionTable[] table
-    ) {
-        this.postId = postId;
-        this.table = table;
+    public SwitchPost() {
+        tables = null;
     }
 
-    public SuccessionTable getSuccessionTable(Switch s) {
-        return table[s.switchIndex];
+    public void init(List<SuccessionTable> initTables)
+    {
+        this.tables = new HashMap<String, SuccessionTable>();
+        this.currentIndex = new HashMap<String, Integer>();
+        this.occurences = new HashMap<String, HashMap<String, Integer>>();
+        for (var table : initTables) {
+            this.tables.put(table.switchID, table.clone());
+            this.currentIndex.put(table.switchID, 0);
+            this.occurences.put(table.switchID, new HashMap<String, Integer>());
+            for (var trainID : table.table) {
+                this.plan(table.switchID, trainID);
+            }
+        }
+    }
+
+    private boolean isPlanned(String switchID, String trainID) {
+        assert tables.containsKey(switchID);
+        return occurences.get(switchID).containsKey(trainID) && occurences.get(switchID).get(trainID) > 0;
+    }
+
+    private boolean isNext(String switchID, String trainID) {
+        assert tables.containsKey(switchID);
+        var index = currentIndex.get(switchID);
+        return tables.get(switchID).table.get(index).equals(trainID);
+    }
+
+    private void plan(String switchID, String trainID) {
+        assert tables.containsKey(switchID);
+        tables.get(switchID).table.add(trainID);
+        var count = occurences.get(switchID).containsKey(trainID)? occurences.get(switchID).get(trainID) : 0;
+        occurences.get(switchID).put(trainID, count + 1);
+    }
+
+    private void next(String switchID) {
+        assert tables.containsKey(switchID);
+        var index = currentIndex.get(switchID);
+        var trainID = tables.get(switchID).table.get(index);
+        var count = occurences.get(switchID).get(trainID);
+        occurences.get(switchID).put(trainID, count - 1);
+        currentIndex.put(switchID, index + 1);
     }
 
     public boolean request(
-            Simulation sim,
-            RouteState routeState,
-            TrainSchedule train
-    ) throws SimulationError {
-        if (routeState.status != RouteStatus.FREE) {
-            return false;
-        }
-        for (var switchEntry : routeState.route.switchesPosition.entrySet()) {
-            var table = getSuccessionTable(switchEntry.getKey());
-            if (!table.isPlanned(train)) {
-                table.add(train);
-            }
-            if (!table.isNext(train)) {
+        Simulation sim,
+        RouteState routeState,
+        Train train) throws SimulationError {
+            if (routeState.status != RouteStatus.FREE) {
                 return false;
             }
-        }
-        
-        routeState.reserve(sim);
-        for (var switchEntry : routeState.route.switchesPosition.entrySet()) {
-            getSuccessionTable(switchEntry.getKey()).next();
-        }
-        return true;
-    }
-
-    public static final class SuccessionTable {
-        
-        private int current;
-        private ArrayList<TrainSchedule> succession;
-        private HashMap<String, Integer> countTrain;
-    
-        public SuccessionTable() {
-            this.current = 0;
-            this.succession = new ArrayList<TrainSchedule>();
-            this.countTrain = new HashMap<String, Integer>();
-        }
-        
-        public SuccessionTable(ArrayList<TrainSchedule> succession) {
-            this.current = 0;
-            this.succession = succession;
-            for (var train : succession) {
-                var trainId = train.trainID;
-                if (!countTrain.containsKey(trainId)) {
-                    countTrain.put(trainId, 0);
+            var trainID = train.schedule.trainID;
+            for (var switchEntry : routeState.route.switchesPosition.entrySet()) {
+                var switchId = switchEntry.getKey().id;
+                if (!this.isPlanned(switchId, trainID)) {
+                    this.plan(switchId, trainID);
                 }
-                countTrain.replace(trainId, countTrain.get(trainId) + 1);
+                if (!this.isNext(switchId, trainID)) {
+                    return false;
+                }
             }
-        }
-        
-        public boolean isNext(TrainSchedule train) {
-            return train.trainID.equals(succession.get(current).trainID);
-        }
 
-        public void next() {
-            var trainId = succession.get(current).trainID;
-            countTrain.replace(trainId, countTrain.get(trainId) - 1);
-            current++;
-        }
+            routeState.reserve(sim);
 
-        public boolean isPlanned(TrainSchedule train) {
-            var trainId = train.trainID;
-            return countTrain.containsKey(trainId) && countTrain.get(trainId) > 0;
-        }
-        
-        public void add(TrainSchedule train) {
-            succession.add(train);
-            var trainId = train.trainID;
-            if (!countTrain.containsKey(trainId)) {
-                countTrain.put(trainId, 0);
+            for (var switchEntry : routeState.route.switchesPosition.entrySet()) {
+                this.next(switchEntry.getKey().id);
             }
-            countTrain.replace(trainId, countTrain.get(trainId) + 1);
-        }
+
+            return true;
     }
 }

@@ -8,6 +8,7 @@ import fr.sncf.osrd.config.Config;
 import fr.sncf.osrd.infra.InvalidInfraException;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidRollingStock;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidSchedule;
+import fr.sncf.osrd.railjson.parser.exceptions.InvalidSuccession;
 import fr.sncf.osrd.simulation.ChangeReplayChecker;
 import fr.sncf.osrd.simulation.ChangeSerializer;
 import fr.sncf.osrd.simulation.Simulation;
@@ -70,6 +71,9 @@ public final class SimulateCommand implements CliCommand {
             for (var trainSchedule : config.trainSchedules)
                 TrainCreatedEvent.plan(sim, trainSchedule);
 
+            // initialize the switch post with the train succession tables
+            sim.infraState.switchPost.init(config.switchSuccessions);
+
             // run the simulation loop
             while (!sim.isSimulationOver())
                 sim.step();
@@ -83,7 +87,7 @@ public final class SimulateCommand implements CliCommand {
         } catch (SimulationError simulationError) {
             logger.error("an logic error prevented the simulation from completing", simulationError);
             return 1;
-        } catch (InvalidInfraException | InvalidRollingStock | InvalidSchedule exception) {
+        } catch (InvalidInfraException | InvalidRollingStock | InvalidSchedule | InvalidSuccession exception) {
             logger.error("an error occurred while parsing the input", exception);
             return 1;
         } catch (IOException ioException) {

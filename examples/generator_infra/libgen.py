@@ -497,10 +497,24 @@ class Simulation:
     def to_json(self):
         return self.json
 
+class Succession:
+    def __init__(self):
+        self.json = {"successions": []}
+
+    def add_table(self, ubase, uleft, uright, trains):
+        self.json["successions"].append({
+            "switch": uname_switch(ubase, uleft, uright),
+            "table": [f"train.{index}" for index in trains]
+            })
+
+    def to_json(self):
+        return self.json
+
 CONFIG_JSON = {
   "simulation_time_step": 1,
   "infra_path": "infra.json",
   "simulation_path": "simulation.json",
+  "succession_path": "succession.json",
   "show_viewer": "true",
   "realtime_viewer": "true",
   "change_replay_check": "true",

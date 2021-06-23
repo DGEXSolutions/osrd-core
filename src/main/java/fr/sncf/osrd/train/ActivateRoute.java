@@ -6,22 +6,18 @@ import fr.sncf.osrd.infra.waypointgraph.TVDSectionPath;
 import fr.sncf.osrd.simulation.Simulation;
 import fr.sncf.osrd.simulation.SimulationError;
 import fr.sncf.osrd.train.phases.SignalNavigatePhase;
-import fr.sncf.osrd.infra_state.SwitchPost;
 
 public class ActivateRoute {
     /** This function try to reserve forwarding routes */
     public static void reserveRoutes(
             Simulation sim,
             SignalNavigatePhase.State navigatePhaseState,
-            Train trainReserver
+            Train train
     ) throws SimulationError {
-        // TODO have a smarter way to reserve routes
-        for (int advance = 1; advance <= 1; advance++) {
-            if (navigatePhaseState.getRouteIndex() + advance < navigatePhaseState.phase.routePath.size()) {
-                var nextRoute = navigatePhaseState.phase.routePath.get(navigatePhaseState.getRouteIndex() + advance);
-                var nextRouteState = sim.infraState.getRouteState(nextRoute.index);
-                sim.infraState.switchPost.request(sim, nextRouteState, trainReserver.schedule);
-            }
+        if (navigatePhaseState.getRouteIndex() + 1 < navigatePhaseState.phase.routePath.size()) {
+            var nextRoute = navigatePhaseState.phase.routePath.get(navigatePhaseState.getRouteIndex() + 1);
+            var nextRouteState = sim.infraState.getRouteState(nextRoute.index);
+            sim.infraState.switchPost.request(sim, nextRouteState, train);
         }
     }
 
