@@ -13,18 +13,21 @@ public final class InfraState implements DeepComparable<InfraState> {
     private final RouteState[] routeStates;
     private final SwitchState[] switchStates;
     private final TVDSectionState[] tvdSectionStates;
+    public final SwitchPost switchPost;
 
     @SuppressFBWarnings("EI_EXPOSE_REP2")
     private InfraState(
             SignalState[] signalSignalStates,
             RouteState[] routeStates,
             SwitchState[] switchStates,
-            TVDSectionState[] tvdSectionStates
+            TVDSectionState[] tvdSectionStates,
+            SwitchPost switchPost
     ) {
         this.signalSignalStates = signalSignalStates;
         this.routeStates = routeStates;
         this.switchStates = switchStates;
         this.tvdSectionStates = tvdSectionStates;
+        this.switchPost = switchPost;
     }
 
     public SignalState getSignalState(int signalIndex) {
@@ -81,6 +84,11 @@ public final class InfraState implements DeepComparable<InfraState> {
         for (var tvdSection : infra.tvdSections.values())
             tvdSectionStates[tvdSection.index] = new TVDSectionState(tvdSection);
 
-        return new InfraState(signalStates, routeStates, switchStates, tvdSectionStates);
+        var table = new SwitchPost.SuccessionTable[switchCount];
+        for (int switchIndex = 0; switchIndex < switchCount; switchIndex++)
+            table[switchIndex] = new SwitchPost.SuccessionTable();
+        var switchPost = new SwitchPost(0, table);
+        
+        return new InfraState(signalStates, routeStates, switchStates, tvdSectionStates, switchPost);
     }
 }

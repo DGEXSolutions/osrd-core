@@ -109,7 +109,7 @@ public class Train {
         // TODO find a smarter way to do it and remove this method
         if (lastState.currentPhaseState.getClass() == SignalNavigatePhase.State.class) {
             var navigateState = (SignalNavigatePhase.State) lastState.currentPhaseState;
-            ActivateRoute.reserveRoutes(sim, navigateState);
+            ActivateRoute.reserveRoutes(sim, navigateState, this);
         }
     }
 
