@@ -13,21 +13,50 @@
 
 - `Simulation.add_schedule(departure_time, departure_track, arrival_track)`: add a train which leaves at departure_time from the middle of departure_track and goes to arrival_track
 
+- `Succession()`: build an empty train succession table
+
+- `Succession.add_table(base, left, right, list_of_trains)`: add a succession table from a list of trains given by their index to the switch `(base, left, right)` of the infrastructure
+
 ### Some important rules
 - no track can be isolated: a track should appear **at least one time** as argument of `add_link` or `add_switch`
 - each track has only two ends: a track should appear **at most two times** as argument of `add_link`or `add_switch`
+- each switch must have **one and only one** succession table even if it is left empty
 
 ### Example
 
 ```
-infra = Infra([1000] * 7)
+import os, sys, inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
+import generator_infra.libgen as gen
+
+# build the network
+infra = gen.Infra([1000] * 7)
 infra.add_link(0, 1)
 infra.add_link(1, 2)
 infra.add_link(2, 3)
 infra.add_switch(3, 4, 5)
 infra.add_link(4, 6)
-sim = Simulation(infra)
+
+# build the trains
+sim = gen.Simulation(infra)
 sim.add_schedule(0, 0, 6)
+
+# build the successions
+succession = gen.Succession()
+succession.add_table(2, 0, 1, [2, 0, 1])
+succession.add_table(2, 3, 6, [2, 0, 1])
+succession.add_table(3, 4, 5, [0, 1])
+
+# build the train succession tables
+succession = gen.Succession
+sim.add_table(3, 4, 5, [0])
+
+gen.write_json("config.json", gen.CONFIG_JSON)
+gen.write_json("infra.json", infra.to_json())
+gen.write_json("simulation.json", sim.to_json())
+gen.write_json("succession.json", succession.to_json())
 ```
 
 generates the infrastructure below
