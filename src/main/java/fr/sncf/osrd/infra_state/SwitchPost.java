@@ -1,36 +1,53 @@
 package fr.sncf.osrd.infra_state;
 
 import fr.sncf.osrd.SuccessionTable;
+import fr.sncf.osrd.infra.TVDSection;
+import fr.sncf.osrd.infra.routegraph.Route;
 import fr.sncf.osrd.train.Train;
+import fr.sncf.osrd.train.TrainStatus;
 import fr.sncf.osrd.simulation.Simulation;
 import fr.sncf.osrd.simulation.SimulationError;
+import fr.sncf.osrd.infra.Infra;
 
 import java.util.List;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class SwitchPost {
 
     private HashMap<String, SuccessionTable> tables;
     private HashMap<String, Integer> currentIndex;
     private HashMap<String, HashMap<String, Integer>> occurences;
+    private HashMap<String, HashSet<Request>> waitingList;
+    private HashMap<String, String> lastRequestedRoute;
 
     public SwitchPost() {
         tables = null;
     }
 
-    public void init(List<SuccessionTable> initTables)
+    public void init(Infra infra, List<SuccessionTable> initTables)
     {
-        this.tables = new HashMap<String, SuccessionTable>();
-        this.currentIndex = new HashMap<String, Integer>();
-        this.occurences = new HashMap<String, HashMap<String, Integer>>();
+        // build succession tables from initTables
+        tables = new HashMap<String, SuccessionTable>();
+        currentIndex = new HashMap<String, Integer>();
+        occurences = new HashMap<String, HashMap<String, Integer>>();
         for (var table : initTables) {
-            this.tables.put(table.switchID, table.clone());
-            this.currentIndex.put(table.switchID, 0);
-            this.occurences.put(table.switchID, new HashMap<String, Integer>());
+            tables.put(table.switchID, table.clone());
+            currentIndex.put(table.switchID, 0);
+            occurences.put(table.switchID, new HashMap<String, Integer>());
             for (var trainID : table.table) {
-                this.plan(table.switchID, trainID);
+                plan(table.switchID, trainID);
             }
         }
+
+        // build waiting list for each TVDSection
+        waitingList = new HashMap<String, HashSet<Request>>();
+        for (var tvdSection : infra.tvdSections.values()) {                
+            waitingList.put(tvdSection.id, new HashSet<Request>());
+        }
+
+        // build last request table for train
+        lastRequestedRoute = new HashMap<String, String>();
     }
 
     private boolean isPlanned(String switchID, String trainID) {
@@ -60,30 +77,113 @@ public class SwitchPost {
         currentIndex.put(switchID, index + 1);
     }
 
-    public boolean request(
+    public void process(
         Simulation sim,
-        RouteState routeState,
-        Train train) throws SimulationError {
-            if (routeState.status != RouteStatus.FREE) {
+        Request request
+    ) throws SimulationError {
+
+        var trainID = request.train.schedule.trainID;
+
+        System.out.println("======================== PROCESS " + request.toString());
+
+        // check if the route is free
+        for (var tvdSectionPath : request.routeState.route.tvdSectionsPaths) {
+            var tvdSectionIndex = tvdSectionPath.tvdSection.index;
+            if (sim.infraState.getTvdSectionState(tvdSectionIndex).isReserved()) {
+                System.out.println("NOT FREE");
+                return;
+            }
+        }
+        // check if the train is next on each switch of the route
+        for (var s : request.routeState.route.switchesPosition.keySet()) {
+            if (!isPlanned(s.id, trainID)) { // plan the train if not planned
+                plan(s.id, trainID);
+            }
+            if (!isNext(s.id, trainID)) { // check if next
+                System.out.println("NOT NEXT");
+                return;
+            }
+        }
+
+        // erase the request of the waiting list of each tvd section of the route
+        for (var tvdSectionPath : request.routeState.route.tvdSectionsPaths) {
+            waitingList.get(tvdSectionPath.tvdSection.id).remove(request);
+        }
+
+        // go to next train to each switch of the route
+        for (var s : request.routeState.route.switchesPosition.keySet()) {
+            next(s.id);
+        }
+
+        System.out.println("ACCEPTED " + request.toString());
+        // reserve the route
+        request.routeState.reserve(sim);
+
+        // notify the train that it can restart
+        for (var signal : request.routeState.route.signalSubscribers) {
+            var signalState = sim.infraState.getSignalState(signal.index);
+            request.train.reactNewAspects(sim, signalState);
+        }
+    }
+
+    public void request(
+            Simulation sim,
+            RouteState routeState,
+            Train train
+    ) throws SimulationError {
+        var trainID = train.schedule.trainID;
+        if (!lastRequestedRoute.containsKey(trainID)
+        || !lastRequestedRoute.get(trainID).equals(routeState.route.id)) {
+            lastRequestedRoute.put(trainID, routeState.route.id);
+
+            var request = new Request(train, routeState);
+            for (var tvdSectionPath : routeState.route.tvdSectionsPaths) {
+                var tvdSectionID = tvdSectionPath.tvdSection.id;
+                waitingList.get(tvdSectionID).add(request);
+            }
+            process(sim, request);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void notifyFreed(
+        Simulation sim,
+        TVDSection tvdSection
+    ) throws SimulationError {
+        var list = (HashSet<Request>)waitingList.get(tvdSection.id).clone();
+        for (var request : list) {
+            process(sim, request);
+        }
+    }
+
+
+    private class Request {
+        public Train train;
+        public RouteState routeState;
+
+        public Request(Train train, RouteState routeState) {
+            this.train = train;
+            this.routeState = routeState;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (!(object instanceof Request)) {
                 return false;
             }
-            var trainID = train.schedule.trainID;
-            for (var switchEntry : routeState.route.switchesPosition.entrySet()) {
-                var switchId = switchEntry.getKey().id;
-                if (!this.isPlanned(switchId, trainID)) {
-                    this.plan(switchId, trainID);
-                }
-                if (!this.isNext(switchId, trainID)) {
-                    return false;
-                }
-            }
+            var request = (Request)object;
+            return train.schedule.trainID.equals(request.train.schedule.trainID)
+            && routeState.route.id.equals(request.routeState.route.id);
+        }
 
-            routeState.reserve(sim);
+        @Override
+        public int hashCode() {
+            return toString().hashCode();
+        }
 
-            for (var switchEntry : routeState.route.switchesPosition.entrySet()) {
-                this.next(switchEntry.getKey().id);
-            }
-
-            return true;
+        @Override
+        public String toString() {
+            return train.schedule.trainID + "#" + routeState.route.id;
+        }
     }
 }

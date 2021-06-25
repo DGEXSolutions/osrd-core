@@ -72,7 +72,7 @@ public final class SimulateCommand implements CliCommand {
                 TrainCreatedEvent.plan(sim, trainSchedule);
 
             // initialize the switch post with the train succession tables
-            sim.infraState.switchPost.init(config.switchSuccessions);
+            sim.infraState.switchPost.init(config.infra, config.switchSuccessions);
 
             // run the simulation loop
             while (!sim.isSimulationOver())

@@ -14,11 +14,13 @@ public class ActivateRoute {
             SignalNavigatePhase.State navigatePhaseState,
             Train train
     ) throws SimulationError {
-        if (navigatePhaseState.getRouteIndex() + 1 < navigatePhaseState.phase.routePath.size()) {
-            var nextRoute = navigatePhaseState.phase.routePath.get(navigatePhaseState.getRouteIndex() + 1);
-            var nextRouteState = sim.infraState.getRouteState(nextRoute.index);
-            sim.infraState.switchPost.request(sim, nextRouteState, train);
-        }
+		for (int advance = 1; advance <= 1; advance++) {
+			if (navigatePhaseState.getRouteIndex() + advance < navigatePhaseState.phase.routePath.size()) {
+				var nextRoute = navigatePhaseState.phase.routePath.get(navigatePhaseState.getRouteIndex() + advance);
+				var nextRouteState = sim.infraState.getRouteState(nextRoute.index);
+				sim.infraState.switchPost.request(sim, nextRouteState, train);
+			}
+		}
     }
 
     /** Reserve the initial routes, mark occupied tvd sections and add interactable elements that are under the train
