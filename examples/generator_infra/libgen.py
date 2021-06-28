@@ -520,3 +520,4 @@ CONFIG_JSON = {
   "change_replay_check": "true",
   "simulation_step_pause": 0.2
 }
+
