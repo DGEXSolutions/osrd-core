@@ -16,6 +16,7 @@ import fr.sncf.osrd.infra.railscript.RSExprVisitor;
 import fr.sncf.osrd.infra.railscript.RSFunction;
 import fr.sncf.osrd.utils.RangeValue;
 import fr.sncf.osrd.utils.SortedArraySet;
+import fr.sncf.osrd.utils.graph.ApplicableDirection;
 import fr.sncf.osrd.infra.trackgraph.*;
 import fr.sncf.osrd.infra.railscript.RSExpr;
 import okio.BufferedSource;
@@ -103,7 +104,8 @@ public class RailJSONParser {
         }
 
         var waypointsMap = new HashMap<String, Waypoint>();
-        var detectorIdToSignalMap = new HashMap<String, Signal>();
+        var detectorIdToSignalNormalMap = new HashMap<String, Signal>();
+        var detectorIdToSignalReverseMap = new HashMap<String, Signal>();
 
         // create track sections
         var infraTrackSections = new HashMap<String, TrackSection>();
@@ -174,8 +176,12 @@ public class RailJSONParser {
                 );
                 signalsBuilder.add(rjsSignal.position, signal);
                 signals.add(signal);
-                if (rjsSignal.linkedDetector != null && !rjsSignal.linkedDetector.id.equals(""))
-                    detectorIdToSignalMap.put(rjsSignal.linkedDetector.id, signal);
+                if (rjsSignal.linkedDetector != null && !rjsSignal.linkedDetector.id.equals("")) {
+                    if (rjsSignal.applicableDirection == ApplicableDirection.NORMAL)
+                        detectorIdToSignalNormalMap.put(rjsSignal.linkedDetector.id, signal);
+                    else if (rjsSignal.applicableDirection == ApplicableDirection.REVERSE)
+                        detectorIdToSignalReverseMap.put(rjsSignal.linkedDetector.id, signal);
+                }
             }
             signalsBuilder.build();
         }
@@ -245,9 +251,19 @@ public class RailJSONParser {
             }
 
             var entryPoint = waypointsMap.get(rjsRoute.entryPoint.id);
-            var entrySignal = detectorIdToSignalMap.getOrDefault(entryPoint.id, null);
 
-            routeGraph.makeRoute(rjsRoute.id, tvdSections, releaseGroups, switchesPosition, entryPoint, entrySignal);
+            var entrySignalNormal = detectorIdToSignalNormalMap.getOrDefault(entryPoint.id, null);
+            var entrySignalReverse = detectorIdToSignalReverseMap.getOrDefault(entryPoint.id, null);
+
+            routeGraph.makeRoute(
+                    rjsRoute.id,
+                    tvdSections,
+                    releaseGroups,
+                    switchesPosition,
+                    entryPoint,
+                    entrySignalNormal,
+                    entrySignalReverse
+                );
         }
 
         var routeNames = new HashMap<String, Route>();
