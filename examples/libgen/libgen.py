@@ -58,20 +58,20 @@ def uget_end(track):
     return 2 * track + 1
 def oget_track(otrack):
     return otrack // 2
-def oget_endpoint(otrack):
+def oget_side(otrack):
     return "BEGIN" if otrack % 2 == 0 else "END"
 def oget_direction(ofirst, osecond):
     if oget_track(ofirst) == oget_track(osecond):
-        if oget_endpoint(ofirst) == "BEGIN":
+        if oget_side(ofirst) == "BEGIN":
             return "NORMAL"
         else:
             return "REVERSE"
     else:
-        if oget_endpoint(ofirst) == "BEGIN":
+        if oget_side(ofirst) == "BEGIN":
             return "REVERSE"
         else:
             return "NORMAL"
-def oget_other_endpoint(otrack):
+def oget_other_side(otrack):
     return otrack ^ 1
 
 def oname_track(otrack):
@@ -83,7 +83,7 @@ def oname_switch(obase, oleft, oright):
 def uname_switch(ubase, uleft, uright):
     return f"il.switch.{ubase}-{uleft}-{uright}"
 def oname_tde(otrack):
-    return f"tde.{oget_track(otrack)}_{oget_endpoint(otrack)}"
+    return f"tde.{oget_track(otrack)}_{oget_side(otrack)}"
 def uname_tde_begin(utrack):
     return f"tde.{utrack}_BEGIN"
 def uname_tde_end(utrack):
@@ -105,21 +105,21 @@ def oname_tvd_switch(obase, oleft, oright):
 def uname_tvd_switch(ubase, uleft, uright):
     return f"tvd.{ubase}-{uleft}-{uright}"
 def oname_route_between(ofirst, osecond):
-    return f"rt.{oget_track(ofirst)}_{oget_endpoint(ofirst)}-{oget_track(osecond)}_{oget_endpoint(osecond)}"
+    return f"rt.{oget_track(ofirst)}_{oget_side(ofirst)}-{oget_track(osecond)}_{oget_side(osecond)}"
 def oname_sig_switch(obase, oleft, oright):
     return f"il.sig.switch.{oget_track(obase)}-{oget_track(oleft)}-{oget_track(oright)}"
 def oname_sig_bal3(ofirst, osecond):
-    return f"il.sig.bal3.{oget_track(ofirst)}_{oget_endpoint(ofirst)}-{oget_track(osecond)}_{oget_endpoint(osecond)}"
+    return f"il.sig.bal3.{oget_track(ofirst)}_{oget_side(ofirst)}-{oget_track(osecond)}_{oget_side(osecond)}"
 
 class Infra:
 
     def oget_signal_position(self, ofirst, osecond):
         length = self.lengths[oget_track(ofirst)]
-        if oget_direction(ofirst, osecond) == "NORMAL" and oget_endpoint(ofirst) == "BEGIN":
+        if oget_direction(ofirst, osecond) == "NORMAL" and oget_side(ofirst) == "BEGIN":
             return self.SPACE_TDE - self.SPACE_SIG
-        elif oget_direction(ofirst, osecond) == "NORMAL" and oget_endpoint(ofirst) == "END":
+        elif oget_direction(ofirst, osecond) == "NORMAL" and oget_side(ofirst) == "END":
             return length - self.SPACE_TDE - self.SPACE_SIG
-        elif oget_direction(ofirst, osecond) == "REVERSE" and oget_endpoint(ofirst) == "BEGIN":
+        elif oget_direction(ofirst, osecond) == "REVERSE" and oget_side(ofirst) == "BEGIN":
             return self.SPACE_TDE + self.SPACE_SIG
         else:
             return length - self.SPACE_TDE + self.SPACE_SIG
@@ -271,7 +271,7 @@ class Infra:
     def build_signal_bal3(self, ofirst, osecond):
         ufirst = oget_track(ofirst)
         usecond = oget_track(osecond)
-        if ufirst == usecond and self.degree[ufirst] == 1 and oget_endpoint(osecond) == "END":
+        if ufirst == usecond and self.degree[ufirst] == 1 and oget_side(osecond) == "END":
             self.json["track_sections"][ufirst]["signals"].append({
                     "expr": {
                             "type": "call",
@@ -289,7 +289,7 @@ class Infra:
         else:
             next_signal = None
             if ufirst != usecond:
-                next_signal = oname_sig_bal3(osecond, oget_other_endpoint(osecond))
+                next_signal = oname_sig_bal3(osecond, oget_other_side(osecond))
             else:
                 for othird, ofourth in self.links:
                     if othird == osecond:
@@ -351,9 +351,9 @@ class Infra:
         self.json["switches"] = []
         for obase, oleft, oright in self.switches:
             self.json["switches"].append({
-                    "base": {"endpoint": oget_endpoint(obase), "section": oname_track(obase)},
-                    "left": {"endpoint": oget_endpoint(oleft), "section": oname_track(oleft)},
-                    "right": {"endpoint": oget_endpoint(oright), "section": oname_track(oright)},
+                    "base": {"endpoint": oget_side(obase), "section": oname_track(obase)},
+                    "left": {"endpoint": oget_side(oleft), "section": oname_track(oleft)},
+                    "right": {"endpoint": oget_side(oright), "section": oname_track(oright)},
                     "id": oname_switch(obase, oleft, oright),
                     "position_change_delay": self.POSITION_CHANGE_DELAY
                 })
@@ -362,21 +362,23 @@ class Infra:
         self.json["track_section_links"] = []
         for ofirst, osecond in self.links:
             self.json["track_section_links"].append({
-                    "begin": {"endpoint": oget_endpoint(ofirst), "section": oname_track(ofirst)},
-                    "end": {"endpoint": oget_endpoint(osecond), "section": oname_track(osecond)},
+                    "begin": {"endpoint": oget_side(ofirst), "section": oname_track(ofirst)},
+                    "end": {"endpoint": oget_side(osecond), "section": oname_track(osecond)},
                     "navigability": "BOTH"
                 })
         for obase, oleft, oright in self.switches:
             self.json["track_section_links"].append({
-                    "begin": {"endpoint": oget_endpoint(obase), "section": oname_track(obase)},
-                    "end": {"endpoint": oget_endpoint(oleft), "section": oname_track(oleft)},
+                    "begin": {"endpoint": oget_side(obase), "section": oname_track(obase)},
+                    "end": {"endpoint": oget_side(oleft), "section": oname_track(oleft)},
+                    "navigability": "BOTH"
                 })
             self.json["track_section_links"].append({
-                    "begin": {"endpoint": oget_endpoint(obase), "section": oname_track(obase)},
-                    "end": {"endpoint": oget_endpoint(oright), "section": oname_track(oright)},
+                    "begin": {"endpoint": oget_side(obase), "section": oname_track(obase)},
+                    "end": {"endpoint": oget_side(oright), "section": oname_track(oright)},
+                    "navigability": "BOTH"
                 })
 
-    def new_endpoint(self, utrack):
+    def new_point(self, utrack):
         assert 0 <= self.degree[utrack] <= 1
         self.degree[utrack] += 1
         if self.degree[utrack] == 1:
@@ -385,14 +387,14 @@ class Infra:
             return uget_end(utrack)
 
     def add_link(self, ufirst, usecond):
-        ofirst = self.new_endpoint(ufirst)
-        osecond = self.new_endpoint(usecond)
+        ofirst = self.new_point(ufirst)
+        osecond = self.new_point(usecond)
         self.links.append((ofirst, osecond))
         
     def add_switch(self, ubase, uleft, uright):
-        obase = self.new_endpoint(ubase)
-        oleft = self.new_endpoint(uleft)
-        oright = self.new_endpoint(uright)
+        obase = self.new_point(ubase)
+        oleft = self.new_point(uleft)
+        oright = self.new_point(uright)
         self.switches.append((obase, oleft, oright))
 
     def to_json(self):
@@ -465,7 +467,7 @@ class Simulation:
             path.append(u)
             u = parent[u]
         path.reverse()
-        path = [oget_other_endpoint(path[0])] + path + [oget_other_endpoint(path[-1])]
+        path = [oget_other_side(path[0])] + path + [oget_other_side(path[-1])]
         return [oname_route_between(path[i], path[i+1]) for i in range(len(path)-1)]
 
     def add_schedule(self, departure_time, departure_utrack, arrival_utrack):

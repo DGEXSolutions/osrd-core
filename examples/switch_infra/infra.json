@@ -442,7 +442,8 @@
       "end": {
         "endpoint": "BEGIN",
         "section": "ne.micro.1"
-      }
+      },
+      "navigability": "BOTH"
     },
     {
       "begin": {
@@ -452,7 +453,8 @@
       "end": {
         "endpoint": "BEGIN",
         "section": "ne.micro.2"
-      }
+      },
+      "navigability": "BOTH"
     }
   ],
   "track_sections": [
