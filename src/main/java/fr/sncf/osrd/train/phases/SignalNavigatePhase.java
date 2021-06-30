@@ -433,6 +433,7 @@ public final class SignalNavigatePhase implements Phase {
             if (constraint.getClass() == AspectConstraint.SpeedLimit.class) {
                 var speedLimit = (AspectConstraint.SpeedLimit) constraint;
                 var appliesAt = speedLimit.appliesAt.convert(this, trainState);
+                appliesAt -= 10; // Avoids reaching the signal when red and unsubscribing from it
                 var until = speedLimit.until.convert(this, trainState);
                 var res = new ArrayList<SpeedController>();
                 res.add(LimitAnnounceSpeedController.create(

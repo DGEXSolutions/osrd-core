@@ -118,12 +118,6 @@ public class SwitchPost {
         System.out.println("ACCEPTED " + request.toString());
         // reserve the route
         request.routeState.reserve(sim);
-
-        // notify the train that it can restart
-        for (var signal : request.routeState.route.signalSubscribers) {
-            var signalState = sim.infraState.getSignalState(signal.index);
-            request.train.reactNewAspects(sim, signalState);
-        }
     }
 
     public void request(
