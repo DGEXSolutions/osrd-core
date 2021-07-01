@@ -520,6 +520,6 @@ CONFIG_JSON = {
   "show_viewer": "true",
   "realtime_viewer": "true",
   "change_replay_check": "true",
-  "simulation_step_pause": 0.2
+  "simulation_step_pause": 0.02
 }
 
