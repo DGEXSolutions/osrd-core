@@ -554,8 +554,16 @@
           "name": "left_route"
         },
         {
+          "type": "SIGNAL",
+          "name": "left_master_signal"
+        },
+        {
           "type": "ROUTE",
           "name": "right_route"
+        },
+        {
+          "type": "SIGNAL",
+          "name": "right_master_signal"
         }
       ],
       "return_type": "ASPECT_SET",
@@ -568,21 +576,79 @@
         "branches": {
           "LEFT": {
             "type": "call",
-            "function": "check_route",
+            "function": "sncf_filter",
             "arguments": [
               {
-                "type": "argument_ref",
-                "argument_name": "left_route"
+                "type": "aspect_set",
+                "members": [
+                  {
+                    "aspect": "RED",
+                    "condition": {
+                      "type": "not",
+                      "expr": {
+                        "type": "route_has_state",
+                        "route": {
+                          "type": "argument_ref",
+                          "argument_name": "left_route"
+                        },
+                        "state": "RESERVED"
+                      }
+                    }
+                  },
+                  {
+                    "aspect": "YELLOW",
+                    "condition": {
+                      "type": "signal_has_aspect",
+                      "signal": {
+                        "type": "argument_ref",
+                        "argument_name": "left_master_signal"
+                      },
+                      "aspect": "RED"
+                    }
+                  },
+                  {
+                    "aspect": "GREEN"
+                  }
+                ]
               }
             ]
           },
           "RIGHT": {
             "type": "call",
-            "function": "check_route",
+            "function": "sncf_filter",
             "arguments": [
               {
-                "type": "argument_ref",
-                "argument_name": "right_route"
+                "type": "aspect_set",
+                "members": [
+                  {
+                    "aspect": "RED",
+                    "condition": {
+                      "type": "not",
+                      "expr": {
+                        "type": "route_has_state",
+                        "route": {
+                          "type": "argument_ref",
+                          "argument_name": "right_route"
+                        },
+                        "state": "RESERVED"
+                      }
+                    }
+                  },
+                  {
+                    "aspect": "YELLOW",
+                    "condition": {
+                      "type": "signal_has_aspect",
+                      "signal": {
+                        "type": "argument_ref",
+                        "argument_name": "right_master_signal"
+                      },
+                      "aspect": "RED"
+                    }
+                  },
+                  {
+                    "aspect": "GREEN"
+                  }
+                ]
               }
             ]
           },
@@ -913,8 +979,16 @@
                 "route": "rt.2_BEGIN-0_BEGIN"
               },
               {
+                "type": "signal",
+                "signal": "il.sig.bal3.0_BEGIN-0_END"
+              },
+              {
                 "type": "route",
                 "route": "rt.2_BEGIN-1_BEGIN"
+              },
+              {
+                "type": "signal",
+                "signal": "il.sig.bal3.1_BEGIN-1_END"
               }
             ]
           },
@@ -938,8 +1012,16 @@
                 "route": "rt.2_END-3_BEGIN"
               },
               {
+                "type": "signal",
+                "signal": "il.sig.bal3.3_BEGIN-3_END"
+              },
+              {
                 "type": "route",
                 "route": "rt.2_END-6_BEGIN"
+              },
+              {
+                "type": "signal",
+                "signal": "il.sig.bal3.6_BEGIN-6_END"
               }
             ]
           },
@@ -1048,8 +1130,16 @@
                 "route": "rt.3_END-4_BEGIN"
               },
               {
+                "type": "signal",
+                "signal": "il.sig.bal3.4_BEGIN-4_END"
+              },
+              {
                 "type": "route",
                 "route": "rt.3_END-5_BEGIN"
+              },
+              {
+                "type": "signal",
+                "signal": "il.sig.bal3.5_BEGIN-5_END"
               }
             ]
           },

@@ -370,8 +370,16 @@
           "name": "left_route"
         },
         {
+          "type": "SIGNAL",
+          "name": "left_master_signal"
+        },
+        {
           "type": "ROUTE",
           "name": "right_route"
+        },
+        {
+          "type": "SIGNAL",
+          "name": "right_master_signal"
         }
       ],
       "return_type": "ASPECT_SET",
@@ -384,21 +392,79 @@
         "branches": {
           "LEFT": {
             "type": "call",
-            "function": "check_route",
+            "function": "sncf_filter",
             "arguments": [
               {
-                "type": "argument_ref",
-                "argument_name": "left_route"
+                "type": "aspect_set",
+                "members": [
+                  {
+                    "aspect": "RED",
+                    "condition": {
+                      "type": "not",
+                      "expr": {
+                        "type": "route_has_state",
+                        "route": {
+                          "type": "argument_ref",
+                          "argument_name": "left_route"
+                        },
+                        "state": "RESERVED"
+                      }
+                    }
+                  },
+                  {
+                    "aspect": "YELLOW",
+                    "condition": {
+                      "type": "signal_has_aspect",
+                      "signal": {
+                        "type": "argument_ref",
+                        "argument_name": "left_master_signal"
+                      },
+                      "aspect": "RED"
+                    }
+                  },
+                  {
+                    "aspect": "GREEN"
+                  }
+                ]
               }
             ]
           },
           "RIGHT": {
             "type": "call",
-            "function": "check_route",
+            "function": "sncf_filter",
             "arguments": [
               {
-                "type": "argument_ref",
-                "argument_name": "right_route"
+                "type": "aspect_set",
+                "members": [
+                  {
+                    "aspect": "RED",
+                    "condition": {
+                      "type": "not",
+                      "expr": {
+                        "type": "route_has_state",
+                        "route": {
+                          "type": "argument_ref",
+                          "argument_name": "right_route"
+                        },
+                        "state": "RESERVED"
+                      }
+                    }
+                  },
+                  {
+                    "aspect": "YELLOW",
+                    "condition": {
+                      "type": "signal_has_aspect",
+                      "signal": {
+                        "type": "argument_ref",
+                        "argument_name": "right_master_signal"
+                      },
+                      "aspect": "RED"
+                    }
+                  },
+                  {
+                    "aspect": "GREEN"
+                  }
+                ]
               }
             ]
           },
@@ -508,8 +574,16 @@
                 "route": "rt.0_BEGIN-1_BEGIN"
               },
               {
+                "type": "signal",
+                "signal": "il.sig.bal3.1_BEGIN-1_END"
+              },
+              {
                 "type": "route",
                 "route": "rt.0_BEGIN-2_BEGIN"
+              },
+              {
+                "type": "signal",
+                "signal": "il.sig.bal3.2_BEGIN-2_END"
               }
             ]
           },
