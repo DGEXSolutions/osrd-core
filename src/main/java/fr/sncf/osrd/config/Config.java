@@ -10,7 +10,7 @@ import fr.sncf.osrd.railjson.parser.exceptions.InvalidSchedule;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidSuccession;
 import fr.sncf.osrd.railjson.schema.RJSSimulation;
 import fr.sncf.osrd.railjson.schema.RJSSuccession;
-import fr.sncf.osrd.SuccessionTable;
+import fr.sncf.osrd.infra.SuccessionTable;
 import fr.sncf.osrd.TrainSchedule;
 import fr.sncf.osrd.utils.PathUtils;
 import fr.sncf.osrd.utils.moshi.MoshiUtils;

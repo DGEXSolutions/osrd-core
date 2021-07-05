@@ -8,19 +8,25 @@ import fr.sncf.osrd.simulation.SimulationError;
 import fr.sncf.osrd.train.phases.SignalNavigatePhase;
 
 public class ActivateRoute {
-    /** This function try to reserve forwarding routes */
-    public static void reserveRoutes(
-            Simulation sim,
-            SignalNavigatePhase.State navigatePhaseState,
-            Train train
-    ) throws SimulationError {
-		for (int advance = 1; advance <= 1; advance++) {
-			if (navigatePhaseState.getRouteIndex() + advance < navigatePhaseState.phase.routePath.size()) {
-				var nextRoute = navigatePhaseState.phase.routePath.get(navigatePhaseState.getRouteIndex() + advance);
-				var nextRouteState = sim.infraState.getRouteState(nextRoute.index);
-				sim.infraState.switchPost.request(sim, nextRouteState, train);
-			}
-		}
+    /**
+     * This function send reservation requests to the SwitchPost to reserve the next forwarding routes
+     * @param sim the simulation
+     * @param navigatePhaseState the current navigate phase of the train
+     * @param train the train that emit the requests
+     * @throws SimulationError
+     */
+    public static void reserveRoutes(Simulation sim, SignalNavigatePhase.State navigatePhaseState, Train train)
+            throws SimulationError {
+        final int nbAdvances = 1; // the size of reservation in number of forwarding routes from the current one
+        for (int advance = 1; advance <= nbAdvances; advance++) {
+            if (navigatePhaseState.getRouteIndex() + advance < navigatePhaseState.phase.routePath.size()) {
+                var nextRoute = navigatePhaseState.phase.routePath.get(navigatePhaseState.getRouteIndex() + advance);
+                var nextRouteState = sim.infraState.getRouteState(nextRoute.index);
+                // send a request to the SwitchPost that will enqueue it and then process it
+                // when possible
+                sim.infraState.switchPost.request(sim, nextRouteState, train);
+            }
+        }
     }
 
     /** Reserve the initial routes, mark occupied tvd sections and add interactable elements that are under the train

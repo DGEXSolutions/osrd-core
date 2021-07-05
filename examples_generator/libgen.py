@@ -1,55 +1,9 @@
 from heapq import heappush, heappop
+import json
 
-def str_json(json, depth = 0, endline = False):
-    tab = "  "
-    ans = ""
-    if not endline:
-        ans += tab * depth
-    if isinstance(json, dict):
-        ans += "{\n"
-        cnt = 0
-        for key, subjson in json.items():
-            ans += tab * (depth + 1) + "\"" + key + "\": "
-            ans += str_json(subjson, depth + 1, True)
-            if cnt != len(json) - 1:
-                ans += ",\n"
-            else:
-                ans += "\n"
-            cnt += 1
-        ans += tab * depth + "}"
-    elif isinstance(json, list):
-        ans += "["
-        if len(json) > 0:
-            ans += "\n"
-        cnt = 0
-        for subjson in json:
-            ans += str_json(subjson, depth + 1, False)
-            if cnt != len(json) - 1:
-                ans += ",\n"
-            else:
-                ans += "\n"
-            cnt += 1
-        if len(json) > 0:
-            ans += tab * depth + "]"
-        else:
-            ans += "]"
-        pass
-    elif isinstance(json, str):
-        if json == "true":
-            ans += "true"
-        elif json == "false":
-            ans += "false"
-        else:
-            ans += "\"" + str(json) + "\""
-    elif isinstance(json, float) or isinstance(json, int):
-        ans += str(json)
-    else:
-        raise "JSON Error"
-    return ans
-
-def write_json(filename, json):
+def write_json(filename, data):
     out = open(filename, "w")
-    out.write(str_json(json))
+    out.write(json.dumps(data, indent = 4))
     out.close()
 
 def uget_begin(track):
@@ -188,7 +142,7 @@ class Infra:
         for utrack in range(self.nb_tracks):
             self.json["tvd_sections"].append({
                     "id": uname_tvd_track(utrack),
-                    "is_berthing_track": "true",
+                    "is_berthing_track": True,
                     "buffer_stops": [],
                     "train_detectors": [uname_tde_begin(utrack)]
                 })
@@ -199,14 +153,14 @@ class Infra:
         for ofirst, osecond in self.links:
             self.json["tvd_sections"].append({
                     "id": oname_tvd_link(ofirst, osecond),
-                    "is_berthing_track": "true",
+                    "is_berthing_track": True,
                     "buffer_stops": [],
                     "train_detectors": [oname_tde(ofirst), oname_tde(osecond)]
                 })
         for obase, oleft, oright in self.switches:
             self.json["tvd_sections"].append({
                     "id": oname_tvd_switch(obase, oleft, oright),
-                    "is_berthing_track": "true",
+                    "is_berthing_track": True,
                     "buffer_stops": [],
                     "train_detectors": [oname_tde(obase), oname_tde(oleft), oname_tde(oright)]
                 })
@@ -521,9 +475,9 @@ CONFIG_JSON = {
   "infra_path": "infra.json",
   "simulation_path": "simulation.json",
   "succession_path": "succession.json",
-  "show_viewer": "true",
-  "realtime_viewer": "true",
-  "change_replay_check": "true",
+  "show_viewer": True,
+  "realtime_viewer": True,
+  "change_replay_check": True,
   "simulation_step_pause": 0.02
 }
 

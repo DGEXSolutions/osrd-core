@@ -1,6 +1,6 @@
 package fr.sncf.osrd.infra_state;
 
-import fr.sncf.osrd.SuccessionTable;
+import fr.sncf.osrd.infra.SuccessionTable;
 import fr.sncf.osrd.infra.TVDSection;
 import fr.sncf.osrd.infra.routegraph.Route;
 import fr.sncf.osrd.train.Train;
@@ -26,12 +26,17 @@ public class SwitchPost {
         tables = null;
     }
 
-    public void init(Infra infra, List<SuccessionTable> initTables)
-    {
+    /**
+     * fill the fields of the SwitchPost according to the given infra and the initial trains successions tables
+     * each switch should be in the given trains successions tables list
+     * @param infra the infra
+     * @param initTables the initial train successions table
+     */
+    public void init(Infra infra, List<SuccessionTable> initTables) {
         // build succession tables from initTables
-        tables = new HashMap<String, SuccessionTable>();
-        currentIndex = new HashMap<String, Integer>();
-        occurences = new HashMap<String, HashMap<String, Integer>>();
+        tables = new HashMap<>();
+        currentIndex = new HashMap<>();
+        occurences = new HashMap<>();
         for (var table : initTables) {
             tables.put(table.switchID, table.clone());
             currentIndex.put(table.switchID, 0);
@@ -42,16 +47,22 @@ public class SwitchPost {
         }
 
         // build waiting list for each TVDSection
-        waitingList = new HashMap<String, HashSet<Request>>();
-        for (var tvdSection : infra.tvdSections.values()) {                
+        waitingList = new HashMap<>();
+        for (var tvdSection : infra.tvdSections.values()) {
             waitingList.put(tvdSection.id, new HashSet<Request>());
         }
 
         // build last request table for train
-        lastRequestedRoute = new HashMap<String, String>();
-        currentTrainAllowed = new HashMap<String, String>();
+        lastRequestedRoute = new HashMap<>();
+        currentTrainAllowed = new HashMap<>();
     }
 
+    /**
+     * check if the switch switchID is reserved for the train trainID
+     * @param switchID the switch id
+     * @param trainID the train id
+     * @return true iff the given switch is reserved for the given train
+     */
     public boolean isCurrentAllowed(String switchID, String trainID) {
         return currentTrainAllowed.containsKey(trainID) && currentTrainAllowed.get(switchID).equals(trainID);
     }
@@ -70,7 +81,7 @@ public class SwitchPost {
     private void plan(String switchID, String trainID) {
         assert tables.containsKey(switchID);
         tables.get(switchID).table.add(trainID);
-        var count = occurences.get(switchID).containsKey(trainID)? occurences.get(switchID).get(trainID) : 0;
+        var count = occurences.get(switchID).containsKey(trainID) ? occurences.get(switchID).get(trainID) : 0;
         occurences.get(switchID).put(trainID, count + 1);
     }
 
@@ -83,10 +94,7 @@ public class SwitchPost {
         currentIndex.put(switchID, index + 1);
     }
 
-    public void process(
-        Simulation sim,
-        Request request
-    ) throws SimulationError {
+    private void process(Simulation sim, Request request) throws SimulationError {
 
         var trainID = request.train.schedule.trainID;
 
@@ -122,14 +130,16 @@ public class SwitchPost {
         request.routeState.reserve(sim);
     }
 
-    public void request(
-            Simulation sim,
-            RouteState routeState,
-            Train train
-    ) throws SimulationError {
+    /**
+     * enqueue a route reservation request in the waiting lists of the SwitchPost
+     * @param sim the infra
+     * @param routeState the routeState of the request
+     * @param train the train that emited the request
+     * @throws SimulationError thrown when an error happens
+     */
+    public void request(Simulation sim, RouteState routeState, Train train) throws SimulationError {
         var trainID = train.schedule.trainID;
-        if (!lastRequestedRoute.containsKey(trainID)
-        || !lastRequestedRoute.get(trainID).equals(routeState.route.id)) {
+        if (!lastRequestedRoute.containsKey(trainID) || !lastRequestedRoute.get(trainID).equals(routeState.route.id)) {
             lastRequestedRoute.put(trainID, routeState.route.id);
 
             var request = new Request(train, routeState);
@@ -141,17 +151,18 @@ public class SwitchPost {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public void notifyFreed(
-        Simulation sim,
-        TVDSection tvdSection
-    ) throws SimulationError {
-        var list = (HashSet<Request>)waitingList.get(tvdSection.id).clone();
+    /**
+     * notify the SwitchPost that a TVDSection is released and that he can try to process some enqueued requests
+     * @param sim the simulation
+     * @param tvdSection the released TVDSection
+     * @throws SimulationError thrown when an error happens
+     */
+    public void notifyFreed(Simulation sim, TVDSection tvdSection) throws SimulationError {
+        var list = new HashSet<Request>(waitingList.get(tvdSection.id));
         for (var request : list) {
             process(sim, request);
         }
     }
-
 
     private class Request {
         public Train train;
@@ -167,9 +178,9 @@ public class SwitchPost {
             if (!(object instanceof Request)) {
                 return false;
             }
-            var request = (Request)object;
+            var request = (Request) object;
             return train.schedule.trainID.equals(request.train.schedule.trainID)
-            && routeState.route.id.equals(request.routeState.route.id);
+                    && routeState.route.id.equals(request.routeState.route.id);
         }
 
         @Override

@@ -7,6 +7,7 @@ import com.squareup.moshi.JsonReader;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import fr.sncf.osrd.config.JsonConfig;
 import fr.sncf.osrd.infra.Infra;
+import fr.sncf.osrd.infra.SuccessionTable;
 import fr.sncf.osrd.railjson.parser.RJSSimulationParser;
 import fr.sncf.osrd.railjson.schema.RJSSimulation;
 import fr.sncf.osrd.railjson.schema.schedule.RJSAllowance;
@@ -17,6 +18,7 @@ import fr.sncf.osrd.config.Config;
 import fr.sncf.osrd.infra.InvalidInfraException;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidRollingStock;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidSchedule;
+import fr.sncf.osrd.railjson.parser.exceptions.InvalidSuccession;
 import fr.sncf.osrd.railjson.schema.infra.RJSInfra;
 import fr.sncf.osrd.train.events.TrainCreatedEvent;
 import fr.sncf.osrd.utils.PathUtils;
@@ -172,7 +174,7 @@ public class Helpers {
     public static Config getBaseConfig(String path) {
         try {
             return Config.readFromFile(getResourcePath(path));
-        } catch (IOException | InvalidInfraException | InvalidRollingStock | InvalidSchedule e) {
+        } catch (IOException | InvalidInfraException | InvalidRollingStock | InvalidSchedule | InvalidSuccession e) {
             fail(e);
             throw new RuntimeException();
         }
@@ -207,10 +209,15 @@ public class Helpers {
                 }
             }
             var trainSchedules = RJSSimulationParser.parse(infra, schedule);
+            var successionTables = new ArrayList<SuccessionTable>();
+            for (var s : infra.switches) {
+                successionTables.add(new SuccessionTable(s.id, new ArrayList<String>()));
+            }
             return new Config(
                     jsonConfig.simulationTimeStep,
                     infra,
                     trainSchedules,
+                    successionTables,
                     jsonConfig.simulationStepPause,
                     jsonConfig.showViewer,
                     jsonConfig.realTimeViewer,
@@ -248,10 +255,15 @@ public class Helpers {
                 trainSchedule.phases = phases;
             }
             var trainSchedules = RJSSimulationParser.parse(infra, schedule);
+            var successionTables = new ArrayList<SuccessionTable>();
+            for (var s : infra.switches) {
+                successionTables.add(new SuccessionTable(s.id, new ArrayList<String>()));
+            }
             return new Config(
                     jsonConfig.simulationTimeStep,
                     infra,
                     trainSchedules,
+                    successionTables,
                     jsonConfig.simulationStepPause,
                     jsonConfig.showViewer,
                     jsonConfig.realTimeViewer,

@@ -2,8 +2,7 @@ package fr.sncf.osrd.railjson.parser;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import fr.sncf.osrd.SuccessionTable;
+import fr.sncf.osrd.infra.SuccessionTable;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidSuccession;
 import fr.sncf.osrd.railjson.schema.RJSSuccession;
 
