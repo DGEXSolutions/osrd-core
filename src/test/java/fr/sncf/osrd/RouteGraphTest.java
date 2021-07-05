@@ -18,35 +18,26 @@ import java.util.*;
 
 public class RouteGraphTest {
 
-    private static void checkRoute(
-            Route route,
-            int expectedTvdSectionPath,
-            double expectedLength,
-            Waypoint expectedStart,
-            Waypoint expectedEnd
-    ) {
+    private static void checkRoute(Route route, int expectedTvdSectionPath, double expectedLength,
+            Waypoint expectedStart, Waypoint expectedEnd) {
         assertEquals(expectedLength, route.length, 0.1);
         assertEquals(expectedTvdSectionPath, route.tvdSectionsPaths.size());
 
         var start = route.tvdSectionsPaths.get(0).startNode;
         if (route.tvdSectionsPathDirections.get(0) == EdgeDirection.STOP_TO_START)
-             start = route.tvdSectionsPaths.get(0).endNode;
+            start = route.tvdSectionsPaths.get(0).endNode;
         assertEquals(expectedStart.index, start);
 
         var lastIndex = expectedTvdSectionPath - 1;
         var end = route.tvdSectionsPaths.get(lastIndex).endNode;
         if (route.tvdSectionsPathDirections.get(lastIndex) == EdgeDirection.STOP_TO_START)
-             end = route.tvdSectionsPaths.get(lastIndex).startNode;
+            end = route.tvdSectionsPaths.get(lastIndex).startNode;
         assertEquals(expectedEnd.index, end);
     }
 
-    private static Route makeRoute(
-            RouteGraph.Builder builder,
-            String id,
-            ArrayList<Waypoint> waypoints,
-            SortedArraySet<TVDSection> tvdSections,
-            HashMap<Switch, SwitchPosition> switchPositions
-    ) throws InvalidInfraException {
+    private static Route makeRoute(RouteGraph.Builder builder, String id, ArrayList<Waypoint> waypoints,
+            SortedArraySet<TVDSection> tvdSections, HashMap<Switch, SwitchPosition> switchPositions)
+            throws InvalidInfraException {
         // Create a "flexible transit" release group
         var releaseGroups = new ArrayList<SortedArraySet<TVDSection>>();
         for (var tvdSection : tvdSections) {
@@ -55,25 +46,17 @@ public class RouteGraphTest {
             releaseGroups.add(releaseGroup);
         }
 
-        return builder.makeRoute(id, tvdSections, releaseGroups, switchPositions, waypoints.get(0), null);
+        return builder.makeRoute(id, tvdSections, releaseGroups, switchPositions, waypoints.get(0), null, null);
     }
 
-    private static Route makeRoute(
-            RouteGraph.Builder builder,
-            String id,
-            ArrayList<Waypoint> waypoints,
-            SortedArraySet<TVDSection> tvdSections
-    ) throws InvalidInfraException {
+    private static Route makeRoute(RouteGraph.Builder builder, String id, ArrayList<Waypoint> waypoints,
+            SortedArraySet<TVDSection> tvdSections) throws InvalidInfraException {
         return makeRoute(builder, id, waypoints, tvdSections, null);
     }
 
     /**
-     * One tiv with 2 routes
-     *         R1
-     * A   ----------->   B
-     * |---D1---D2---D3---|
-     *     <-----------
-     *         R2
+     * One tiv with 2 routes R1 A -----------> B |---D1---D2---D3---| <-----------
+     * R2
      */
     @Test
     public void simpleRouteGraphBuild() throws InvalidInfraException {
@@ -113,7 +96,7 @@ public class RouteGraphTest {
         tvdSectionsR2.add(tvdSection123);
         final var route2 = makeRoute(routeGraphBuilder, "R2", waypointsR2, tvdSectionsR2);
 
-        var routeGraph =  routeGraphBuilder.build();
+        var routeGraph = routeGraphBuilder.build();
 
         assertEquals(2, routeGraph.getEdgeCount());
 
@@ -122,16 +105,11 @@ public class RouteGraphTest {
     }
 
     /**
-     * Complex track graph. Points A, B and D are buffer stops.
-     *                R1
-     *    —————————————————————,
-     *   A   foo_a        D1    \               R4
-     *   +—————————————————o——,  +—> <————————————————————————————————
-     *                    D2   \   D3                      D4
-     *   +—————————————————o————+——o————————————————————————o————————+
-     *   B    foo_b             C           track                    D
-     *    —————————————————————————> ————————————————————————————————>
-     *              R2                             R3
+     * Complex track graph. Points A, B and D are buffer stops. R1
+     * —————————————————————, A foo_a D1 \ R4 +—————————————————o——, +—>
+     * <———————————————————————————————— D2 \ D3 D4
+     * +—————————————————o————+——o————————————————————————o————————+ B foo_b C track
+     * D —————————————————————————> ————————————————————————————————> R2 R3
      */
     @Test
     public void complexRouteGraphBuild() throws InvalidInfraException {
@@ -230,7 +208,7 @@ public class RouteGraphTest {
         tvdSectionsR4.add(tvdSection34D);
         final var route4 = makeRoute(routeGraphBuilder, "R4", waypointsR4, tvdSectionsR4);
 
-        var routeGraph =  routeGraphBuilder.build();
+        var routeGraph = routeGraphBuilder.build();
 
         assertEquals(4, routeGraph.getEdgeCount());
 

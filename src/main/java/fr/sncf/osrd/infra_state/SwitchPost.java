@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * The SwitchPost is an improved waiting queue designed to handle the routes
+ * reservation requests
+ */
 public class SwitchPost {
 
     private HashMap<String, SuccessionTable> tables;
@@ -26,8 +30,14 @@ public class SwitchPost {
         tables = null;
     }
 
-    public void init(Infra infra, List<SuccessionTable> initTables)
-    {
+    /**
+     * Initialize the SwitchPost with an infrastructure and trains successions
+     * tables
+     * 
+     * @param infra      the infrastructure
+     * @param initTables the initial trains successions tables
+     */
+    public void init(Infra infra, List<SuccessionTable> initTables) {
         // build succession tables from initTables
         tables = new HashMap<String, SuccessionTable>();
         currentIndex = new HashMap<String, Integer>();
@@ -43,7 +53,7 @@ public class SwitchPost {
 
         // build waiting list for each TVDSection
         waitingList = new HashMap<String, HashSet<Request>>();
-        for (var tvdSection : infra.tvdSections.values()) {                
+        for (var tvdSection : infra.tvdSections.values()) {
             waitingList.put(tvdSection.id, new HashSet<Request>());
         }
 
@@ -52,6 +62,13 @@ public class SwitchPost {
         currentTrainAllowed = new HashMap<String, String>();
     }
 
+    /**
+     * Check if a switch was reserved for the given train
+     * 
+     * @param switchID the switch ID
+     * @param trainID  the train ID
+     * @return true iff the switch is reserved for the train
+     */
     public boolean isCurrentAllowed(String switchID, String trainID) {
         return currentTrainAllowed.containsKey(trainID) && currentTrainAllowed.get(switchID).equals(trainID);
     }
@@ -70,7 +87,7 @@ public class SwitchPost {
     private void plan(String switchID, String trainID) {
         assert tables.containsKey(switchID);
         tables.get(switchID).table.add(trainID);
-        var count = occurences.get(switchID).containsKey(trainID)? occurences.get(switchID).get(trainID) : 0;
+        var count = occurences.get(switchID).containsKey(trainID) ? occurences.get(switchID).get(trainID) : 0;
         occurences.get(switchID).put(trainID, count + 1);
     }
 
@@ -83,10 +100,7 @@ public class SwitchPost {
         currentIndex.put(switchID, index + 1);
     }
 
-    public void process(
-        Simulation sim,
-        Request request
-    ) throws SimulationError {
+    private void process(Simulation sim, Request request) throws SimulationError {
 
         var trainID = request.train.schedule.trainID;
 
@@ -122,14 +136,17 @@ public class SwitchPost {
         request.routeState.reserve(sim);
     }
 
-    public void request(
-            Simulation sim,
-            RouteState routeState,
-            Train train
-    ) throws SimulationError {
+    /**
+     * request a route
+     * 
+     * @param sim        the simulation
+     * @param routeState the route to reserve
+     * @param train      the train that send the request
+     * @throws SimulationError throw a SimulationError if an error happend during process
+     */
+    public void request(Simulation sim, RouteState routeState, Train train) throws SimulationError {
         var trainID = train.schedule.trainID;
-        if (!lastRequestedRoute.containsKey(trainID)
-        || !lastRequestedRoute.get(trainID).equals(routeState.route.id)) {
+        if (!lastRequestedRoute.containsKey(trainID) || !lastRequestedRoute.get(trainID).equals(routeState.route.id)) {
             lastRequestedRoute.put(trainID, routeState.route.id);
 
             var request = new Request(train, routeState);
@@ -141,17 +158,19 @@ public class SwitchPost {
         }
     }
 
+    /**
+     * Notify the SwitchPost that a TVD section is released
+     * @param sim        the simulation
+     * @param tvdSection the TVD section that is released
+     * @throws SimulationError throw a SimulationError if an error happend during process
+     */
     @SuppressWarnings("unchecked")
-    public void notifyFreed(
-        Simulation sim,
-        TVDSection tvdSection
-    ) throws SimulationError {
-        var list = (HashSet<Request>)waitingList.get(tvdSection.id).clone();
+    public void notifyFreed(Simulation sim, TVDSection tvdSection) throws SimulationError {
+        var list = (HashSet<Request>) waitingList.get(tvdSection.id).clone();
         for (var request : list) {
             process(sim, request);
         }
     }
-
 
     private class Request {
         public Train train;
@@ -167,9 +186,9 @@ public class SwitchPost {
             if (!(object instanceof Request)) {
                 return false;
             }
-            var request = (Request)object;
+            var request = (Request) object;
             return train.schedule.trainID.equals(request.train.schedule.trainID)
-            && routeState.route.id.equals(request.routeState.route.id);
+                    && routeState.route.id.equals(request.routeState.route.id);
         }
 
         @Override

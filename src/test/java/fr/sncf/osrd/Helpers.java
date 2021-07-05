@@ -17,6 +17,7 @@ import fr.sncf.osrd.config.Config;
 import fr.sncf.osrd.infra.InvalidInfraException;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidRollingStock;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidSchedule;
+import fr.sncf.osrd.railjson.parser.exceptions.InvalidSuccession;
 import fr.sncf.osrd.railjson.schema.infra.RJSInfra;
 import fr.sncf.osrd.train.events.TrainCreatedEvent;
 import fr.sncf.osrd.utils.PathUtils;
@@ -39,12 +40,8 @@ public class Helpers {
         private final BiConsumer<Simulation, TestEvent> onOccurrenceCallback;
         private final BiConsumer<Simulation, TestEvent> onCancellationCallback;
 
-        private TestEvent(
-                TimelineEventId eventId,
-                String data,
-                BiConsumer<Simulation, TestEvent> onOccurrenceCallback,
-                BiConsumer<Simulation, TestEvent> onCancellationCallback
-        ) {
+        private TestEvent(TimelineEventId eventId, String data, BiConsumer<Simulation, TestEvent> onOccurrenceCallback,
+                BiConsumer<Simulation, TestEvent> onCancellationCallback) {
             super(eventId);
             this.data = data;
             this.onOccurrenceCallback = onOccurrenceCallback;
@@ -74,39 +71,27 @@ public class Helpers {
             if (other.getClass() != TestEvent.class)
                 return false;
             var o = (TestEvent) other;
-            return o.data.equals(data)
-                    && o.eventId.equals(eventId)
-                    && o.onOccurrenceCallback == onOccurrenceCallback
+            return o.data.equals(data) && o.eventId.equals(eventId) && o.onOccurrenceCallback == onOccurrenceCallback
                     && o.onCancellationCallback == onCancellationCallback;
         }
 
         /** Plan a test event at a given time with no callbacks */
-        public static TestEvent plan(
-                Simulation sim,
-                double eventTime,
-                String data
-        ) {
+        public static TestEvent plan(Simulation sim, double eventTime, String data) {
             return plan(sim, eventTime, data, null);
         }
 
-        /** Plan a test event at a given time with the specified callbacks on occurence */
-        public static TestEvent plan(
-                Simulation sim,
-                double eventTime,
-                String data,
-                BiConsumer<Simulation, TestEvent> onOccurrenceCallback
-        ) {
+        /**
+         * Plan a test event at a given time with the specified callbacks on occurence
+         */
+        public static TestEvent plan(Simulation sim, double eventTime, String data,
+                BiConsumer<Simulation, TestEvent> onOccurrenceCallback) {
             return plan(sim, eventTime, data, onOccurrenceCallback, null);
         }
 
         /** Plan a test event at a given time with the specified callbacks */
-        public static TestEvent plan(
-                Simulation sim,
-                double eventTime,
-                String data,
+        public static TestEvent plan(Simulation sim, double eventTime, String data,
                 BiConsumer<Simulation, TestEvent> onOccurrenceCallback,
-                BiConsumer<Simulation, TestEvent> onCancellationCallback
-        ) {
+                BiConsumer<Simulation, TestEvent> onCancellationCallback) {
             var change = new TestEventPlanned(sim, eventTime, data, onOccurrenceCallback, onCancellationCallback);
             var event = change.apply(sim);
             sim.publishChange(change);
@@ -118,13 +103,9 @@ public class Helpers {
             private final BiConsumer<Simulation, TestEvent> onOccurrenceCallback;
             private final BiConsumer<Simulation, TestEvent> onCancellationCallback;
 
-            private TestEventPlanned(
-                    Simulation sim,
-                    double eventTime,
-                    String data,
+            private TestEventPlanned(Simulation sim, double eventTime, String data,
                     BiConsumer<Simulation, TestEvent> onOccurrenceCallback,
-                    BiConsumer<Simulation, TestEvent> onCancellationCallback
-            ) {
+                    BiConsumer<Simulation, TestEvent> onCancellationCallback) {
                 super(sim, eventTime);
                 this.data = data;
                 this.onOccurrenceCallback = onOccurrenceCallback;
@@ -149,8 +130,10 @@ public class Helpers {
         }
     }
 
-
-    /** Generates the defaults infra from tiny_infra/infra.json, to be edited for each test */
+    /**
+     * Generates the defaults infra from tiny_infra/infra.json, to be edited for
+     * each test
+     */
     public static RJSInfra getBaseInfra() {
         return getBaseInfra("tiny_infra/infra.json");
     }
@@ -172,7 +155,7 @@ public class Helpers {
     public static Config getBaseConfig(String path) {
         try {
             return Config.readFromFile(getResourcePath(path));
-        } catch (IOException | InvalidInfraException | InvalidRollingStock | InvalidSchedule e) {
+        } catch (IOException | InvalidInfraException | InvalidRollingStock | InvalidSchedule | InvalidSuccession e) {
             fail(e);
             throw new RuntimeException();
         }
@@ -183,14 +166,19 @@ public class Helpers {
         return getBaseConfig("tiny_infra/config_railjson.json");
     }
 
-    /** Loads the given config file, but replaces the given allowance parameters in all the phases */
+    /**
+     * Loads the given config file, but replaces the given allowance parameters in
+     * all the phases
+     */
     public static Config makeConfigWithSpeedParams(List<RJSAllowance> params, String baseConfigPath) {
         var paramsList = params == null ? null : Collections.singletonList(params);
         return makeConfigWithSpeedParamsList(paramsList, baseConfigPath);
     }
 
-    /** Loads the given config file, but replaces the given allowance parameters in the phases
-     * the nth list of allowance is used for the nth phase */
+    /**
+     * Loads the given config file, but replaces the given allowance parameters in
+     * the phases the nth list of allowance is used for the nth phase
+     */
     public static Config makeConfigWithSpeedParamsList(List<List<RJSAllowance>> params, String baseConfigPath) {
         try {
             var path = getResourcePath(baseConfigPath);
@@ -207,23 +195,23 @@ public class Helpers {
                 }
             }
             var trainSchedules = RJSSimulationParser.parse(infra, schedule);
-            return new Config(
-                    jsonConfig.simulationTimeStep,
-                    infra,
-                    trainSchedules,
-                    jsonConfig.simulationStepPause,
-                    jsonConfig.showViewer,
-                    jsonConfig.realTimeViewer,
-                    jsonConfig.changeReplayCheck
-            );
-        } catch (IOException | InvalidInfraException | InvalidRollingStock | InvalidSchedule  e) {
+            var successionTables = new ArrayList<SuccessionTable>();
+            for (var s : infra.switches) {
+                successionTables.add(new SuccessionTable(s.id, new ArrayList<String>()));
+            }
+            return new Config(jsonConfig.simulationTimeStep, infra, trainSchedules, successionTables,
+                    jsonConfig.simulationStepPause, jsonConfig.showViewer, jsonConfig.realTimeViewer,
+                    jsonConfig.changeReplayCheck);
+        } catch (IOException | InvalidInfraException | InvalidRollingStock | InvalidSchedule e) {
             fail(e);
             throw new RuntimeException();
         }
     }
 
-    /** Loads the phases in the given simulation file
-     * The purpose of this function is to edit the phases and call makeCOnfigWithGivenPhases afterwards */
+    /**
+     * Loads the phases in the given simulation file The purpose of this function is
+     * to edit the phases and call makeCOnfigWithGivenPhases afterwards
+     */
     public static RJSTrainPhase[] loadRJSPhases(String simulationPath) {
         try {
             var path = getResourcePath(simulationPath);
@@ -248,33 +236,38 @@ public class Helpers {
                 trainSchedule.phases = phases;
             }
             var trainSchedules = RJSSimulationParser.parse(infra, schedule);
-            return new Config(
-                    jsonConfig.simulationTimeStep,
-                    infra,
-                    trainSchedules,
-                    jsonConfig.simulationStepPause,
-                    jsonConfig.showViewer,
-                    jsonConfig.realTimeViewer,
-                    jsonConfig.changeReplayCheck
-            );
+            var successionTables = new ArrayList<SuccessionTable>();
+            for (var s : infra.switches) {
+                successionTables.add(new SuccessionTable(s.id, new ArrayList<String>()));
+            }
+            return new Config(jsonConfig.simulationTimeStep, infra, trainSchedules, successionTables, jsonConfig.simulationStepPause,
+                    jsonConfig.showViewer, jsonConfig.realTimeViewer, jsonConfig.changeReplayCheck);
         } catch (IOException | InvalidInfraException | InvalidRollingStock | InvalidSchedule e) {
             fail(e);
             throw new RuntimeException();
         }
     }
 
-    /** Generates a config where all the RJSRunningTieParameters have been replaced by the one given */
+    /**
+     * Generates a config where all the RJSRunningTieParameters have been replaced
+     * by the one given
+     */
     public static Config makeConfigWithSpeedParams(List<RJSAllowance> params) {
         return makeConfigWithSpeedParams(params, "tiny_infra/config_railjson.json");
     }
 
-    /** Go through all the events in the simulation, fails if an exception is thrown */
+    /**
+     * Go through all the events in the simulation, fails if an exception is thrown
+     */
     public static ArrayList<TimelineEvent> run(Simulation sim) {
         var config = getBaseConfig();
         return run(sim, config);
     }
 
-    /** Go through all the events in the simulation with a specified config, fails if an exception is thrown */
+    /**
+     * Go through all the events in the simulation with a specified config, fails if
+     * an exception is thrown
+     */
     public static ArrayList<TimelineEvent> run(Simulation sim, Config config) {
         try {
             return runWithExceptions(sim, config);
@@ -302,7 +295,10 @@ public class Helpers {
         return runWithExceptions(sim, config);
     }
 
-    /** Go through all the events in the simulation with a specified config, exceptions pass through */
+    /**
+     * Go through all the events in the simulation with a specified config,
+     * exceptions pass through
+     */
     public static ArrayList<TimelineEvent> runWithExceptions(Simulation sim, Config config) throws SimulationError {
         var events = new ArrayList<TimelineEvent>();
         for (var trainSchedule : config.trainSchedules)
@@ -312,13 +308,18 @@ public class Helpers {
         return events;
     }
 
-    /** Generates an event that runs an assertion at a certain point in the simulation */
+    /**
+     * Generates an event that runs an assertion at a certain point in the
+     * simulation
+     */
     public static void makeAssertEvent(Simulation sim, double time, Supplier<Boolean> predicate) {
         Procedure func = () -> assertTrue(predicate.get());
         makeFunctionEvent(sim, time, func);
     }
 
-    /** Generates an event that runs a function at a certain point in the simulation */
+    /**
+     * Generates an event that runs a function at a certain point in the simulation
+     */
     public static void makeFunctionEvent(Simulation sim, double time, Procedure func) {
         BiConsumer<Simulation, TestEvent> consumer = (s, test) -> {
             try {

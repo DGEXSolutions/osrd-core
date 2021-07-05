@@ -42,15 +42,9 @@ public class RouteGraph extends DirNGraph<Route, Waypoint> {
         }
 
         /** Add a route to the Route Graph */
-        public Route makeRoute(
-                String id,
-                SortedArraySet<TVDSection> tvdSections,
-                List<SortedArraySet<TVDSection>> releaseGroups,
-                HashMap<Switch, SwitchPosition> switchesPosition,
-                Waypoint entryPoint,
-                Signal entrySignalNormal,
-                Signal entrySignalReverse
-        ) throws InvalidInfraException {
+        public Route makeRoute(String id, SortedArraySet<TVDSection> tvdSections,
+                List<SortedArraySet<TVDSection>> releaseGroups, HashMap<Switch, SwitchPosition> switchesPosition,
+                Waypoint entryPoint, Signal entrySignalNormal, Signal entrySignalReverse) throws InvalidInfraException {
             var length = 0;
             var tvdSectionsPath = new ArrayList<TVDSectionPath>();
             var tvdSectionsPathDirection = new ArrayList<EdgeDirection>();
@@ -64,8 +58,8 @@ public class RouteGraph extends DirNGraph<Route, Waypoint> {
                 var tvdSectionPath = waypointGraph.getTVDSectionPath(startIndex, endIndex);
 
                 if (tvdSectionPath == null)
-                    throw new InvalidInfraException(String.format(
-                            "Route: '%s' couldn't find tvd section path: (%d, %d)", id, startIndex, endIndex));
+                    throw new InvalidInfraException(String
+                            .format("Route: '%s' couldn't find tvd section path: (%d, %d)", id, startIndex, endIndex));
                 if (!tvdSections.contains(tvdSectionPath.tvdSection))
                     throw new InvalidInfraException(
                             String.format("Route '%s' has a tvd section path outside tvd section", id));
@@ -84,14 +78,14 @@ public class RouteGraph extends DirNGraph<Route, Waypoint> {
             for (var releaseGroup : releaseGroups) {
                 for (var tvdSection : releaseGroup) {
                     if (!tvdSections.contains(tvdSection))
-                        throw new InvalidInfraException(String.format(
-                                "Route '%s' has a release group that doesn't match route's tvd sections", id));
+                        throw new InvalidInfraException(String
+                                .format("Route '%s' has a release group that doesn't match route's tvd sections", id));
                     copiedTvdSections.add(tvdSection);
                 }
             }
             if (copiedTvdSections.size() != tvdSections.size())
-                throw new InvalidInfraException(String.format(
-                        "Route '%s' has a tvd section that is not part of any of its release groups", id));
+                throw new InvalidInfraException(String
+                        .format("Route '%s' has a tvd section that is not part of any of its release groups", id));
 
             // Get start waypoint and start direction
             var firstTVDSectionPath = tvdSectionsPath.get(0);
@@ -100,23 +94,16 @@ public class RouteGraph extends DirNGraph<Route, Waypoint> {
             var waypointDirection = firstTVDSectionPath.nodeDirection(firstTVDSectionPathDir, EdgeEndpoint.BEGIN);
 
             // Create route
-            var entrySignal = waypointDirection == EdgeDirection.START_TO_STOP? entrySignalNormal : entrySignalReverse;
+            var entrySignal = waypointDirection == EdgeDirection.START_TO_STOP ? entrySignalNormal : entrySignalReverse;
 
-            var route = new Route(
-                    id,
-                    routeGraph,
-                    length,
-                    releaseGroups,
-                    tvdSectionsPath,
-                    tvdSectionsPathDirection,
-                    switchesPosition,
-                    entrySignal);
+            var route = new Route(id, routeGraph, length, releaseGroups, tvdSectionsPath, tvdSectionsPathDirection,
+                    switchesPosition, entrySignal);
 
             routeGraph.routeMap.put(id, route);
 
             // Link route to the starting waypoint
             startWaypoint.getRouteNeighbors(waypointDirection).add(route);
-            
+
             // Link route to track sections and tvd sections
             double routeOffset = 0;
             for (int i = 0; i < route.tvdSectionsPaths.size(); i++) {
@@ -127,8 +114,8 @@ public class RouteGraph extends DirNGraph<Route, Waypoint> {
                     var trackSection = trackSectionRange.edge;
                     var trackBegin = Math.min(trackSectionRange.getBeginPosition(), trackSectionRange.getEndPosition());
                     var trackEnd = Math.max(trackSectionRange.getBeginPosition(), trackSectionRange.getEndPosition());
-                    var routeFragment = new TrackSection.RouteFragment(
-                            route, routeOffset, trackBegin, trackEnd, trackSectionRange.direction);
+                    var routeFragment = new TrackSection.RouteFragment(route, routeOffset, trackBegin, trackEnd,
+                            trackSectionRange.direction);
                     trackSection.getRoutes(trackSectionRange.direction).insert(routeFragment);
                     routeOffset += trackSectionRange.length();
                 }
@@ -165,12 +152,13 @@ public class RouteGraph extends DirNGraph<Route, Waypoint> {
             return res;
         }
 
-        /** Generates a set of waypoints on the route, based on its tvd sections and switch positions
-         * We accumulate all the waypoints in all the tvd sections, then remove the ones in the other switch branches */
-        private Set<Waypoint> getWaypointsOnRoute(
-                Set<TVDSection> tvdSections,
-                HashMap<Switch, SwitchPosition> switchesPosition
-        ) throws InvalidInfraException {
+        /**
+         * Generates a set of waypoints on the route, based on its tvd sections and
+         * switch positions We accumulate all the waypoints in all the tvd sections,
+         * then remove the ones in the other switch branches
+         */
+        private Set<Waypoint> getWaypointsOnRoute(Set<TVDSection> tvdSections,
+                HashMap<Switch, SwitchPosition> switchesPosition) throws InvalidInfraException {
             var res = new HashSet<Waypoint>();
             tvdSections.forEach(x -> res.addAll(x.waypoints));
             if (switchesPosition != null) {
@@ -198,11 +186,8 @@ public class RouteGraph extends DirNGraph<Route, Waypoint> {
         }
 
         /** Generates a list of waypoints present on the route in the right order */
-        private List<Waypoint> generateWaypointList(
-                Waypoint startPoint,
-                Set<TVDSection> tvdSections,
-                HashMap<Switch, SwitchPosition> switchesPosition
-        ) throws InvalidInfraException {
+        private List<Waypoint> generateWaypointList(Waypoint startPoint, Set<TVDSection> tvdSections,
+                HashMap<Switch, SwitchPosition> switchesPosition) throws InvalidInfraException {
             var currentPoint = startPoint;
             var waypoints = new ArrayList<Waypoint>();
 

@@ -9,10 +9,7 @@ import fr.sncf.osrd.railjson.schema.successiontable.RJSSuccessionTable;
 import java.util.Collection;
 
 public final class RJSSuccession {
-    public static final JsonAdapter<RJSSuccession> adapter = new Moshi
-            .Builder()
-            .build()
-            .adapter(RJSSuccession.class);
+    public static final JsonAdapter<RJSSuccession> adapter = new Moshi.Builder().build().adapter(RJSSuccession.class);
 
     /** An incremental format version number, which may be used for migrations */
     public final int version = 1;
@@ -21,9 +18,7 @@ public final class RJSSuccession {
     @Json(name = "successions")
     public Collection<RJSSuccessionTable> successionTables;
 
-    public RJSSuccession(
-        Collection<RJSSuccessionTable> successionTables
-    ) {
+    public RJSSuccession(Collection<RJSSuccessionTable> successionTables) {
         this.successionTables = successionTables;
     }
 }
