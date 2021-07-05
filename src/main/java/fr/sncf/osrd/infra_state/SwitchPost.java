@@ -20,6 +20,7 @@ public class SwitchPost {
     private HashMap<String, HashMap<String, Integer>> occurences;
     private HashMap<String, HashSet<Request>> waitingList;
     private HashMap<String, String> lastRequestedRoute;
+    private HashMap<String, String> currentTrainAllowed;
 
     public SwitchPost() {
         tables = null;
@@ -48,6 +49,11 @@ public class SwitchPost {
 
         // build last request table for train
         lastRequestedRoute = new HashMap<String, String>();
+        currentTrainAllowed = new HashMap<String, String>();
+    }
+
+    public boolean isCurrentAllowed(String switchID, String trainID) {
+        return currentTrainAllowed.containsKey(trainID) && currentTrainAllowed.get(switchID).equals(trainID);
     }
 
     private boolean isPlanned(String switchID, String trainID) {
@@ -84,13 +90,10 @@ public class SwitchPost {
 
         var trainID = request.train.schedule.trainID;
 
-        System.out.println("======================== PROCESS " + request.toString());
-
         // check if the route is free
         for (var tvdSectionPath : request.routeState.route.tvdSectionsPaths) {
             var tvdSectionIndex = tvdSectionPath.tvdSection.index;
             if (sim.infraState.getTvdSectionState(tvdSectionIndex).isReserved()) {
-                System.out.println("NOT FREE");
                 return;
             }
         }
@@ -100,7 +103,6 @@ public class SwitchPost {
                 plan(s.id, trainID);
             }
             if (!isNext(s.id, trainID)) { // check if next
-                System.out.println("NOT NEXT");
                 return;
             }
         }
@@ -113,9 +115,9 @@ public class SwitchPost {
         // go to next train to each switch of the route
         for (var s : request.routeState.route.switchesPosition.keySet()) {
             next(s.id);
+            currentTrainAllowed.put(s.id, request.train.schedule.trainID);
         }
 
-        System.out.println("ACCEPTED " + request.toString());
         // reserve the route
         request.routeState.reserve(sim);
     }
