@@ -29,12 +29,11 @@ import java.util.HashMap;
 public class RailJSONParser {
     /**
      * Parses some railJSON infra into the internal representation
-     * 
-     * @param source  a data stream to read from
+     * @param source a data stream to read from
      * @param lenient whether to tolerate invalid yet understandable json constructs
      * @return an OSRD infrastructure
      * @throws InvalidInfraException {@inheritDoc}
-     * @throws IOException           {@inheritDoc}
+     * @throws IOException {@inheritDoc}
      */
     public static Infra parse(BufferedSource source, boolean lenient) throws InvalidInfraException, IOException {
         var jsonReader = JsonReader.of(source);
@@ -47,7 +46,6 @@ public class RailJSONParser {
 
     /**
      * Parses a structured railJSON into the internal representation
-     * 
      * @param railJSON a railJSON infrastructure
      * @return an OSRD infrastructure
      */
@@ -69,8 +67,8 @@ public class RailJSONParser {
         var switchIndex = 0;
         for (var rjsSwitch : railJSON.switches) {
             var index = nodeIDs.get(rjsSwitch.base);
-            switchNames.put(rjsSwitch.id,
-                    trackGraph.makeSwitchNode(index, rjsSwitch.id, switchIndex++, rjsSwitch.positionChangeDelay));
+            switchNames.put(rjsSwitch.id, trackGraph.makeSwitchNode(index, rjsSwitch.id, switchIndex++,
+                    rjsSwitch.positionChangeDelay));
         }
         final var switches = new ArrayList<>(switchNames.values());
 
@@ -93,7 +91,8 @@ public class RailJSONParser {
         // parse signal functions
         var scriptFunctions = new HashMap<String, RSFunction<?>>();
         for (var rjsScriptFunction : railJSON.scriptFunctions) {
-            var scriptFunction = RailScriptExprParser.parseFunction(aspectsMap, scriptFunctions, rjsScriptFunction);
+            var scriptFunction = RailScriptExprParser.parseFunction(
+                    aspectsMap, scriptFunctions, rjsScriptFunction);
             scriptFunctions.put(scriptFunction.functionName, scriptFunction);
         }
 
@@ -116,8 +115,8 @@ public class RailJSONParser {
         for (var trackSection : railJSON.trackSections) {
             var beginID = nodeIDs.get(trackSection.beginEndpoint());
             var endID = nodeIDs.get(trackSection.endEndpoint());
-            var infraTrackSection = trackGraph.makeTrackSection(beginID, endID, trackSection.id, trackSection.length,
-                    trackSection.endpointCoords);
+            var infraTrackSection = trackGraph.makeTrackSection(beginID, endID, trackSection.id,
+                    trackSection.length, trackSection.endpointCoords);
             infraTrackSections.put(trackSection.id, infraTrackSection);
 
             // Parse operational points
@@ -168,8 +167,13 @@ public class RailJSONParser {
                 trackSection.signals = new ArrayList<>();
             for (var rjsSignal : trackSection.signals) {
                 var expr = RailScriptExprParser.parseStatefulSignalExpr(aspectsMap, scriptFunctions, rjsSignal.expr);
-                var signal = new Signal(signals.size(), rjsSignal.id, expr, rjsSignal.applicableDirection,
-                        rjsSignal.sightDistance);
+                var signal = new Signal(
+                        signals.size(),
+                        rjsSignal.id,
+                        expr,
+                        rjsSignal.applicableDirection,
+                        rjsSignal.sightDistance
+                );
                 signalsBuilder.add(rjsSignal.position, signal);
                 signals.add(signal);
                 if (rjsSignal.linkedDetector != null && !rjsSignal.linkedDetector.id.equals("")) {
@@ -230,8 +234,10 @@ public class RailJSONParser {
                     var tvdSection = tvdSectionsMap.get(rjsTvdSection.id);
                     tvdSections.add(tvdSection);
                     if (tvdSection == null)
-                        throw new InvalidInfraException(String
-                                .format("A release group contains an unknown tvd section (%s)", rjsTvdSection.id));
+                        throw new InvalidInfraException(String.format(
+                                "A release group contains an unknown tvd section (%s)",
+                                rjsTvdSection.id
+                        ));
                     releaseGroup.add(tvdSection);
                 }
                 releaseGroups.add(releaseGroup);
@@ -249,8 +255,15 @@ public class RailJSONParser {
             var entrySignalNormal = detectorIdToSignalNormalMap.getOrDefault(entryPoint.id, null);
             var entrySignalReverse = detectorIdToSignalReverseMap.getOrDefault(entryPoint.id, null);
 
-            routeGraph.makeRoute(rjsRoute.id, tvdSections, releaseGroups, switchesPosition, entryPoint,
-                    entrySignalNormal, entrySignalReverse);
+            routeGraph.makeRoute(
+                    rjsRoute.id,
+                    tvdSections,
+                    releaseGroups,
+                    switchesPosition,
+                    entryPoint,
+                    entrySignalNormal,
+                    entrySignalReverse
+                );
         }
 
         var routeNames = new HashMap<String, Route>();
@@ -279,12 +292,15 @@ public class RailJSONParser {
         for (var signal : signals)
             signal.expr.accept(nameResolver);
 
-        return Infra.build(trackGraph, waypointGraph, routeGraph.build(), tvdSectionsMap, aspectsMap, signals,
-                switches);
+        return Infra.build(trackGraph, waypointGraph, routeGraph.build(),
+                tvdSectionsMap, aspectsMap, signals, switches);
     }
 
-    private static <E extends RJSRouteWaypoint> void findWaypoints(ArrayList<Waypoint> foundWaypoints,
-            HashMap<String, Waypoint> waypointHashMap, Collection<ID<E>> source) throws InvalidInfraException {
+    private static <E extends RJSRouteWaypoint> void findWaypoints(
+            ArrayList<Waypoint> foundWaypoints,
+            HashMap<String, Waypoint> waypointHashMap,
+            Collection<ID<E>> source
+    ) throws InvalidInfraException {
         for (var waypointID : source) {
             var waypoint = waypointHashMap.get(waypointID.id);
             if (waypoint == null)

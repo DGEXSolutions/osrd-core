@@ -9,29 +9,30 @@ import fr.sncf.osrd.train.phases.SignalNavigatePhase;
 
 public class ActivateRoute {
     /** This function try to reserve forwarding routes */
-    public static void reserveRoutes(Simulation sim, SignalNavigatePhase.State navigatePhaseState, Train train)
-            throws SimulationError {
-        for (int advance = 1; advance <= 1; advance++) {
-            if (navigatePhaseState.getRouteIndex() + advance < navigatePhaseState.phase.routePath.size()) {
-                var nextRoute = navigatePhaseState.phase.routePath.get(navigatePhaseState.getRouteIndex() + advance);
-                var nextRouteState = sim.infraState.getRouteState(nextRoute.index);
-                sim.infraState.switchPost.request(sim, nextRouteState, train);
-            }
-        }
+    public static void reserveRoutes(
+            Simulation sim,
+            SignalNavigatePhase.State navigatePhaseState,
+            Train train
+    ) throws SimulationError {
+		for (int advance = 1; advance <= 1; advance++) {
+			if (navigatePhaseState.getRouteIndex() + advance < navigatePhaseState.phase.routePath.size()) {
+				var nextRoute = navigatePhaseState.phase.routePath.get(navigatePhaseState.getRouteIndex() + advance);
+				var nextRouteState = sim.infraState.getRouteState(nextRoute.index);
+				sim.infraState.switchPost.request(sim, nextRouteState, train);
+			}
+		}
     }
 
-    /**
-     * Reserve the initial routes, mark occupied tvd sections and add interactable
-     * elements that are under the train to the TrainState
-     */
+    /** Reserve the initial routes, mark occupied tvd sections and add interactable elements that are under the train
+     * to the TrainState*/
     public static void trainCreation(Simulation sim, TrainState trainState) throws SimulationError {
         Route route = trainState.trainSchedule.initialRoute;
         var routeState = sim.infraState.getRouteState(route.index);
 
         // Reserve the initial route
         if (routeState.status != RouteStatus.FREE)
-            throw new SimulationError(String.format("Impossible to reserve the route '%s' since it is not available.",
-                    routeState.route.id));
+            throw new SimulationError(String.format(
+                    "Impossible to reserve the route '%s' since it is not available.", routeState.route.id));
         routeState.initialReserve(sim);
 
         // Reserve the tvdSection where the train is created

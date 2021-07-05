@@ -37,15 +37,16 @@ public final class SignalNavigatePhase implements Phase {
     public transient List<SpeedControllerGenerator> targetSpeedGenerators;
     private transient List<Phase> allPhases;
 
-    /**
-     * Offset between the beginning of the global train path and the beginning of
-     * this phase
-     */
+    /** Offset between the beginning of the global train path and the beginning of this phase */
     public double offset;
 
-    private SignalNavigatePhase(List<Route> routePath, TrackSectionLocation endLocation,
-            ArrayList<TrackSectionRange> trackSectionPath, ArrayList<Interaction> interactionsPath,
-            double driverSightDistance, List<SpeedControllerGenerator> targetSpeedGenerators) {
+    private SignalNavigatePhase(
+            List<Route> routePath,
+            TrackSectionLocation endLocation,
+            ArrayList<TrackSectionRange> trackSectionPath,
+            ArrayList<Interaction> interactionsPath,
+            double driverSightDistance,
+            List<SpeedControllerGenerator> targetSpeedGenerators) {
         this.routePath = routePath;
         this.endLocation = endLocation;
         this.trackSectionPath = trackSectionPath;
@@ -55,21 +56,26 @@ public final class SignalNavigatePhase implements Phase {
         lastInteractionOnPhase = interactionsPath.get(interactionsPath.size() - 1);
     }
 
+
+
     /** Create a new navigation phase from an already determined path */
-    public static SignalNavigatePhase from(List<Route> routes, double driverSightDistance,
-            TrackSectionLocation startLocation, TrackSectionLocation endLocation,
-            List<SpeedControllerGenerator> targetSpeedGenerators) throws InvalidSchedule {
+    public static SignalNavigatePhase from(
+            List<Route> routes,
+            double driverSightDistance,
+            TrackSectionLocation startLocation,
+            TrackSectionLocation endLocation,
+            List<SpeedControllerGenerator> targetSpeedGenerators
+    ) throws InvalidSchedule {
         verifyRoutes(routes);
-        var trackSectionPath = Route.routesToTrackSectionRange(routes, startLocation, endLocation);
+        var trackSectionPath = Route.routesToTrackSectionRange(routes,
+                startLocation, endLocation);
         var actionPointPath = trackSectionToActionPointPath(driverSightDistance, trackSectionPath);
-        return new SignalNavigatePhase(routes, endLocation, trackSectionPath, actionPointPath, driverSightDistance,
-                targetSpeedGenerators);
+        return new SignalNavigatePhase(routes, endLocation, trackSectionPath, actionPointPath,
+                driverSightDistance, targetSpeedGenerators);
     }
 
-    /**
-     * Asserts that there are no duplicate routes Eventually we can add more checks
-     * to ensure the integrity of the path
-     */
+    /** Asserts that there are no duplicate routes
+     * Eventually we can add more checks to ensure the integrity of the path */
     private static void verifyRoutes(List<Route> routes) throws InvalidSchedule {
         for (int i = 1; i < routes.size(); i++) {
             if (routes.get(i).id.equals(routes.get(i - 1).id))
@@ -77,8 +83,10 @@ public final class SignalNavigatePhase implements Phase {
         }
     }
 
-    private static ArrayList<Interaction> trackSectionToActionPointPath(double driverSightDistance,
-            Iterable<TrackSectionRange> trackSectionRanges) {
+    private static ArrayList<Interaction> trackSectionToActionPointPath(
+            double driverSightDistance,
+            Iterable<TrackSectionRange> trackSectionRanges
+    ) {
         var eventPath = new ArrayList<Interaction>();
         double pathLength = 0;
         for (var trackRange : trackSectionRanges) {
@@ -89,14 +97,13 @@ public final class SignalNavigatePhase implements Phase {
         Collections.sort(eventPath);
 
         var phaseEnd = new PhaseEndActionPoint();
-        // We place the end of phase a few meters before the actual end, because we will
-        // stop before reaching it
+        // We place the end of phase a few meters before the actual end, because we will stop before reaching it
         eventPath.add(new Interaction(InteractionType.HEAD, pathLength - 1, phaseEnd));
         return eventPath;
     }
 
-    private static void registerRange(ArrayList<Interaction> eventPath, TrackSectionRange trackRange, double pathLength,
-            double driverSightDistance) {
+    private static void registerRange(ArrayList<Interaction> eventPath, TrackSectionRange trackRange,
+                                      double pathLength, double driverSightDistance) {
         for (var interactablePoint : TrackSection.getInteractables(trackRange.edge, trackRange.direction)) {
             if (!trackRange.containsPosition(interactablePoint.position))
                 continue;
@@ -125,8 +132,7 @@ public final class SignalNavigatePhase implements Phase {
         AtomicReference<Double> currentPosition = new AtomicReference<>(0.);
         for (var phase : phases) {
             if (seenSelf) {
-                // adds the routes in the next phases to the current route, to trigger reserves
-                // at the right time
+                // adds the routes in the next phases to the current route, to trigger reserves at the right time
                 if (phase instanceof SignalNavigatePhase)
                     routePath.addAll(((SignalNavigatePhase) phase).routePath);
             }
@@ -154,12 +160,6 @@ public final class SignalNavigatePhase implements Phase {
         interactionsPath.sort(Comparator.comparingDouble(i -> i.position));
     }
 
-    /**
-     * find the forward TVDSection that starts at waypoint
-     * 
-     * @param waypoint a waypoint
-     * @return the forward TVDSection that starts at waypoint
-     */
     public TVDSection findForwardTVDSection(Waypoint waypoint) {
         // TODO: Find a faster and smarter way to do it
         for (var route : routePath) {
@@ -215,10 +215,7 @@ public final class SignalNavigatePhase implements Phase {
         trackSectionPath.forEach(consumer);
     }
 
-    /**
-     * This class represent the location of the phase end. It's as last event in the
-     * event path
-     */
+    /** This class represent the location of the phase end. It's as last event in the event path */
     public static final class PhaseEndActionPoint implements ActionPoint {
 
         @Override
@@ -246,10 +243,7 @@ public final class SignalNavigatePhase implements Phase {
             public final Train train;
             public final int phaseIndex;
 
-            /**
-             * Create a change to notify that a train has reached the end of its current
-             * phase
-             */
+            /** Create a change to notify that a train has reached the end of its current phase */
             public EndOfPhase(Simulation sim, Train train, int phaseIndex) {
                 super(sim);
                 this.train = train;
@@ -257,8 +251,7 @@ public final class SignalNavigatePhase implements Phase {
             }
 
             @Override
-            public void replay(Simulation sim) {
-            }
+            public void replay(Simulation sim) {}
 
             @Override
             public String toString() {
@@ -276,7 +269,7 @@ public final class SignalNavigatePhase implements Phase {
         private final transient HashMap<Signal, ArrayList<SpeedController>> signalControllers;
 
         @Override
-        @SuppressFBWarnings({ "BC_UNCONFIRMED_CAST" })
+        @SuppressFBWarnings({"BC_UNCONFIRMED_CAST"})
         public boolean deepEquals(PhaseState other) {
             if (other.getClass() != State.class)
                 return false;
@@ -383,8 +376,7 @@ public final class SignalNavigatePhase implements Phase {
             // 1) find the next interaction event
             var nextInteraction = peekInteraction(trainState);
 
-            // 2) If the action point can interact with the tail of the train add it to the
-            // interaction list
+            // 2) If the action point can interact with the tail of the train add it to the interaction list
             addInteractionUnderTrain(trainState, nextInteraction);
 
             // 3) simulate up to nextEventTrackPosition
@@ -408,16 +400,20 @@ public final class SignalNavigatePhase implements Phase {
                 return;
 
             var trainLength = trainState.trainSchedule.rollingStock.length;
-            var underTrainInteraction = new Interaction(InteractionType.TAIL, interaction.position + trainLength,
-                    interaction.actionPoint);
+            var underTrainInteraction = new Interaction(
+                    InteractionType.TAIL,
+                    interaction.position + trainLength,
+                    interaction.actionPoint
+            );
             trainState.actionPointsUnderTrain.addLast(underTrainInteraction);
         }
 
-        /**
-         * Occupy and free tvd sections given a detector the train is interacting with.
-         */
-        public void updateTVDSections(Simulation sim, Detector detector, InteractionType interactionType)
-                throws SimulationError {
+        /** Occupy and free tvd sections given a detector the train is interacting with. */
+        public void updateTVDSections(
+                Simulation sim,
+                Detector detector,
+                InteractionType interactionType
+        ) throws SimulationError {
             // Update route index
             var currentRoute = phase.routePath.get(routeIndex);
             var tvdSectionPathIndex = currentRoute.tvdSectionsPaths.size() - 1;
@@ -454,9 +450,17 @@ public final class SignalNavigatePhase implements Phase {
                 appliesAt -= 10; // Avoids reaching the signal when red and unsubscribing from it
                 var until = speedLimit.until.convert(this, trainState);
                 var res = new ArrayList<SpeedController>();
-                res.add(LimitAnnounceSpeedController.create(trainState.trainSchedule.rollingStock.maxSpeed,
-                        speedLimit.speed, appliesAt, trainState.trainSchedule.rollingStock.timetableGamma));
-                res.add(new MaxSpeedController(speedLimit.speed, appliesAt, until));
+                res.add(LimitAnnounceSpeedController.create(
+                        trainState.trainSchedule.rollingStock.maxSpeed,
+                        speedLimit.speed,
+                        appliesAt,
+                        trainState.trainSchedule.rollingStock.timetableGamma
+                ));
+                res.add(new MaxSpeedController(
+                        speedLimit.speed,
+                        appliesAt,
+                        until
+                ));
                 return res;
             }
             throw new RuntimeException("AspectConstraint not handled");
