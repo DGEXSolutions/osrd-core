@@ -1,0 +1,120 @@
+{
+    "successions": [
+        {
+            "switch": "il.switch.5-0-2",
+            "table": []
+        },
+        {
+            "switch": "il.switch.10-8-6",
+            "table": []
+        },
+        {
+            "switch": "il.switch.13-67-16",
+            "table": []
+        },
+        {
+            "switch": "il.switch.19-15-16",
+            "table": []
+        },
+        {
+            "switch": "il.switch.24-55-25",
+            "table": []
+        },
+        {
+            "switch": "il.switch.28-26-25",
+            "table": []
+        },
+        {
+            "switch": "il.switch.28-29-54",
+            "table": []
+        },
+        {
+            "switch": "il.switch.39-37-38",
+            "table": []
+        },
+        {
+            "switch": "il.switch.39-41-42",
+            "table": []
+        },
+        {
+            "switch": "il.switch.42-44-45",
+            "table": []
+        },
+        {
+            "switch": "il.switch.45-48-49",
+            "table": []
+        },
+        {
+            "switch": "il.switch.53-49-52",
+            "table": []
+        },
+        {
+            "switch": "il.switch.1-2-3",
+            "table": []
+        },
+        {
+            "switch": "il.switch.7-3-4",
+            "table": []
+        },
+        {
+            "switch": "il.switch.7-8-9",
+            "table": []
+        },
+        {
+            "switch": "il.switch.14-17-68",
+            "table": []
+        },
+        {
+            "switch": "il.switch.20-17-18",
+            "table": []
+        },
+        {
+            "switch": "il.switch.23-26-27",
+            "table": []
+        },
+        {
+            "switch": "il.switch.36-38-40",
+            "table": []
+        },
+        {
+            "switch": "il.switch.43-40-41",
+            "table": []
+        },
+        {
+            "switch": "il.switch.43-46-47",
+            "table": []
+        },
+        {
+            "switch": "il.switch.50-48-46",
+            "table": []
+        },
+        {
+            "switch": "il.switch.50-51-52",
+            "table": []
+        },
+        {
+            "switch": "il.switch.58-56-57",
+            "table": []
+        },
+        {
+            "switch": "il.switch.58-59-60",
+            "table": []
+        },
+        {
+            "switch": "il.switch.61-59-69",
+            "table": []
+        },
+        {
+            "switch": "il.switch.61-62-63",
+            "table": []
+        },
+        {
+            "switch": "il.switch.64-62-70",
+            "table": []
+        },
+        {
+            "switch": "il.switch.64-65-66",
+            "table": []
+        }
+    ]
+}
