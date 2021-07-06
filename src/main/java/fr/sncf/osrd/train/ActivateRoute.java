@@ -9,7 +9,7 @@ import fr.sncf.osrd.train.phases.SignalNavigatePhase;
 
 public class ActivateRoute {
     /**
-     * This function send reservation requests to the SwitchPost to reserve the next forwarding routes
+     * This function send reservation requests to the SwitchPostState to reserve the next forwarding routes
      * @param sim the simulation
      * @param navigatePhaseState the current navigate phase of the train
      * @param train the train that emit the requests
@@ -22,9 +22,9 @@ public class ActivateRoute {
             if (navigatePhaseState.getRouteIndex() + advance < navigatePhaseState.phase.routePath.size()) {
                 var nextRoute = navigatePhaseState.phase.routePath.get(navigatePhaseState.getRouteIndex() + advance);
                 var nextRouteState = sim.infraState.getRouteState(nextRoute.index);
-                // send a request to the SwitchPost that will enqueue it and then process it
+                // send a request to the SwitchPostState that will enqueue it and then process it
                 // when possible
-                sim.infraState.switchPost.request(sim, nextRouteState, train);
+                sim.infraState.SwitchPostState.request(sim, nextRouteState, train);
             }
         }
     }

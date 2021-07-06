@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.ArrayList;
 
-public class SwitchPost {
+public class SwitchPostState {
 
     public final List<SuccessionTable> initTables;
     private HashMap<String, SuccessionTable> tables;
@@ -25,10 +25,10 @@ public class SwitchPost {
     private HashMap<String, String> currentTrainAllowed;
 
     /**
-     * build a SwitchPost with empty trains successions tables
+     * build a SwitchPostState with empty trains successions tables
      * @param infra the infra
      */
-    public SwitchPost(Infra infra) {
+    public SwitchPostState(Infra infra) {
         initTables = new ArrayList<SuccessionTable>();
         for (var s : infra.switches) {
             initTables.add(new SuccessionTable(s.id, new ArrayList<String>()));
@@ -36,12 +36,12 @@ public class SwitchPost {
         init(infra);
     }
     /**
-     * build a SwitchPost according to the given infra and the initial trains successions tables
+     * build a SwitchPostState according to the given infra and the initial trains successions tables
      * each switch should be in the given trains successions tables list
      * @param infra the infra
      * @param initTables the initial train successions table
      */
-    public SwitchPost(Infra infra, List<SuccessionTable> initTables) {
+    public SwitchPostState(Infra infra, List<SuccessionTable> initTables) {
         this.initTables = initTables;
         init(infra);
     }
@@ -145,7 +145,7 @@ public class SwitchPost {
     }
 
     /**
-     * enqueue a route reservation request in the waiting lists of the SwitchPost
+     * enqueue a route reservation request in the waiting lists of the SwitchPostState
      * @param sim the infra
      * @param routeState the routeState of the request
      * @param train the train that emited the request
@@ -166,7 +166,7 @@ public class SwitchPost {
     }
 
     /**
-     * notify the SwitchPost that a TVDSection is released and that he can try to process some enqueued requests
+     * notify the SwitchPostState that a TVDSection is released and that he can try to process some enqueued requests
      * @param sim the simulation
      * @param tvdSection the released TVDSection
      * @throws SimulationError thrown when an error happens

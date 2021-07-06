@@ -16,7 +16,7 @@ public final class InfraState implements DeepComparable<InfraState> {
     private final RouteState[] routeStates;
     private final SwitchState[] switchStates;
     private final TVDSectionState[] tvdSectionStates;
-    public final SwitchPost switchPost;
+    public final SwitchPostState SwitchPostState;
 
     @SuppressFBWarnings("EI_EXPOSE_REP2")
     private InfraState(
@@ -24,13 +24,13 @@ public final class InfraState implements DeepComparable<InfraState> {
             RouteState[] routeStates,
             SwitchState[] switchStates,
             TVDSectionState[] tvdSectionStates,
-            SwitchPost switchPost
+            SwitchPostState SwitchPostState
     ) {
         this.signalSignalStates = signalSignalStates;
         this.routeStates = routeStates;
         this.switchStates = switchStates;
         this.tvdSectionStates = tvdSectionStates;
-        this.switchPost = switchPost;
+        this.SwitchPostState = SwitchPostState;
     }
 
     public SignalState getSignalState(int signalIndex) {
@@ -87,9 +87,9 @@ public final class InfraState implements DeepComparable<InfraState> {
         for (var tvdSection : infra.tvdSections.values())
             tvdSectionStates[tvdSection.index] = new TVDSectionState(tvdSection);
 
-        var switchPost = new SwitchPost(infra);
+        var SwitchPostState = new SwitchPostState(infra);
         
-        return new InfraState(signalStates, routeStates, switchStates, tvdSectionStates, switchPost);
+        return new InfraState(signalStates, routeStates, switchStates, tvdSectionStates, SwitchPostState);
     }
 
     /** Initializes a state for the infrastructure */
@@ -115,8 +115,8 @@ public final class InfraState implements DeepComparable<InfraState> {
         for (var tvdSection : infra.tvdSections.values())
             tvdSectionStates[tvdSection.index] = new TVDSectionState(tvdSection);
 
-        var switchPost = new SwitchPost(infra, initTables);
+        var SwitchPostState = new SwitchPostState(infra, initTables);
         
-        return new InfraState(signalStates, routeStates, switchStates, tvdSectionStates, switchPost);
+        return new InfraState(signalStates, routeStates, switchStates, tvdSectionStates, SwitchPostState);
     }
 }
