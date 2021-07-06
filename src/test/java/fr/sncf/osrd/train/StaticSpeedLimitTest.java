@@ -96,7 +96,7 @@ public class StaticSpeedLimitTest {
 
         // initialize the simulation
         var changelog = new ArrayChangeLog();
-        var sim = Simulation.createFromInfra(infra, 0, changelog);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(infra, 0, changelog);
 
         var startLocation = new TrackSectionLocation(edge, 0);
         var phases = new ArrayList<Phase>();

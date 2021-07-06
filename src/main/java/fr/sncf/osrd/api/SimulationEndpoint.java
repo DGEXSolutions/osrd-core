@@ -9,6 +9,7 @@ import fr.sncf.osrd.TrainSchedule;
 import fr.sncf.osrd.infra.Infra;
 import fr.sncf.osrd.infra.InvalidInfraException;
 import fr.sncf.osrd.infra.OperationalPoint;
+import fr.sncf.osrd.infra.SuccessionTable;
 import fr.sncf.osrd.infra.routegraph.Route;
 import fr.sncf.osrd.infra_state.RouteState;
 import fr.sncf.osrd.infra_state.RouteStatus;
@@ -16,6 +17,7 @@ import fr.sncf.osrd.infra_state.SignalState;
 import fr.sncf.osrd.railjson.parser.RJSSimulationParser;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidRollingStock;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidSchedule;
+import fr.sncf.osrd.railjson.parser.exceptions.InvalidSuccession;
 import fr.sncf.osrd.railjson.schema.RJSSimulation;
 import fr.sncf.osrd.railjson.schema.common.ID;
 import fr.sncf.osrd.railjson.schema.rollingstock.RJSRollingResistance;
@@ -47,6 +49,7 @@ import java.util.*;
 
 public class SimulationEndpoint implements Take {
     private final InfraHandler infraHandler;
+    private final SuccessionsHandler successionsHandler;
 
     public static final JsonAdapter<SimulationRequest> adapterRequest = new Moshi
             .Builder()
@@ -63,8 +66,9 @@ public class SimulationEndpoint implements Take {
             .build()
             .adapter(SimulationResultChange[].class);
 
-    public SimulationEndpoint(InfraHandler infraHandler) {
+    public SimulationEndpoint(InfraHandler infraHandler, SuccessionsHandler successionsHandler) {
         this.infraHandler = infraHandler;
+        this.successionsHandler = successionsHandler;
     }
 
     @Override
@@ -84,13 +88,21 @@ public class SimulationEndpoint implements Take {
                     String.format("Error loading infrastructure '%s'%n%s", request.infra, e.getMessage())), 400);
         }
 
+        List<SuccessionTable> initTables;
+        try {
+            initTables = successionsHandler.load(request.successions);
+        } catch (InvalidSuccession | IOException e) {
+            return new RsWithStatus(new RsText(
+                    String.format("Error loading infrastructure '%s'%n%s", request.infra, e.getMessage())), 400);
+        }
+
         var rjsSimulation = new RJSSimulation(request.rollingStocks, request.trainSchedules);
         var trainSchedules = RJSSimulationParser.parse(infra, rjsSimulation);
 
         // create the simulation and his changelog
         var changeConsumers = new ArrayList<ChangeConsumer>();
         var multiplexer = new ChangeConsumerMultiplexer(changeConsumers);
-        var sim = Simulation.createFromInfra(infra, 0, multiplexer);
+        var sim = Simulation.createFromInfraAndSuccessions(infra, initTables, 0, multiplexer);
         var resultLog = new ArrayResultLog(infra, sim);
         multiplexer.add(resultLog);
 
@@ -109,6 +121,7 @@ public class SimulationEndpoint implements Take {
     public static final class SimulationRequest {
         /** Infra id */
         public final String infra;
+        public final String successions;
 
         /** A list of rolling stocks involved in this simulation */
         @Json(name = "rolling_stocks")
@@ -121,10 +134,12 @@ public class SimulationEndpoint implements Take {
         /** Create SimulationRequest */
         public SimulationRequest(
                 String infra,
+                String successions,
                 Collection<RJSRollingStock> rollingStocks,
                 Collection<RJSTrainSchedule> trainSchedules
         ) {
             this.infra = infra;
+            this.successions = successions;
             this.rollingStocks = rollingStocks;
             this.trainSchedules = trainSchedules;
         }

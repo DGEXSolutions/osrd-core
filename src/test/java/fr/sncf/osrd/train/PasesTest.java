@@ -33,12 +33,12 @@ public class PasesTest {
         var infra = getBaseInfra();
 
         var config = getBaseConfig("tiny_infra/config_railjson_several_phases.json");
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         run(sim, config);
         var actualEndTime = sim.getTime();
 
         var configBase = getBaseConfig();
-        var simBase = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var simBase = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         run(simBase, configBase);
         var baseEndTime = simBase.getTime();
 
@@ -62,11 +62,11 @@ public class PasesTest {
         var infra = getBaseInfra();
 
         var config = getBaseConfig("tiny_infra/config_railjson_several_phases.json");
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         var events = run(sim, config);
 
         var configBase = makeConfigWithSpeedParams(Collections.singletonList(null));
-        var simBase = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var simBase = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         var eventsRef = run(simBase, configBase);
 
         assertEquals(eventsRef.size() + 2, events.size());
@@ -88,7 +88,7 @@ public class PasesTest {
 
         infra.switches.iterator().next().positionChangeDelay = 500;
 
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         sim.infraState.getSwitchState(0).setPosition(sim, SwitchPosition.RIGHT);
 
         // If the train ignores the signals, an exception will be thrown when it runs over the moving switch
@@ -102,7 +102,7 @@ public class PasesTest {
 
         infra.switches.iterator().next().positionChangeDelay = 42;
 
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         sim.infraState.getSwitchState(0).setPosition(sim, SwitchPosition.RIGHT);
 
         SwitchState switchState = sim.infraState.getSwitchState(0);
@@ -130,7 +130,7 @@ public class PasesTest {
 
         phase2.targetSpeedGenerators = Collections.singletonList(getStaticGenerator(Double.POSITIVE_INFINITY));
 
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         run(sim, config);
     }
 
@@ -140,12 +140,12 @@ public class PasesTest {
 
         var phases = loadPhasesLongerFirstPhase();
         var config = makeConfigWithGivenPhases(phases, "tiny_infra/config_railjson_several_phases.json");
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         saveGraph(run(sim, config), "double-construction-out.csv");
         var actualEndTime = sim.getTime();
 
         var config_base = makeConfigWithSpeedParams(null);
-        var sim_base = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim_base = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         saveGraph(run(sim_base, config_base), "double-construction-base.csv");
         var baseEndTime = sim_base.getTime();
 
@@ -167,12 +167,12 @@ public class PasesTest {
         phases[1].allowances = new RJSAllowance[]{param2};
 
         var config = makeConfigWithGivenPhases(phases, "tiny_infra/config_railjson_several_phases.json");
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         saveGraph(run(sim, config), "double-construction-out.csv");
         var actualEndTime = sim.getTime();
 
         var config_base = makeConfigWithSpeedParams(null);
-        var sim_base = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim_base = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         saveGraph(run(sim_base, config_base), "double-construction-base.csv");
         var baseEndTime = sim_base.getTime();
 
@@ -225,7 +225,7 @@ public class PasesTest {
         phases[1].allowances = new RJSAllowance[]{paramsSecondPhase};
 
         var configMargins = makeConfigWithGivenPhases(phases, "tiny_infra/config_railjson_several_phases.json");
-        var simMargins = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var simMargins = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         var eventsMargins = run(simMargins, configMargins);
         var timeFirstPhaseMMargins = findPhaseChangeTime(eventsMargins);
         var timeMargins = simMargins.getTime();
@@ -234,7 +234,7 @@ public class PasesTest {
         phases[1].allowances = null;
 
         var config = makeConfigWithGivenPhases(phases, "tiny_infra/config_railjson_several_phases.json");
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         var baseEvents = run(sim, config);
         var baseTimeFirstPhase = findPhaseChangeTime(baseEvents);
         var baseTime = sim.getTime();

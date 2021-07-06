@@ -58,7 +58,7 @@ public final class SimulateCommand implements CliCommand {
 
             // create the simulation and add change consumers
             var multiplexer = new ChangeConsumerMultiplexer(changeConsumers);
-            var sim = Simulation.createFromInfra(config.infra, 0, multiplexer);
+            var sim = Simulation.createFromInfraAndSuccessions(config.infra, config.switchSuccessions, 0, multiplexer);
 
             if (config.changeReplayCheck)
                 multiplexer.add(ChangeReplayChecker.from(sim));
@@ -70,9 +70,6 @@ public final class SimulateCommand implements CliCommand {
             // insert the train start events into the simulation
             for (var trainSchedule : config.trainSchedules)
                 TrainCreatedEvent.plan(sim, trainSchedule);
-
-            // initialize the switch post with the train succession tables
-            sim.infraState.switchPost.init(config.infra, config.switchSuccessions);
 
             // run the simulation loop
             while (!sim.isSimulationOver())

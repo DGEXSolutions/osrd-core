@@ -21,7 +21,7 @@ public class TrainReactionTest {
     public void testWaitingForSwitchChange() throws InvalidInfraException, SimulationError {
         var infra = getBaseInfra();
         infra.switches.iterator().next().positionChangeDelay = 42;
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         SwitchState switchState = sim.infraState.getSwitchState(0);
         switchState.setPosition(sim, SwitchPosition.RIGHT);
         run(sim);
@@ -38,7 +38,7 @@ public class TrainReactionTest {
         for (var f : functions) {
             f.body = new RJSRSExpr.AspectSet(new RJSRSExpr.AspectSet.AspectSetMember[]{aspect});
         }
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         SwitchState switchState = sim.infraState.getSwitchState(0);
         switchState.setPosition(sim, SwitchPosition.RIGHT);
         makeFunctionEvent(sim, 100, () -> {
@@ -61,7 +61,7 @@ public class TrainReactionTest {
         for (var f : functions) {
             f.body = new RJSRSExpr.AspectSet(new RJSRSExpr.AspectSet.AspectSetMember[]{aspect});
         }
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
 
         makeFunctionEvent(sim, 100, () -> {
             var train = sim.trains.values().iterator().next();

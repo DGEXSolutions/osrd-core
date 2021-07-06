@@ -1,12 +1,15 @@
 package fr.sncf.osrd.infra_state;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import fr.sncf.osrd.config.Config;
 import fr.sncf.osrd.infra.Infra;
+import fr.sncf.osrd.infra.SuccessionTable;
 import fr.sncf.osrd.utils.DeepComparable;
 import fr.sncf.osrd.utils.DeepEqualsUtils;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
+import java.util.List;
 
 public final class InfraState implements DeepComparable<InfraState> {
     private final SignalState[] signalSignalStates;
@@ -84,7 +87,35 @@ public final class InfraState implements DeepComparable<InfraState> {
         for (var tvdSection : infra.tvdSections.values())
             tvdSectionStates[tvdSection.index] = new TVDSectionState(tvdSection);
 
-        var switchPost = new SwitchPost();
+        var switchPost = new SwitchPost(infra);
+        
+        return new InfraState(signalStates, routeStates, switchStates, tvdSectionStates, switchPost);
+    }
+
+    /** Initializes a state for the infrastructure */
+    @SuppressFBWarnings({"BC_UNCONFIRMED_CAST_OF_RETURN_VALUE"})
+    public static InfraState from(Infra infra, List<SuccessionTable> initTables) {
+        var signalCount = infra.signals.size();
+        var signalStates = new SignalState[signalCount];
+        for (int i = 0; i < signalCount; i++)
+            signalStates[i] = SignalState.from(infra.signals.get(i));
+
+        var routeCount = infra.routeGraph.getEdgeCount();
+        var routeStates = new RouteState[routeCount];
+        for (int i = 0; i < routeCount; i++)
+            routeStates[i] = new RouteState(infra.routeGraph.getEdge(i));
+
+        var switchCount = infra.switches.size();
+        var switchStates = new SwitchState[switchCount];
+        for (var infraSwitch : infra.switches)
+            switchStates[infraSwitch.switchIndex] = new SwitchState(infraSwitch);
+
+        var tvdSectionCount = infra.tvdSections.size();
+        var tvdSectionStates = new TVDSectionState[tvdSectionCount];
+        for (var tvdSection : infra.tvdSections.values())
+            tvdSectionStates[tvdSection.index] = new TVDSectionState(tvdSection);
+
+        var switchPost = new SwitchPost(infra, initTables);
         
         return new InfraState(signalStates, routeStates, switchStates, tvdSectionStates, switchPost);
     }

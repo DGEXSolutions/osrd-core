@@ -6,6 +6,8 @@ import fr.sncf.osrd.api.InfraHandler;
 import fr.sncf.osrd.api.PathfindingRoutesEndpoint;
 import fr.sncf.osrd.api.PathfindingTracksEndpoint;
 import fr.sncf.osrd.api.SimulationEndpoint;
+import fr.sncf.osrd.api.SuccessionsHandler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.takes.Response;
@@ -57,6 +59,7 @@ public final class ApiServerCommand implements CliCommand {
         FbSentry.init();
         var authorizationToken = System.getenv("FETCH_INFRA_AUTHORIZATION");
         var infraHandler = new InfraHandler(getMiddlewareBaseUrl(), authorizationToken);
+        var successionsHandler = new SuccessionsHandler(getMiddlewareBaseUrl(), authorizationToken);
 
         try {
             // the list of endpoints
@@ -64,7 +67,7 @@ public final class ApiServerCommand implements CliCommand {
                     new FkRegex("/health", ""),
                     new FkRegex("/pathfinding/routes", new PathfindingRoutesEndpoint(infraHandler)),
                     new FkRegex("/pathfinding/tracks", new PathfindingTracksEndpoint(infraHandler)),
-                    new FkRegex("/simulation", new SimulationEndpoint(infraHandler))
+                    new FkRegex("/simulation", new SimulationEndpoint(infraHandler, successionsHandler))
             );
 
             // the list of pages which should be displayed on error

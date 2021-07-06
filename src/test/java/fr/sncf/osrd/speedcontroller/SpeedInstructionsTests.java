@@ -70,7 +70,7 @@ public class SpeedInstructionsTests {
         SpeedControllerGenerator generator = getStaticGenerator(5);
         ((SignalNavigatePhase) phase).targetSpeedGenerators = Collections.singletonList(generator);
 
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
 
         for (int i = 10; i < 150; i++)
             makeAssertEvent(sim, i, () -> getLastTrainSpeed(sim) < 5.5);
@@ -88,7 +88,7 @@ public class SpeedInstructionsTests {
         ((SignalNavigatePhase) phase).targetSpeedGenerators = Collections.singletonList(generator);
 
         infra.switches.iterator().next().positionChangeDelay = 42;
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         sim.infraState.getSwitchState(0).setPosition(sim, SwitchPosition.RIGHT);
 
         makeAssertEvent(sim, 43, () -> isLate(sim));
@@ -102,7 +102,7 @@ public class SpeedInstructionsTests {
         var config = makeConfigWithSpeedParams(null);
 
         infra.switches.iterator().next().positionChangeDelay = 20;
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         sim.infraState.getSwitchState(0).setPosition(sim, SwitchPosition.RIGHT);
 
         makeAssertEvent(sim, 30, () -> isLate(sim));
@@ -114,7 +114,7 @@ public class SpeedInstructionsTests {
         var infra = getBaseInfra();
         var config = getBaseConfig();
 
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
 
         for (int i = 1; i < 150; i++)
             makeAssertEvent(sim, i, () -> !isLate(sim));
@@ -131,13 +131,13 @@ public class SpeedInstructionsTests {
 
         // base run, no margin
         var config = makeConfigWithSpeedParams(null);
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         run(sim, config);
         var baseSimTime = sim.getTime();
 
         // Run with 50% margins
         var configMargins = makeConfigWithSpeedParams(Collections.singletonList(params));
-        var sim2 = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim2 = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         run(sim2, configMargins);
         var marginsSimTime = sim2.getTime();
         var expected = baseSimTime * 1.5;
@@ -154,13 +154,13 @@ public class SpeedInstructionsTests {
 
         // base run, no margin
         var config = makeConfigWithSpeedParams(null);
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         var eventsBase = run(sim, config);
         var baseSimTime = sim.getTime();
 
         // Run with 200% margins
         var configMargins = makeConfigWithSpeedParams(Collections.singletonList(params));
-        var sim2 = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim2 = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         var events = run(sim2, configMargins);
         var marginsSimTime = sim2.getTime();
         var expected = baseSimTime * 3;
@@ -179,13 +179,13 @@ public class SpeedInstructionsTests {
 
         // base run, no margin
         var config = makeConfigWithSpeedParams(null);
-        var sim = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         var eventsBase = run(sim, config);
         var baseSimTime = sim.getTime();
 
         // Run with 0% margins
         var configMargins = makeConfigWithSpeedParams(Collections.singletonList(params));
-        var sim2 = Simulation.createFromInfra(RailJSONParser.parse(infra), 0, null);
+        var sim2 = Simulation.createFromInfraAndEmptySuccessions(RailJSONParser.parse(infra), 0, null);
         var events = run(sim2, configMargins);
         var marginsSimTime = sim2.getTime();
         saveGraph(events, "margin-0-out.csv");

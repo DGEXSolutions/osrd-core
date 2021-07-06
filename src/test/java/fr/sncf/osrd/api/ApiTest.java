@@ -17,11 +17,13 @@ import java.io.IOException;
 public class ApiTest {
     @Mock
     static InfraHandler infraHandlerMock;
+    static SuccessionsHandler successionsHandlerMock;
 
     /** Setup infra handler mock */
     @BeforeEach
     public void setUp() throws InvalidInfraException, IOException {
         var infra = "tiny_infra/infra.json";
+        var succession = "tiny_infra/succession.json";
         var tinyInfra = Infra.parseFromFile(JsonConfig.InfraType.UNKNOWN, Helpers.getResourcePath(infra).toString());
         when(infraHandlerMock.load(infra)).thenReturn(tinyInfra);
     }

@@ -12,9 +12,11 @@ import fr.sncf.osrd.infra.Infra;
 import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.ArrayList;
 
 public class SwitchPost {
 
+    public final List<SuccessionTable> initTables;
     private HashMap<String, SuccessionTable> tables;
     private HashMap<String, Integer> currentIndex;
     private HashMap<String, HashMap<String, Integer>> occurences;
@@ -22,17 +24,29 @@ public class SwitchPost {
     private HashMap<String, String> lastRequestedRoute;
     private HashMap<String, String> currentTrainAllowed;
 
-    public SwitchPost() {
-        tables = null;
-    }
-
     /**
-     * fill the fields of the SwitchPost according to the given infra and the initial trains successions tables
+     * build a SwitchPost with empty trains successions tables
+     * @param infra the infra
+     */
+    public SwitchPost(Infra infra) {
+        initTables = new ArrayList<SuccessionTable>();
+        for (var s : infra.switches) {
+            initTables.add(new SuccessionTable(s.id, new ArrayList<String>()));
+        }
+        init(infra);
+    }
+    /**
+     * build a SwitchPost according to the given infra and the initial trains successions tables
      * each switch should be in the given trains successions tables list
      * @param infra the infra
      * @param initTables the initial train successions table
      */
-    public void init(Infra infra, List<SuccessionTable> initTables) {
+    public SwitchPost(Infra infra, List<SuccessionTable> initTables) {
+        this.initTables = initTables;
+        init(infra);
+    }
+
+    private void init(Infra infra) {
         // build succession tables from initTables
         tables = new HashMap<>();
         currentIndex = new HashMap<>();
@@ -81,7 +95,7 @@ public class SwitchPost {
     private void plan(String switchID, String trainID) {
         assert tables.containsKey(switchID);
         tables.get(switchID).table.add(trainID);
-        var count = occurences.get(switchID).containsKey(trainID) ? occurences.get(switchID).get(trainID) : 0;
+        var count = occurences.get(switchID).getOrDefault(trainID, 0);
         occurences.get(switchID).put(trainID, count + 1);
     }
 
