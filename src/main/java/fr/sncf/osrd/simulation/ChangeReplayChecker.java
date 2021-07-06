@@ -19,10 +19,11 @@ public class ChangeReplayChecker extends ChangeConsumer {
     /** Creates a change replay checker */
     public static ChangeReplayChecker from(Simulation refSim) {
         var refInfra = refSim.infra;
-        var refInitTables = refSim.infraState.SwitchPostState.initTables;
         Simulation replaySim;
-        if (refInfra != null)
+        if (refInfra != null) {
+            var refInitTables = refSim.infraState.SwitchPostState.initTables;
             replaySim = Simulation.createFromInfraAndSuccessions(refInfra, refInitTables, refSim.startTime, null);
+        }
         else
             replaySim = Simulation.createWithoutInfra(refSim.startTime, null);
 
