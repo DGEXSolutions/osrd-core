@@ -23,12 +23,11 @@ public class SimulationTest extends ApiTest {
         var rjsSimulation = MoshiUtils.deserialize(RJSSimulation.adapter, Paths.get(simulationPath.toURI()));
         var requestBody = SimulationEndpoint.adapterRequest.toJson(new SimulationEndpoint.SimulationRequest(
                 "tiny_infra/infra.json",
-                "tiny_infra/succession.json",
                 rjsSimulation.rollingStocks,
                 rjsSimulation.trainSchedules
         ));
         var result = new RsPrint(
-                new SimulationEndpoint(infraHandlerMock, successionsHandlerMock).act(new RqFake("POST", "/simulation", requestBody))
+                new SimulationEndpoint(infraHandlerMock).act(new RqFake("POST", "/simulation", requestBody))
         ).printBody();
 
         var simResultChanges =  SimulationEndpoint.adapterResult.fromJson(result);
@@ -46,12 +45,11 @@ public class SimulationTest extends ApiTest {
         var rjsSimulation = MoshiUtils.deserialize(RJSSimulation.adapter, Paths.get(simulationPath.toURI()));
         var requestBody = SimulationEndpoint.adapterRequest.toJson(new SimulationEndpoint.SimulationRequest(
                         "tiny_infra/infra.json",
-                        "tiny_infra/succession.json",
                         rjsSimulation.rollingStocks,
                         rjsSimulation.trainSchedules
                 ));
         var result = new RsPrint(
-                new SimulationEndpoint(infraHandlerMock, successionsHandlerMock).act(new RqFake("POST", "/simulation", requestBody))
+                new SimulationEndpoint(infraHandlerMock).act(new RqFake("POST", "/simulation", requestBody))
         ).printBody();
 
         var simResultChanges =  SimulationEndpoint.adapterResult.fromJson(result);

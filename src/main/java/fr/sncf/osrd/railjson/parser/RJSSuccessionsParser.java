@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import fr.sncf.osrd.infra.SuccessionTable;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidSuccession;
-import fr.sncf.osrd.railjson.schema.RJSSuccession;
+import fr.sncf.osrd.railjson.schema.RJSSuccessions;
 
-public class RJSSuccessionParser {
+public class RJSSuccessionsParser {
     /** Parse the description of a switch succession tables */
     public static List<SuccessionTable> parse(
-            RJSSuccession rjsSuccession
+            RJSSuccessions rjsSuccession
     ) throws InvalidSuccession {
         var switchSuccession = new ArrayList<SuccessionTable>();
         for (var rjsSuccessionTable : rjsSuccession.successionTables) {
