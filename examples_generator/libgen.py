@@ -1,6 +1,5 @@
 from heapq import heappush, heappop
 import json
-import networkx
 
 def write_json(filename, data):
     out = open(filename, "w")
@@ -91,46 +90,6 @@ class Infra:
     def build_operational_points(self):
         self.json["operational_points"] = []
 
-    def build_endpoints_coords(self):
-        g = networkx.Graph()
-        nodeMap = dict()
-        node = 0
-        for utrack in range(self.nb_tracks):
-            if self.degree[utrack] == 1: 
-                nodeMap[uget_end(utrack)] = node
-                g.add_node(node)
-                node += 1
-        for ofirst, olast in self.links:
-            nodeMap[ofirst] = node
-            nodeMap[olast] = node
-            g.add_node(node)
-            node += 1
-        for obase, oleft, oright in self.switches:
-            nodeMap[obase] = node
-            nodeMap[oleft] = node
-            nodeMap[oright] = node
-            g.add_node(node)
-            node += 1
-        for utrack in range(self.nb_tracks):
-            g.add_edge(nodeMap[uget_begin(utrack)], nodeMap[uget_end(utrack)], length = 1 / self.lengths[utrack])
-
-        #layout = networkx.spring_layout(g, weight = 'length')
-        layout = networkx.planar_layout(g)
-        trueMean = sum(self.lengths) / len(self.lengths)
-        layoutMean = 0
-        for utrack in range(self.nb_tracks):
-            x1, y1 = layout[nodeMap[uget_begin(utrack)]]
-            x2, y2 = layout[nodeMap[uget_end(utrack)]]
-            layoutMean += ((x1-x2)**2 + (y1-y2)**2) ** 0.5
-        layoutMean /= len(self.lengths)
-        for k in layout:
-            layout[k] *= trueMean / layoutMean
-
-        for utrack in range(self.nb_tracks):
-            x1, y1 = layout[nodeMap[uget_begin(utrack)]]
-            x2, y2 = layout[nodeMap[uget_end(utrack)]]
-            self.json["track_sections"][utrack]["endpoints_coords"] = [[x1, y1], [x2, y2]]
-
     def build_track_sections(self):
         self.json["track_sections"] = []
         for utrack in range(self.nb_tracks):
@@ -140,11 +99,11 @@ class Infra:
                     "operational_points": [],
                     "route_waypoints": None,
                     "signals": [],
-                    "speed_sections": []
+                    "speed_sections": [],
+                    "endpoints_coords": [self.coordinates[uget_begin(utrack)], self.coordinates[uget_end(utrack)]]
                 })
         self.build_tde()
         self.build_signals()
-        self.build_endpoints_coords()
 
     def build_tde(self):
         for utrack in range(self.nb_tracks):
@@ -386,16 +345,25 @@ class Infra:
         else:
             return uget_end(utrack)
 
-    def add_link(self, ufirst, usecond):
+    def add_link(self, ufirst, usecond, x = 0, y = 0):
         ofirst = self.new_point(ufirst)
         osecond = self.new_point(usecond)
         self.links.append((ofirst, osecond))
+        self.coordinates[ofirst] = (x, y)
+        self.coordinates[osecond] = (x, y)
         
-    def add_switch(self, ubase, uleft, uright):
+    def add_switch(self, ubase, uleft, uright, x = 0, y = 0):
         obase = self.new_point(ubase)
         oleft = self.new_point(uleft)
         oright = self.new_point(uright)
         self.switches.append((obase, oleft, oright))
+        self.coordinates[obase] = (x, y)
+        self.coordinates[oleft] = (x, y)
+        self.coordinates[oright] = (x, y)
+
+    def set_buffer_stop_coordinates(self, utrack, x, y):
+        assert self.degree[utrack] == 1
+        self.coordinates[uget_end(utrack)] = (x, y)
 
     def to_json(self):
         for utrack in range(self.nb_tracks):
@@ -425,6 +393,7 @@ class Infra:
         self.degree = [0 for utrack in range(self.nb_tracks)]
         self.links = []
         self.switches = []
+        self.coordinates = [(0, 0) for otrack in range(2 * self.nb_tracks)]
 
 class Simulation:
 
