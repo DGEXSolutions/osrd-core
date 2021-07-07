@@ -9,11 +9,9 @@ import fr.sncf.osrd.train.TrackSectionRange;
 import fr.sncf.osrd.utils.TrackSectionLocation;
 import fr.sncf.osrd.train.Train;
 import fr.sncf.osrd.train.TrainState;
-import fr.sncf.osrd.train.Action;
 import fr.sncf.osrd.speedcontroller.SpeedController;
 import fr.sncf.osrd.speedcontroller.LimitAnnounceSpeedController;
 import fr.sncf.osrd.speedcontroller.MaxSpeedController;
-import fr.sncf.osrd.simulation.Simulation;
 import fr.sncf.osrd.infra.trackgraph.TrackSection;
 
 import java.util.*;
@@ -42,10 +40,6 @@ public class CBTCATP {
         this.trainSchedule = trainSchedule;
         this.trainState = trainState;
         this.sim = sim;
-    }
-
-    private TrackSectionLocation getLocation() {
-        return trainSchedule.findLocation(location.getPathPosition());
     }
 
     private double getNextClosedSwitchPathPosition() {

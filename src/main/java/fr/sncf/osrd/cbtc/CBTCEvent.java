@@ -5,7 +5,6 @@ import fr.sncf.osrd.simulation.SimulationError;
 import fr.sncf.osrd.simulation.TimelineEvent;
 import fr.sncf.osrd.simulation.TimelineEventId;
 import fr.sncf.osrd.train.Train;
-import fr.sncf.osrd.train.TrainStatus;
 
 public class CBTCEvent extends TimelineEvent {
 
