@@ -48,7 +48,8 @@ public enum RSType {
                 return ROUTE;
             case OPTIONAL_SIGNAL:
                 return SIGNAL;
+            default:
+                throw new InvalidInfraException("Can't call contained type on a type that is not an optional");       
         }
-        throw new InvalidInfraException("Can't call contained type on a type that is not an optional");
     }
 }
