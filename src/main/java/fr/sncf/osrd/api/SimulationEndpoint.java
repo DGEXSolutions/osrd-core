@@ -13,15 +13,19 @@ import fr.sncf.osrd.infra_state.RouteState;
 import fr.sncf.osrd.infra_state.RouteStatus;
 import fr.sncf.osrd.infra_state.SignalState;
 import fr.sncf.osrd.railjson.parser.RJSSimulationParser;
+import fr.sncf.osrd.railjson.parser.RJSSuccessionsParser;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidRollingStock;
 import fr.sncf.osrd.railjson.parser.exceptions.InvalidSchedule;
+import fr.sncf.osrd.railjson.parser.exceptions.InvalidSuccession;
 import fr.sncf.osrd.railjson.schema.RJSSimulation;
+import fr.sncf.osrd.railjson.schema.RJSSuccessions;
 import fr.sncf.osrd.railjson.schema.common.ID;
 import fr.sncf.osrd.railjson.schema.rollingstock.RJSRollingResistance;
 import fr.sncf.osrd.railjson.schema.rollingstock.RJSRollingStock;
 import fr.sncf.osrd.railjson.schema.schedule.RJSAllowance;
 import fr.sncf.osrd.railjson.schema.schedule.RJSTrainPhase;
 import fr.sncf.osrd.railjson.schema.schedule.RJSTrainSchedule;
+import fr.sncf.osrd.railjson.schema.successiontable.RJSSuccessionTable;
 import fr.sncf.osrd.simulation.Change;
 import fr.sncf.osrd.simulation.Simulation;
 import fr.sncf.osrd.simulation.SimulationError;
@@ -66,7 +70,7 @@ public class SimulationEndpoint implements Take {
     }
 
     @Override
-    public Response act(Request req) throws IOException, InvalidRollingStock, InvalidSchedule, SimulationError {
+    public Response act(Request req) throws IOException, InvalidRollingStock, InvalidSchedule, InvalidSuccession, SimulationError {
         // Parse request input
         var body = new RqPrint(req).printBody();
         var request = adapterRequest.fromJson(body);
@@ -82,11 +86,13 @@ public class SimulationEndpoint implements Take {
                     String.format("Error loading infrastructure '%s'%n%s", request.infra, e.getMessage())), 400);
         }
 
+        // load train schedules
         var rjsSimulation = new RJSSimulation(request.rollingStocks, request.trainSchedules);
         var trainSchedules = RJSSimulationParser.parse(infra, rjsSimulation);
 
-        // TODO
-        var successions = new ArrayList<SuccessionTable>();
+        // load trains successions tables
+        var rjsSuccessions = new RJSSuccessions(request.successions);
+        var successions = RJSSuccessionsParser.parse(rjsSuccessions);
 
         // create the simulation and his changelog
         var changeConsumers = new ArrayList<ChangeConsumer>();
@@ -119,15 +125,21 @@ public class SimulationEndpoint implements Take {
         @Json(name = "train_schedules")
         public Collection<RJSTrainSchedule> trainSchedules;
 
+        /** A list of trains successions tables */
+        @Json(name = "successions")
+        public Collection<RJSSuccessionTable> successions;
+
         /** Create SimulationRequest */
         public SimulationRequest(
                 String infra,
                 Collection<RJSRollingStock> rollingStocks,
-                Collection<RJSTrainSchedule> trainSchedules
+                Collection<RJSTrainSchedule> trainSchedules,
+                Collection<RJSSuccessionTable> successions
         ) {
             this.infra = infra;
             this.rollingStocks = rollingStocks;
             this.trainSchedules = trainSchedules;
+            this.successions = successions;
         }
     }
 

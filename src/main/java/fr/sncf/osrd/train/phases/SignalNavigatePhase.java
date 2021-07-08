@@ -1,5 +1,6 @@
 package fr.sncf.osrd.train.phases;
 
+import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import fr.sncf.osrd.TrainSchedule;
 import fr.sncf.osrd.infra.TVDSection;
@@ -8,6 +9,7 @@ import fr.sncf.osrd.infra.signaling.ActionPoint;
 import fr.sncf.osrd.infra.signaling.AspectConstraint;
 import fr.sncf.osrd.infra.signaling.Signal;
 import fr.sncf.osrd.infra.trackgraph.Detector;
+import fr.sncf.osrd.infra.trackgraph.SwitchPosition;
 import fr.sncf.osrd.infra.trackgraph.TrackSection;
 import fr.sncf.osrd.infra.trackgraph.Waypoint;
 import fr.sncf.osrd.infra_state.SignalState;
@@ -69,7 +71,7 @@ public final class SignalNavigatePhase implements Phase {
         verifyRoutes(routes);
         var trackSectionPath = Route.routesToTrackSectionRange(routes,
                 startLocation, endLocation);
-        var actionPointPath = trackSectionToActionPointPath(driverSightDistance, trackSectionPath);
+        var actionPointPath = trackSectionToActionPointPath(routes, driverSightDistance, trackSectionPath);
         return new SignalNavigatePhase(routes, endLocation, trackSectionPath, actionPointPath,
                 driverSightDistance, targetSpeedGenerators);
     }
@@ -84,6 +86,7 @@ public final class SignalNavigatePhase implements Phase {
     }
 
     private static ArrayList<Interaction> trackSectionToActionPointPath(
+            List<Route> routes,
             double driverSightDistance,
             Iterable<TrackSectionRange> trackSectionRanges
     ) {
@@ -92,6 +95,45 @@ public final class SignalNavigatePhase implements Phase {
         for (var trackRange : trackSectionRanges) {
             registerRange(eventPath, trackRange, pathLength, driverSightDistance);
             pathLength += trackRange.length();
+        }
+
+        // create a map switch index -> switch id
+        var nodeSwitch = new HashMap<Integer, String>();
+        for (var route : routes) {
+            for (var s : route.switchesPosition.keySet()) {
+                nodeSwitch.put(s.index, s.id);
+            }
+        }
+
+        // add the switch to interactions
+        double dist = 0;
+        String lastSwitchEncounteredId = null;
+        for (var trackRange : trackSectionRanges) {
+            String switchBeginId = null;
+            if (Math.abs(trackRange.getBeginPosition() - 0) < 1e-6) {
+                switchBeginId = nodeSwitch.getOrDefault(trackRange.edge.startNode, null);
+            }
+            if (Math.abs(trackRange.getBeginPosition() - trackRange.edge.length) < 1e-6) {
+                switchBeginId = nodeSwitch.getOrDefault(trackRange.edge.endNode, null);
+            }
+            String switchEndId = null;
+            if (Math.abs(trackRange.getEndPosition() - 0) < 1e-6) {
+                switchEndId = nodeSwitch.getOrDefault(trackRange.edge.startNode, null);
+            }
+            if (Math.abs(trackRange.getEndPosition() - trackRange.edge.length) < 1e-6) {
+                switchEndId = nodeSwitch.getOrDefault(trackRange.edge.endNode, null);
+            }
+
+            if (switchBeginId != null && !switchBeginId.equals(lastSwitchEncounteredId)) {
+                var passage = new SwitchActionPoint(switchBeginId);
+                eventPath.add(new Interaction(InteractionType.HEAD, dist, passage));
+            }
+            dist += trackRange.length();
+            if (switchEndId != null) {
+                var passage = new SwitchActionPoint(switchEndId);
+                eventPath.add(new Interaction(InteractionType.HEAD, dist, passage));
+            }
+            lastSwitchEncounteredId = switchEndId;
         }
 
         Collections.sort(eventPath);
@@ -213,6 +255,57 @@ public final class SignalNavigatePhase implements Phase {
     @Override
     public void forEachPathSection(Consumer<TrackSectionRange> consumer) {
         trackSectionPath.forEach(consumer);
+    }
+
+    /** This class represent the location of a switch */
+    public static final class SwitchActionPoint implements ActionPoint {
+
+        private final String switchId;
+
+        public SwitchActionPoint(String switchId) {
+            super();
+            this.switchId = switchId;
+        }
+
+        @Override
+        public InteractionTypeSet getInteractionsType() {
+            return new InteractionTypeSet();
+        }
+
+        @Override
+        public double getActionDistance() {
+            return 0;
+        }
+
+        @Override
+        public void interact(Simulation sim, Train train, InteractionType actionType) {
+            var change = new PassageOnSwitch(sim, train.getName(), switchId);
+            sim.publishChange(change);
+        }
+
+        @Override
+        public String toString() {
+            return "SwitchActionPoint { }";
+        }
+
+        public static class PassageOnSwitch extends Change {
+            public final String trainId;
+            public final String switchId;
+
+            public PassageOnSwitch(Simulation sim, String trainId, String switchId) {
+                super(sim);
+                this.trainId = trainId;
+                this.switchId = switchId;
+            }
+
+            @Override
+            public void replay(Simulation sim) {}
+
+            @Override
+            public String toString() {
+                return String.format("PassageOnSwitch { train: %s, switch: %s }", trainId, switchId);
+            }
+        }
     }
 
     /** This class represent the location of the phase end. It's as last event in the event path */

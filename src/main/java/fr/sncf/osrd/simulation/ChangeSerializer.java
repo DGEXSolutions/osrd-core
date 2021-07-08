@@ -82,6 +82,7 @@ public class ChangeSerializer {
                     .withSubtype(Signal.class, "signal")
                     .withSubtype(OperationalPoint.class, "operationalPoint")
                     .withSubtype(SignalNavigatePhase.PhaseEndActionPoint.class, "virtualActionPoint")
+                    .withSubtype(SignalNavigatePhase.SwitchActionPoint.class, "switch")
             )
             .add(PolymorphicJsonAdapterFactory.of(RSValue.class, "valueType")
                     .withSubtype(RSAspectSet.class, "aspectSet")
