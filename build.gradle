@@ -4,6 +4,7 @@ plugins {
     id 'checkstyle'
     id 'com.github.spotbugs' version '4.6.0'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id "org.ysb33r.doxygen" version "0.7.0"
 }
 
 java {
@@ -133,3 +134,12 @@ tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
      }
   }
 }
+
+doxygen {
+  source 'src/main/java/fr/sncf/osrd'
+  project_name 'OSRD-CORE'
+  markdown_support true
+  generate_treeview true
+//   html_stylesheet new File(projectDir, "doxygen-awesome.css")
+}
+
