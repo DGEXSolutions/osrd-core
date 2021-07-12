@@ -1,0 +1,34 @@
+This zip was created at 27-5-2021 12:30:54
+Items:
+ - Plan:1-FBMZ-002/1
+ - Detail:ZONE BRUSSEL-ZUID       B.1 - FBMZ       S.II - FOVR  SEININRICHTINGSPLAN \ ZONE BRUXELLES-MIDI       B.1 - FBMZ     C.II - FOVR  PLAN DE SIGNALISATION
+ - MasterId:52378
+ - Id:2018241
+ - Files:
+   # 1-FBMZ-002_1-b14.pdf
+   # 1-FBMZ-002_1-b01.pdf
+   # 1-FBMZ-002_1-b22.pdf
+   # 1-FBMZ-002_1-b07.pdf
+   # 1-FBMZ-002_1-b09.pdf
+   # 1-FBMZ-002_1-b19.pdf
+   # 1-FBMZ-002_1-b05.pdf
+   # 1-FBMZ-002_1-b24.pdf
+   # 1-FBMZ-002_1-b25.pdf
+   # 1-FBMZ-002_1-b12.pdf
+   # 1-FBMZ-002_1-b23.pdf
+   # 1-FBMZ-002_1-b13.pdf
+   # 1-FBMZ-002_1-b10.pdf
+   # 1-FBMZ-002_1-b08.pdf
+   # 1-FBMZ-002_1-b16.pdf
+   # 1-FBMZ-002_1-b02.pdf
+   # 1-FBMZ-002_1-b20.pdf
+   # 1-FBMZ-002_1-b18.pdf
+   # 1-FBMZ-002_1-b11.pdf
+   # 1-FBMZ-002_1-b17.pdf
+   # 1-FBMZ-002_1-b04.pdf
+   # 1-FBMZ-002_1-b06.pdf
+   # 1-FBMZ-002_1-b15.pdf
+   # 1-FBMZ-002_1-b03.pdf
+   # 1-FBMZ-002_1-b21.pdf
+
+

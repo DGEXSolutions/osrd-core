@@ -1,0 +1,1838 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2020 rel. 2 sp1 (x64) (http://www.altova.com) by Johan Gheys (infrabel nv) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.infrabel.be/INT" xmlns:int="http://www.infrabel.be/INT"
+           targetNamespace="http://www.infrabel.be/INT" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7">
+   <xs:import namespace="http://www.w3.org/2000/svg" schemaLocation="svg11.xsd"/>
+   <xs:element name="catenaryCases" type="catenaryCasesType">
+      <xs:key name="catenaryCase-validFromDate-key">
+         <xs:selector xpath="int:catenaryCase"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="catenaryCase-validToDate-key">
+         <xs:selector xpath="int:catenaryCase"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="gigs" type="gigsType">
+      <xs:key name="gig-validFromDate-key">
+         <xs:selector xpath=".//int:grid|.//int:interGrid"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="gig-validToDate-key">
+         <xs:selector xpath=".//int:grid|.//int:interGrid"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="gigsBySerZone" type="gigsBySerZoneType">
+      <xs:key name="gigBySerZone-validFromDate-key">
+         <xs:selector xpath="int:gigBySerZone"/>
+         <xs:field xpath="@gigId"/>
+         <xs:field xpath="@serZoneId"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="gigBySerZone-validToDate-key">
+         <xs:selector xpath="int:gigBySerZone"/>
+         <xs:field xpath="@gigId"/>
+         <xs:field xpath="@serZoneId"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="levelCrossings" type="levelCrossingsType">
+      <xs:key name="levelCrossing-validFromDate-key">
+         <xs:selector xpath="int:levelCrossing"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="levelCrossing-validToDate-key">
+         <xs:selector xpath="int:levelCrossing"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="locations" type="locationsType">
+      <xs:key name="location-validFromDate-key">
+         <xs:selector xpath="int:location"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="location-validToDate-key">
+         <xs:selector xpath="int:location"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="milestones" type="milestonesType">
+      <xs:key name="milestone-validFromDate-key">
+         <xs:selector xpath="int:milestone"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="milestone-validToDate-key">
+         <xs:selector xpath="int:milestone"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="nodes" type="nodesType">
+      <xs:key name="node-validFromDate-key">
+         <xs:selector
+               xpath=".//int:border|.//int:crossing|.//int:curve|.//int:deadEnd|.//int:endOfModel|.//int:gradient|.//int:levelCrossingPoint|.//int:locationPoint|.//int:routePoint|.//int:speedSignal|.//int:stopSignal|.//int:switch"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="node-validToDate-key">
+         <xs:selector
+               xpath=".//int:border|.//int:crossing|.//int:curve|.//int:deadEnd|.//int:endOfModel|.//int:gradient|.//int:levelCrossingPoint|.//int:locationPoint|.//int:routePoint|.//int:speedSignal|.//int:stopSignal|.//int:switch"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="nodesByGig" type="nodesByGigType">
+      <xs:key name="nodeByGig-validFromDate-key">
+         <xs:selector xpath="int:nodeByGig"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@gigId"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="nodeByGig-validToDate-key">
+         <xs:selector xpath="int:nodeByGig"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@gigId"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="nodesByLocation" type="nodesByLocationType">
+      <xs:key name="nodeByLocation-validFromDate-key">
+         <xs:selector xpath="int:nodeByLocation"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@locationId"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="nodeByLocation-validToDate-key">
+         <xs:selector xpath="int:nodeByLocation"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@locationId"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="nodesByCatenaryCase" type="nodesByCatenaryCaseType">
+      <xs:key name="nodeByCatenaryCase-validFromDate-key">
+         <xs:selector xpath="int:nodeByCatenaryCase"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@catenaryCaseId"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="nodeByCatenaryCase-validToDate-key">
+         <xs:selector xpath="int:nodeByCatenaryCase"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@catenaryCaseId"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="nodesByLineSectionTrack" type="nodesByLineSectionTrackType">
+      <xs:key name="nodeByLineSectionTrack-validFromDate-key">
+         <xs:selector xpath="int:nodeByLineSectionTrack"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@lineSectionId"/>
+         <xs:field xpath="@trackId"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="nodeByLineSectionTrack-validToDate-key">
+         <xs:selector xpath="int:nodeByLineSectionTrack"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@lineSectionId"/>
+         <xs:field xpath="@trackId"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="nodesByRouteEdge" type="nodesByRouteEdgeType">
+      <xs:key name="nodeByRouteEdge-validFromDate-key">
+         <xs:selector xpath="int:nodeByRouteEdge"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@routeEdgeId"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="nodeByRouteEdge-validToDate-key">
+         <xs:selector xpath="int:nodeByRouteEdge"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@routeEdgeId"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="nodesByTrackEdge" type="nodesByTrackEdgeType">
+      <xs:key name="nodeByTrackEdge-validFromDate-key">
+         <xs:selector xpath="int:nodeByTrackEdge"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@trackEdgeId"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="nodeByTrackEdge-validToDate-key">
+         <xs:selector xpath="int:nodeByTrackEdge"/>
+         <xs:field xpath="@nodeId"/>
+         <xs:field xpath="@trackEdgeId"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="platforms" type="platformsType">
+      <xs:key name="platform-validFromDate-key">
+         <xs:selector xpath="int:platform"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="platform-validToDate-key">
+         <xs:selector xpath="int:platform"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="platformSides" type="platformSidesType">
+      <xs:key name="platformSide-validFromDate-key">
+         <xs:selector xpath="int:platformSide"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="platformSide-validToDate-key">
+         <xs:selector xpath="int:platformSide"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="routeEdges" type="routeEdgesType">
+      <xs:key name="routeEdge-validFromDate-key">
+         <xs:selector xpath="int:routeEdge"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="routeEdge-validToDate-key">
+         <xs:selector xpath="int:routeEdge"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="subLocations" type="subLocationsType">
+      <xs:key name="subLocation-validFromDate-key">
+         <xs:selector xpath="int:subLocation"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="subLocation-validToDate-key">
+         <xs:selector xpath="int:subLocation"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="trackEdges" type="trackEdgesType">
+      <xs:key name="trackEdge-validFromDate-key">
+         <xs:selector xpath="int:trackEdge"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="trackEdge-validToDate-key">
+         <xs:selector xpath="int:trackEdge"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="graphicalEdges" type="graphicalEdgesType">
+      <xs:key name="graphicalEdge-validFromDate-key">
+         <xs:selector xpath="int:graphicalEdge"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="graphicalEdge-validToDate-key">
+         <xs:selector xpath="int:graphicalEdge"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="graphicalCatenaryCases" type="graphicalCatenaryCasesType">
+      <xs:key name="graphicalCatenaryCase-validFromDate-key">
+         <xs:selector xpath="int:graphicalCatenaryCase"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="graphicalCatenaryCase-validToDate-key">
+         <xs:selector xpath="int:graphicalCatenaryCase"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="graphicalLevelCrossings" type="graphicalLevelCrossingsType">
+      <xs:key name="graphicalLevelCrossing-validFromDate-key">
+         <xs:selector xpath="int:graphicalLevelCrossing"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="graphicalLevelCrossing-validToDate-key">
+         <xs:selector xpath="int:graphicalLevelCrossing"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="graphicalNodes" type="graphicalNodesType">
+      <xs:key name="graphicalNode-validFromDate-key">
+         <xs:selector
+               xpath=".//int:graphicalBorder|.//int:graphicalCrossing|.//int:graphicalDeadEnd|.//int:graphicalEndOfModel|.//int:graphicalLevelCrossingPoint|.//int:graphicalLocationPoint|.//int:graphicalRoutePoint|.//int:graphicalSpeedSignal|.//int:graphicalStopSignal|.//int:graphicalSwitch"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="graphicalNode-validToDate-key">
+         <xs:selector
+               xpath=".//int:graphicalBorder|.//int:graphicalCrossing|.//int:graphicalDeadEnd|.//int:graphicalEndOfModel|.//int:graphicalLevelCrossingPoint|.//int:graphicalLocationPoint|.//int:graphicalRoutePoint|.//int:graphicalSpeedSignal|.//int:graphicalStopSignal|.//int:graphicalSwitch"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="graphicalPlatforms" type="graphicalPlatformsType">
+      <xs:key name="graphicalPlatform-validFromDate-key">
+         <xs:selector xpath="int:graphicalPlatform"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="graphicalPlatform-validToDate-key">
+         <xs:selector xpath="int:graphicalPlatform"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="shapes" type="shapesType">
+      <xs:key name="shape-validFromDate-key">
+         <xs:selector xpath="int:shape"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="shape-validToDate-key">
+         <xs:selector xpath="int:shape"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="styles" type="stylesType">
+      <xs:key name="style-validFromDate-key">
+         <xs:selector xpath="int:style"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="style-validToDate-key">
+         <xs:selector xpath="int:style"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:element name="views" type="viewsType">
+      <xs:key name="view-validFromDate-key">
+         <xs:selector xpath="int:view"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validFromDate"/>
+      </xs:key>
+      <xs:key name="view-validToDate-key">
+         <xs:selector xpath="int:view"/>
+         <xs:field xpath="@id"/>
+         <xs:field xpath="@validToDate"/>
+      </xs:key>
+   </xs:element>
+   <xs:complexType name="borderFunctionCatenaryCaseBorderType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="case" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="1"/>
+                     <xs:enumeration value="2"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="borderFunctionGigBorderType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="ebpName" type="xs:string"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="borderFunctionLocationBorderLayersType">
+      <xs:annotation>
+         <xs:documentation>Type describing the layer(s) of the locationBorder</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="micro" type="borderFunctionLocationBorderMicroLayerType"/>
+               <xs:element name="meso" type="borderFunctionLocationBorderMesoLayerType" minOccurs="0"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="borderFunctionLocationBorderMicroLayerType">
+      <xs:annotation>
+         <xs:documentation>Type describing the micro layer of a locationBorder</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType"/>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="borderFunctionLocationBorderMesoLayerType">
+      <xs:annotation>
+         <xs:documentation>Type describing the meso layer of a locationBorder</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType"/>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="borderFunctionLocationBorderType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="layers" type="borderFunctionLocationBorderLayersType"/>
+            </xs:sequence>
+            <xs:attribute name="lineId" type="xs:string" use="optional"/>
+            <xs:attribute name="trackId" type="xs:string" use="optional"/>
+            <xs:attribute name="lineSectionId" type="xs:string" use="optional"/>
+            <xs:attribute name="normalDrivingDirection" use="optional">
+               <xs:annotation>
+                  <xs:documentation>What is the normal driving direction, expressed with respect to this node's
+                     ports? See http://wiki-artemis/index.php/NormalDrivingDirection for details.
+                  </xs:documentation>
+               </xs:annotation>
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="up">
+                        <xs:annotation>
+                           <xs:documentation>From port 1 to port 2.</xs:documentation>
+                        </xs:annotation>
+                     </xs:enumeration>
+                     <xs:enumeration value="down">
+                        <xs:annotation>
+                           <xs:documentation>From port 2 to port 1.</xs:documentation>
+                        </xs:annotation>
+                     </xs:enumeration>
+                     <xs:enumeration value="up+down">
+                        <xs:annotation>
+                           <xs:documentation>Both directions are equally preferred.</xs:documentation>
+                        </xs:annotation>
+                     </xs:enumeration>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="borderFunctionsType">
+      <xs:sequence>
+         <xs:element name="gigBorder" type="borderFunctionGigBorderType" minOccurs="0"/>
+         <xs:element name="serBorder" type="extensibleElementType" minOccurs="0"/>
+         <xs:element name="locationBorder" type="borderFunctionLocationBorderType" minOccurs="0"/>
+         <xs:element name="catenaryCaseBorder" type="borderFunctionCatenaryCaseBorderType" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="bordersType">
+      <xs:sequence>
+         <xs:element name="border" type="borderType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="borderType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:sequence>
+               <xs:element name="functions" type="borderFunctionsType"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="catenaryCasesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="catenaryCase" type="catenaryCaseType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="catenaryCaseType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="case" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="1"/>
+                     <xs:enumeration value="2"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="iuid" type="xs:string" use="optional"/>
+            <xs:attribute name="voltage" use="required">
+               <xs:simpleType>
+                  <xs:union memberTypes="xs:integer">
+                     <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                           <xs:enumeration value="unknown"/>
+                        </xs:restriction>
+                     </xs:simpleType>
+                  </xs:union>
+               </xs:simpleType>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="crossingsType">
+      <xs:sequence>
+         <xs:element name="crossing" type="crossingType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="crossingType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="iuid" type="xs:string"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="curvesType">
+      <xs:sequence>
+         <xs:element name="curve" type="curveType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="curveType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:attribute name="value" type="xs:long" use="required">
+               <xs:annotation>
+                  <xs:documentation>Absolute value of the radius as of this node onward (i.e. along the natural
+                     orientation of the trackEdge).
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="customizableLabelType">
+      <xs:complexContent>
+         <xs:extension base="labelType">
+            <xs:sequence>
+               <xs:element name="customStyle" type="customStyleType">
+                  <xs:annotation>
+                     <xs:documentation>The style that has to be applied in addition to the style that corresponds with the styleId-attribute</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="customStyleType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="fill" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:pattern value="#[\dA-F]{6}"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="deadEndsType">
+      <xs:sequence>
+         <xs:element name="deadEnd" type="deadEndType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="deadEndType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:attribute name="iuid" type="xs:string"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="endOfModelsType">
+      <xs:sequence>
+         <xs:element name="endOfModel" type="endOfModelType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="endOfModelType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:attribute name="iuid" type="xs:string"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="extensibleElementType">
+      <!--      <xs:anyAttribute namespace="##any" processContents="lax"/>-->
+   </xs:complexType>
+   <xs:complexType name="gigBySerZoneType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="gigId" type="xs:string" use="required"/>
+            <xs:attribute name="serZoneId" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="gigsBySerZoneType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="gigBySerZone" type="gigBySerZoneType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="gigsType">
+      <xs:annotation>
+         <xs:documentation>Type describing different possible GIGs</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="grids" type="gridsType"/>
+               <xs:element name="interGrids" type="interGridsType"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="gradientsType">
+      <xs:sequence>
+         <xs:element name="gradient" type="gradientType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="gradientType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:attribute name="value" type="xs:decimal" use="required">
+               <xs:annotation>
+                  <xs:documentation>Value of the gradient as of this node onward (i.e. along the natural
+                     orientation of the trackEdge). Expressed in millimeters per meter; positive if upwards,
+                     negative if downwards.
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="gridsType">
+      <xs:sequence>
+         <xs:element name="grid" type="gridType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="gridType">
+      <xs:annotation>
+         <xs:documentation>Type describing a grid</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="functionalKey" type="xs:string" use="optional"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="interGridsType">
+      <xs:sequence>
+         <xs:element name="interGrid" type="interGridType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="interGridType">
+      <xs:annotation>
+         <xs:documentation>Type describing an interGrid</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="functionalKey" type="xs:string" use="optional"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="fromGigId" type="xs:string" use="required"/>
+            <xs:attribute name="toGigId" type="xs:string"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="labelType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="styleId" type="xs:string" use="required"/>
+            <xs:attribute name="nameDutch" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:maxLength value="12"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="nameFrench" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:maxLength value="12"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="x" use="required">
+               <xs:annotation>
+                  <xs:documentation>x-coordinate of the label (x-coordinate of the center of the label)</xs:documentation>
+               </xs:annotation>
+               <xs:simpleType>
+                  <xs:restriction base="xs:integer">
+                     <xs:totalDigits value="10"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="y" use="required">
+               <xs:annotation>
+                  <xs:documentation>y-coordinate of the label (y-coordinate of the bottom of the label)</xs:documentation>
+               </xs:annotation>
+               <xs:simpleType>
+                  <xs:restriction base="xs:integer">
+                     <xs:totalDigits value="10"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="rotation" type="xs:integer" use="optional"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="levelCrossingPointsType">
+      <xs:sequence>
+         <xs:element name="levelCrossingPoint" type="levelCrossingPointType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="levelCrossingPointType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:attribute name="levelCrossingId" type="xs:string" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="levelCrossingsType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="levelCrossing" type="levelCrossingType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="levelCrossingType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="longNameDutch" type="xs:string" use="required"/>
+            <xs:attribute name="longNameFrench" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="locationPointFunctionLocalType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="trackSectionId" type="xs:long" use="required"/>
+            <xs:attribute name="nameDutch" type="xs:string" use="required"/>
+            <xs:attribute name="nameFrench" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="locationPointFunctionOperationType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="trackSectionId" type="xs:long" use="required"/>
+            <xs:attribute name="nameDutch" type="xs:string" use="required"/>
+            <xs:attribute name="nameFrench" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="locationPointFunctionsType">
+      <xs:sequence>
+         <xs:element name="timingLocation" type="locationPointFunctionTimingLocationType" minOccurs="0"/>
+         <xs:element name="operation" type="locationPointFunctionOperationType" minOccurs="0"/>
+         <xs:element name="local" type="locationPointFunctionLocalType" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="locationPointFunctionTimingLocationLayersType">
+      <xs:annotation>
+         <xs:documentation>Type describing the layer(s) of the timinglocation function of a locationPoint</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="micro" type="locationPointFunctionTimingLocationMicroLayerType" minOccurs="0"/>
+               <xs:element name="meso" type="locationPointFunctionTimingLocationMesoLayerType" minOccurs="0"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="locationPointFunctionTimingLocationMesoLayerType">
+      <xs:annotation>
+         <xs:documentation>Type describing the meso layer of the timinglocation function of a locationPoint</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType"/>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="locationPointFunctionTimingLocationMicroLayerType">
+      <xs:annotation>
+         <xs:documentation>Type describing the micro layer of the timinglocation function of a locationPoint</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType"/>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="locationPointFunctionTimingLocationType">
+      <xs:annotation>
+         <xs:documentation>Type describing the timinglocation function of a locationPoint</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="layers" type="locationPointFunctionTimingLocationLayersType"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="locationPointsType">
+      <xs:sequence>
+         <xs:element name="locationPoint" type="locationPointType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="locationPointType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:sequence>
+               <xs:element name="functions" type="locationPointFunctionsType"/>
+            </xs:sequence>
+            <xs:attribute name="subLocationId" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="locationsType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="location" type="locationType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="locationType">
+      <xs:annotation>
+         <xs:documentation>Type describing a location containing location nodes</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="shortNameDutch" type="xs:string" use="required"/>
+            <xs:attribute name="shortNameFrench" type="xs:string" use="required"/>
+            <xs:attribute name="longNameDutch" type="xs:string" use="required"/>
+            <xs:attribute name="longNameFrench" type="xs:string" use="required"/>
+            <xs:attribute name="symbolicName" type="xs:string" use="required"/>
+            <xs:attribute name="netId" type="xs:long" use="required">
+               <xs:annotation>
+                  <xs:documentation>identifier of the net</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="ptcarId" type="xs:long" use="required"/>
+            <xs:attribute name="type" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="border"/>
+                     <xs:enumeration value="connection"/>
+                     <xs:enumeration value="grid"/>
+                     <xs:enumeration value="junction"/>
+                     <xs:enumeration value="movableBridge"/>
+                     <xs:enumeration value="other"/>
+                     <xs:enumeration value="shunting"/>
+                     <xs:enumeration value="station"/>
+                     <xs:enumeration value="timing"/>
+                     <xs:enumeration value="yard"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="borderType" use="optional">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="netBorder"/>
+                     <xs:enumeration value="regionalBorder"/>
+                     <xs:enumeration value="other"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="passengerTrainImportance" use="optional">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="important"/>
+                     <xs:enumeration value="normal"/>
+                     <xs:enumeration value="low"/>
+                     <xs:enumeration value="none"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="freightTrainImportance" use="optional">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="important"/>
+                     <xs:enumeration value="normal"/>
+                     <xs:enumeration value="low"/>
+                     <xs:enumeration value="none"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="mainSubLocationId" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="milestonesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="milestone" type="milestoneType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="milestoneType">
+      <xs:annotation>
+         <xs:documentation>Type describing a location containing location nodes</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="lineId" type="xs:long" use="required"/>
+            <xs:attribute name="sequenceNo" type="xs:integer" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="distanceFromFirstMilestone" type="xs:long" use="required"/>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodeByCatenaryCaseType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="nodeId" type="xs:string" use="required"/>
+            <xs:attribute name="catenaryCaseId" type="xs:string" use="required"/>
+            <xs:attribute name="catenaryCaseBorderPort" use="optional">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="1"/>
+                     <xs:enumeration value="2"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="case" use="optional">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="1"/>
+                     <xs:enumeration value="2"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodeByGigType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="nodeId" type="xs:string" use="required"/>
+            <xs:attribute name="gigId" type="xs:string" use="required"/>
+            <xs:attribute name="gigBorderPort" use="optional">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="1"/>
+                     <xs:enumeration value="2"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodeByLineSectionTrackType">
+      <xs:annotation>
+         <xs:documentation>Type describing a node on a line section track</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="in" type="portAndTrackEdgeType" minOccurs="0"/>
+               <xs:element name="out" type="portAndTrackEdgeType" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="nodeId" type="xs:string" use="required"/>
+            <xs:attribute name="lineSectionId" type="xs:integer" use="required"/>
+            <xs:attribute name="trackId" type="xs:integer" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="sequenceNo" type="xs:integer" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodeByLocationType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="nodeId" type="xs:string" use="required"/>
+            <xs:attribute name="locationId" type="xs:string" use="required"/>
+            <xs:attribute name="locationBorderPort" use="optional">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="1"/>
+                     <xs:enumeration value="2"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodeByRouteEdgeType">
+      <xs:annotation>
+         <xs:documentation>Type describing a node on a route edge</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="in" type="portAndTrackEdgeType" minOccurs="0"/>
+               <xs:element name="out" type="portAndTrackEdgeType" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="nodeId" type="xs:string" use="required"/>
+            <xs:attribute name="routeEdgeId" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="sequenceNo" type="xs:integer" use="required"/>
+            <xs:attribute name="distance" type="xs:integer" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodeByTrackEdgeType">
+      <xs:annotation>
+         <xs:documentation>Type describing a node on a track edge</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="nodeId" type="xs:string" use="required"/>
+            <xs:attribute name="trackEdgeId" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="sequenceNo" type="xs:integer" use="required"/>
+            <xs:attribute name="distance" type="xs:integer" use="required"/>
+            <xs:attribute name="distanceMilestoneId" type="xs:string"/>
+            <xs:attribute name="distanceFromMilestone" type="xs:integer"/>
+            <xs:attribute name="inPort" type="portType"/>
+            <xs:attribute name="outPort" type="portType"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodesByCatenaryCaseType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="nodeByCatenaryCase" type="nodeByCatenaryCaseType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodesByGigType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="nodeByGig" type="nodeByGigType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodesByLineSectionTrackType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="nodeByLineSectionTrack" type="nodeByLineSectionTrackType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodesByLocationType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="nodeByLocation" type="nodeByLocationType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodesByRouteEdgeType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="nodeByRouteEdge" type="nodeByRouteEdgeType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodesByTrackEdgeType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="nodeByTrackEdge" type="nodeByTrackEdgeType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodesType">
+      <xs:annotation>
+         <xs:documentation>Type describing different possible nodes</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="borders" type="bordersType"/>
+               <xs:element name="crossings" type="crossingsType"/>
+               <xs:element name="curves" type="curvesType"/>
+               <xs:element name="deadEnds" type="deadEndsType"/>
+               <xs:element name="endOfModels" type="endOfModelsType"/>
+               <xs:element name="gradients" type="gradientsType"/>
+               <xs:element name="levelCrossingPoints" type="levelCrossingPointsType"/>
+               <xs:element name="locationPoints" type="locationPointsType"/>
+               <xs:element name="routePoints" type="routePointsType"/>
+               <xs:element name="speedSignals" type="speedSignalsType"/>
+               <xs:element name="stopSignals" type="stopSignalsType"/>
+               <xs:element name="switches" type="switchesType"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="nodeType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="functionalKey" type="xs:string" use="optional"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="platformSidesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="platformSide" type="platformSideType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="platformSideType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="platformId" type="xs:string" use="required"/>
+            <xs:attribute name="locationPointId" type="xs:string" use="optional"/>
+            <xs:attribute name="usefulLengthUp" type="xs:short" use="required">
+               <xs:annotation>
+                  <xs:documentation>Useful length of this platformSide for a train coming from side 1 and going to
+                     side 2 of the location point
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="usefulLengthDown" type="xs:short" use="required">
+               <xs:annotation>
+                  <xs:documentation>Useful length of this platformSide for a train coming from side 2 and going to
+                     side 1 of the location point
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="sideOnPlatform" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="left"/>
+                     <xs:enumeration value="right"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="platformsType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="platform" type="platformType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="platformType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="functionalKey" type="xs:string" use="optional"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="totalLength" type="xs:short" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:simpleType name="portType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="grid"/>
+         <xs:enumeration value="track"/>
+         <xs:enumeration value="point"/>
+         <xs:enumeration value="left"/>
+         <xs:enumeration value="right"/>
+         <xs:enumeration value="leftLeft"/>
+         <xs:enumeration value="leftRight"/>
+         <xs:enumeration value="rightLeft"/>
+         <xs:enumeration value="rightRight"/>
+         <xs:enumeration value="end"/>
+         <xs:enumeration value="side1"/>
+         <xs:enumeration value="side2"/>
+         <xs:enumeration value="1"/>
+         <xs:enumeration value="2"/>
+         <xs:enumeration value="front"/>
+         <xs:enumeration value="rear"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:complexType name="portAndTrackEdgeType">
+      <xs:annotation>
+         <xs:documentation>Type describing the port and corresponding track edge</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="port" type="portType" use="required"/>
+            <xs:attribute name="trackEdgeId" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:simpleType name="producedWithAppVersionType">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+   <xs:simpleType name="producedWithEnvironmentType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="acc"/>
+         <xs:enumeration value="acc-tms"/>
+         <xs:enumeration value="demo"/>
+         <xs:enumeration value="dev"/>
+         <xs:enumeration value="linux"/>
+         <xs:enumeration value="other"/>
+         <xs:enumeration value="pre-prod"/>
+         <xs:enumeration value="prod"/>
+         <xs:enumeration value="test"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="producedWithSchemaVersionType">
+      <xs:restriction base="xs:decimal"/>
+   </xs:simpleType>
+   <xs:complexType name="rootElementType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="creationDate" type="xs:dateTime" use="required"/>
+            <xs:attribute name="producedWithSchemaVersion" type="producedWithSchemaVersionType" use="required">
+               <xs:annotation>
+                  <xs:documentation>Indicates what schema version of this namespace was used to produce this XML
+                     content. Maintained by the developers within the following limits: for upgrades to ACC or
+                     PROD environments the version is only incremented for minor, "non-breaking" changes: for
+                     breaking changes, a new namespace will be used. For DEV projects, multiple consecutive INT
+                     releases may increment the version even for breaking changes (avoiding the overhead of a new
+                     namespace), as long as nothing goes to ACC/PROD. Also see
+                     http://wiki-artemis/index.php/CernXmlVersioning for background information on the versioning
+                     policy.
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="producedWithEnvironment" type="producedWithEnvironmentType" use="required"/>
+            <xs:attribute name="producedWithAppVersion" type="producedWithAppVersionType" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="routeEdgesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="routeEdge" type="routeEdgeType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="routeEdgeType">
+      <xs:annotation>
+         <xs:documentation>Type describing a route edge</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="functionalKey" type="xs:string" use="optional"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="fromNodeId" type="xs:string" use="required"/>
+            <xs:attribute name="toNodeId" type="xs:string" use="required"/>
+            <xs:attribute name="trackSectionId" type="xs:long" use="optional">
+               <xs:annotation>
+                  <xs:documentation>Intergrid: what trackSection does this edge belong to.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="routingId" type="xs:long" use="optional">
+               <xs:annotation>
+                  <xs:documentation>Inside the grid: what routing does this edge belong to.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="speedMax" type="xs:short" use="optional">
+               <xs:annotation>
+                  <xs:documentation>What is the max speed allowed? Only present for gridRouteEdges (i.e., if
+                     routingId is also present). Meaningless for interGridRouteEdges.
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="isDefaultForRouting" type="xs:boolean" use="optional"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="routePointFunctionsType">
+      <xs:sequence>
+         <xs:element name="sectioningPoint" type="extensibleElementType" minOccurs="0"/>
+         <xs:element name="liberationPoint" type="extensibleElementType" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="routePointsType">
+      <xs:sequence>
+         <xs:element name="routePoint" type="routePointType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="routePointType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:sequence>
+               <xs:element name="functions" type="routePointFunctionsType"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="iuid" type="xs:string"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="speedRestrictionsType">
+      <xs:sequence>
+         <xs:element name="speedRestriction" type="speedRestrictionType" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="speedRestrictionType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="profile" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="base"/>
+                     <xs:enumeration value="freight"/>
+                     <xs:enumeration value="highSpeed"/>
+                     <xs:enumeration value="liquidMetal"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="speedMax" type="xs:short" use="required">
+               <xs:annotation>
+                  <xs:documentation/>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="speedSignalsType">
+      <xs:sequence>
+         <xs:element name="speedSignal" type="speedSignalType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="speedSignalType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:sequence>
+               <xs:element name="speedRestrictions" type="speedRestrictionsType"/>
+            </xs:sequence>
+            <xs:attribute name="type" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="panel"/>
+                     <xs:enumeration value="temporarySpeedLimit"/>
+                     <xs:enumeration value="fictive"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="stopSignalsType">
+      <xs:sequence>
+         <xs:element name="stopSignal" type="stopSignalType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="stopSignalType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="type" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="large"/>
+                     <xs:enumeration value="simple"/>
+                     <xs:enumeration value="small"/>
+                     <xs:enumeration value="fictive"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="regime">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="normal"/>
+                     <xs:enumeration value="wrong"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="control">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="managed"/>
+                     <xs:enumeration value="automatic"/>
+                     <xs:enumeration value="panel"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="ptrefId" type="xs:long"/>
+            <xs:attribute name="blockSignalId" type="xs:long"/>
+            <xs:attribute name="iuid" type="xs:string"/>
+            <xs:attribute name="hasMessages" type="xs:boolean" default="true"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="subLocationsType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="subLocation" type="subLocationType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="subLocationType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="functionalKey" type="xs:string" use="optional"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="shortNameDutch" type="xs:string" use="required"/>
+            <xs:attribute name="shortNameFrench" type="xs:string" use="required"/>
+            <xs:attribute name="longNameDutch" type="xs:string" use="required"/>
+            <xs:attribute name="longNameFrench" type="xs:string" use="required"/>
+            <xs:attribute name="ptcarId" type="xs:long" use="required"/>
+            <xs:attribute name="ptdesId" type="xs:long" use="optional"/>
+            <xs:attribute name="locationId" type="xs:string" use="optional"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="switchesType">
+      <xs:sequence>
+         <xs:element name="switch" type="switchType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="switchType">
+      <xs:complexContent>
+         <xs:extension base="nodeType">
+            <xs:attribute name="iuid" type="xs:string"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="type" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="derailer"/>
+                     <xs:enumeration value="normal"/>
+                     <xs:enumeration value="halfEnglishLeft"/>
+                     <xs:enumeration value="halfEnglishRight"/>
+                     <xs:enumeration value="english"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="deviatingPort" use="optional">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:enumeration value="left"/>
+                     <xs:enumeration value="right"/>
+                     <xs:enumeration value="left+right"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="trackEdgesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="trackEdge" type="trackEdgeType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="trackEdgeType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="functionalKey" type="xs:string" use="optional"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="fromNodeId" type="xs:string" use="required"/>
+            <xs:attribute name="toNodeId" type="xs:string" use="required"/>
+            <xs:attribute name="distanceLineId" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>For trackEdges in open track: with respect to which line is the distance
+                     expressed, measured as of the first milestone.
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="trackId" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>Which track is this on the line in question?</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalBordersType">
+      <xs:sequence>
+         <xs:element name="graphicalBorder" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="graphicalCatenaryCasesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="graphicalCatenaryCase" type="graphicalCatenaryCaseType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalCatenaryCaseType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="label" type="customizableLabelType"/>
+            </xs:sequence>
+            <xs:attribute name="viewId" type="xs:string" use="required"/>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="catenaryCaseId" type="xs:string" use="required"/>
+            <xs:attribute name="color" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                     <xs:pattern value="#[\dA-F]{6}"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalCrossingsType">
+      <xs:sequence>
+         <xs:element name="graphicalCrossing" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="graphicalDeadEndsType">
+      <xs:sequence>
+         <xs:element name="graphicalDeadEnd" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="graphicalEdgesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="graphicalEdge" type="graphicalEdgeType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalEdgeType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element ref="svg:path"/>
+            </xs:sequence>
+            <xs:attribute name="viewId" type="xs:string" use="required"/>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="trackEdgeId" type="xs:string" use="required"/>
+            <xs:attribute name="fromGraphicalNodeId" type="xs:string" use="required"/>
+            <xs:attribute name="toGraphicalNodeId" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalEndOfModelsType">
+      <xs:sequence>
+         <xs:element name="graphicalEndOfModel" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="graphicalLevelCrossingPointsType">
+      <xs:sequence>
+         <xs:element name="graphicalLevelCrossingPoint" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="graphicalLevelCrossingsType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="graphicalLevelCrossing" type="graphicalLevelCrossingType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalLevelCrossingLabelType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="nameDutch" type="xs:string" use="required"/>
+            <xs:attribute name="nameFrench" type="xs:string" use="required"/>
+            <xs:attribute name="x" type="xs:integer" use="required"/>
+            <xs:attribute name="y" type="xs:integer" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalLevelCrossingType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="label" type="graphicalLevelCrossingLabelType"/>
+               <xs:element ref="svg:g"/>
+            </xs:sequence>
+            <xs:attribute name="viewId" type="xs:string" use="required"/>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="levelCrossingId" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalLocationsType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="graphicalLocation" type="graphicalLocationType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalLocationType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="viewId" type="xs:string" use="required"/>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="locationId" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="color" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:token">
+                     <xs:pattern value="#[\dA-F]{6}"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="opacity" use="optional" default="1">
+               <xs:simpleType>
+                  <xs:restriction base="xs:double">
+                     <xs:minInclusive value="0"/>
+                     <xs:maxInclusive value="1"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalLocationPointsType">
+      <xs:sequence>
+         <xs:element name="graphicalLocationPoint" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="graphicalNodesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="graphicalBorders" type="graphicalBordersType"/>
+               <xs:element name="graphicalCrossings" type="graphicalCrossingsType"/>
+               <xs:element name="graphicalDeadEnds" type="graphicalDeadEndsType"/>
+               <xs:element name="graphicalEndOfModels" type="graphicalEndOfModelsType"/>
+               <xs:element name="graphicalLevelCrossingPoints" type="graphicalLevelCrossingPointsType"/>
+               <xs:element name="graphicalLocationPoints" type="graphicalLocationPointsType"/>
+               <xs:element name="graphicalRoutePoints" type="graphicalRoutePointsType"/>
+               <xs:element name="graphicalSpeedSignals" type="graphicalSpeedSignalsType"/>
+               <xs:element name="graphicalStopSignals" type="graphicalStopSignalsType"/>
+               <xs:element name="graphicalSwitches" type="graphicalSwitchesType"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalNodeType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="viewId" type="xs:string" use="required"/>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="nodeId" type="xs:string" use="required"/>
+            <xs:attribute name="nameDutch" type="xs:string"/>
+            <xs:attribute name="nameFrench" type="xs:string"/>
+            <xs:attribute name="x" type="xs:integer" use="required"/>
+            <xs:attribute name="y" type="xs:integer" use="required"/>
+            <xs:attribute name="flipX" type="xs:integer" use="required"/>
+            <xs:attribute name="flipY" type="xs:integer" use="required"/>
+            <xs:attribute name="rotation" use="required">
+               <xs:simpleType>
+                  <xs:restriction base="xs:integer">
+                     <xs:minExclusive value="-360"/>
+                     <xs:maxExclusive value="360"/>
+                  </xs:restriction>
+               </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="shapeId" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalPlatformsType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="graphicalPlatform" type="graphicalPlatformType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalPlatformType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element ref="svg:g"/>
+            </xs:sequence>
+            <xs:attribute name="viewId" type="xs:string" use="required"/>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="platformId" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="graphicalRoutePointsType">
+      <xs:sequence>
+         <xs:element name="graphicalRoutePoint" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="graphicalSpeedSignalsType">
+      <xs:sequence>
+         <xs:element name="graphicalSpeedSignal" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="graphicalStopSignalsType">
+      <xs:sequence>
+         <xs:element name="graphicalStopSignal" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="graphicalSwitchesType">
+      <xs:sequence>
+         <xs:element name="graphicalSwitch" type="graphicalNodeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="infoKeyValueType">
+      <xs:attribute name="key" type="xs:string" use="required"/>
+      <xs:attribute name="value" type="xs:string" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="metaDataType">
+      <xs:sequence>
+         <xs:element name="info" type="infoKeyValueType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="shapesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="shape" type="shapeType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="shapeType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element ref="svg:g"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="stylesType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="style" type="styleType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="styleType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="font" type="fontType"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="fontType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:attribute name="style" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="viewsType">
+      <xs:complexContent>
+         <xs:extension base="rootElementType">
+            <xs:sequence>
+               <xs:element name="view" type="viewType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="viewType">
+      <xs:complexContent>
+         <xs:extension base="extensibleElementType">
+            <xs:sequence>
+               <xs:element name="metaData" type="metaDataType"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="validFromDate" type="xs:date" use="required"/>
+            <xs:attribute name="validToDate" type="xs:date" use="required"/>
+            <xs:attribute name="nameDutch" type="xs:string" use="required"/>
+            <xs:attribute name="nameFrench" type="xs:string" use="required"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+</xs:schema>
