@@ -4,7 +4,6 @@ import static fr.sncf.osrd.train.TestTrains.FAST_NO_FRICTION_TRAIN;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import fr.sncf.osrd.TrainSchedule;
 import fr.sncf.osrd.infra.*;
 import fr.sncf.osrd.infra.routegraph.RouteGraph;
 import fr.sncf.osrd.infra.trackgraph.BufferStop;
@@ -14,6 +13,7 @@ import fr.sncf.osrd.railjson.parser.exceptions.InvalidSchedule;
 import fr.sncf.osrd.simulation.Simulation;
 import fr.sncf.osrd.simulation.SimulationError;
 import fr.sncf.osrd.simulation.changelog.ArrayChangeLog;
+import fr.sncf.osrd.speedcontroller.SpeedInstructions;
 import fr.sncf.osrd.train.events.TrainCreatedEvent;
 import fr.sncf.osrd.train.phases.Phase;
 import fr.sncf.osrd.train.phases.SignalNavigatePhase;
@@ -101,10 +101,13 @@ public class StaticSpeedLimitTest {
         var sim = Simulation.createFromInfra(infra, 0, changelog);
 
         var startLocation = new TrackSectionLocation(edge, 0);
+        var path = new TrainPath(Collections.singletonList(route),
+                startLocation,
+                new TrackSectionLocation(edge, 10000));
         var phases = new ArrayList<Phase>();
         phases.add(SignalNavigatePhase.from(
-                Collections.singletonList(route), 400, startLocation,
-                new TrackSectionLocation(edge, 10000), null));
+                400, startLocation,
+                new TrackSectionLocation(edge, 10000), path, null));
 
         var schedule = new TrainSchedule(
                 "test_train",
@@ -115,8 +118,10 @@ public class StaticSpeedLimitTest {
                 route,
                 0,
                 phases,
-                null
-        );
+                null,
+                path,
+                new SpeedInstructions(null),
+                null);
         TrainCreatedEvent.plan(sim, schedule);
 
         // run the simulation
@@ -129,8 +134,8 @@ public class StaticSpeedLimitTest {
                 .map(change -> (Train.TrainStateChange) change)
                 .collect(Collectors.toList());
         // Expect 2 state change: Train over starting Operational Point -> Go A to B -> Next phase
-        // The last 2 changes come from the end of phase point, and the last update when the phase ends
-        assertEquals(4, locationChanges.size());
+        // The change come from the train stop
+        assertEquals(3, locationChanges.size());
         // The second state change contain the movement of the train
         var locationChange = locationChanges.get(1);
 
